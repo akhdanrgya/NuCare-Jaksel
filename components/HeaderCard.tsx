@@ -99,30 +99,68 @@ const HeaderCard: React.FC = () => {
         )}
 
         {donationType === "infak" && (
-          <div className="mb-4">
-            <label htmlFor="infakPurpose" className="block text-gray-700">
-              Tujuan Infak
-            </label>
-            <input
-              id="infakPurpose"
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              placeholder="Masukkan Tujuan Infak"
-            />
+            <div className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold text-center text-gray-800">
+                Ayo mulai infak
+              </h2>
+              <p className="text-center text-gray-600 mb-4">
+              Silakan isi jumlah infakmu. Insya Allah berkah.
+              </p>
+            </div>
+
+            <div className="mb-4">
+              <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                Nominal infak
+              </label>
+              <input
+                id="wealth"
+                type="number"
+                value={wealth}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                placeholder="Masukkan jumlah kekayaan"
+              />
+            </div>
+
+            <div className="text-center">
+              <button className="bg-green-500 text-white px-6 py-3 rounded-lg w-full hover:bg-green-600">
+                Infak sekarang
+              </button>
+            </div>
           </div>
         )}
         {donationType === "wakaf" && (
+          <div className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
           <div className="mb-4">
-            <label htmlFor="wakafPurpose" className="block text-gray-700">
-              Tujuan Wakaf
+            <h2 className="text-xl font-semibold text-center text-gray-800">
+            Ayo mulai wakaf
+            </h2>
+            <p className="text-center text-gray-600 mb-4">
+            Mari wakaf tunai bersama kami!
+            </p>
+          </div>
+
+          <div className="mb-4">
+            <label htmlFor="wealth" className="block text-gray-700 mb-2">
+              Nominal infak
             </label>
             <input
-              id="wakafPurpose"
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg"
-              placeholder="Masukkan Tujuan Wakaf"
+              id="wealth"
+              type="number"
+              value={wealth}
+              onChange={handleInputChange}
+              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+              placeholder="Masukkan jumlah kekayaan"
             />
           </div>
+
+          <div className="text-center">
+            <button className="bg-green-500 text-white px-6 py-3 rounded-lg w-full hover:bg-green-600">
+              Wakaf sekarang
+            </button>
+          </div>
+        </div>
         )}
       </form>
     </div>
