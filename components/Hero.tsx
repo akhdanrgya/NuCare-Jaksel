@@ -3,6 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import imageCarousel from '../data/image';
 import HeaderCard from './HeaderCard';
+import Stats from './Stats';
 
 const Hero: React.FC = () => {
   return (
@@ -28,6 +29,7 @@ const Hero: React.FC = () => {
       </div>
       {/* Card Form Donasi di Pojok Kanan */}
       <HeaderCard />
+      <Stats/>
     </section>
   );
 };
