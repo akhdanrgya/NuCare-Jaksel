@@ -2,10 +2,11 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import imageCarousel from '../data/image';
+import HeaderCard from './HeaderCard';
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative text-white py-20 text-center h-[500px]">
+    <section className="relative text-white py-20 text-center h-screen">
       {/* Swiper sebagai Background */}
       <div className="absolute inset-0 z-0">
         <Swiper
@@ -25,13 +26,8 @@ const Hero: React.FC = () => {
           ))}
         </Swiper>
       </div>
-
-      {/* Konten Hero */}
-      {/* <div className="relative z-10">
-        <h2 className="text-4xl font-bold mb-4">Bantu Sesama dengan Donasi</h2>
-        <p className="text-lg mb-6">Setiap bantuanmu berarti.</p>
-        <button className="mt-6 px-6 py-3 bg-white text-green-500 rounded-lg">Donasi Sekarang</button>
-      </div> */}
+      {/* Card Form Donasi di Pojok Kanan */}
+      <HeaderCard />
     </section>
   );
 };
