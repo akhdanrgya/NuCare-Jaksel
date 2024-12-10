@@ -34,4 +34,31 @@ export const donations: Donasi[] = [
     daysLeft: 155,
     image: "https://via.placeholder.com/300x200", // Ganti dengan URL gambar asli
   },
+  {
+    title: "Wujudkan Alat Bantu untuk Pak Sutarja dan 29 Difabel Lainnya!",
+    description:
+      "Mari bantu Pak Sutarja dan teman-teman difabel lainnya mendapatkan alat bantu.",
+    location: "Kota Jakarta Pusat",
+    collected: 1280000,
+    daysLeft: 155,
+    image: "https://via.placeholder.com/300x200", // Ganti dengan URL gambar asli
+  },
+  {
+    title: "Wujudkan Alat Bantu untuk Pak Sutarja dan 29 Difabel Lainnya!",
+    description:
+      "Mari bantu Pak Sutarja dan teman-teman difabel lainnya mendapatkan alat bantu.",
+    location: "Kota Jakarta Pusat",
+    collected: 1280000,
+    daysLeft: 155,
+    image: "https://via.placeholder.com/300x200", // Ganti dengan URL gambar asli
+  },
+  {
+    title: "Wujudkan Alat Bantu untuk Pak Sutarja dan 29 Difabel Lainnya!",
+    description:
+      "Mari bantu Pak Sutarja dan teman-teman difabel lainnya mendapatkan alat bantu.",
+    location: "Kota Jakarta Pusat",
+    collected: 1280000,
+    daysLeft: 155,
+    image: "https://via.placeholder.com/300x200", // Ganti dengan URL gambar asli
+  },
 ];
