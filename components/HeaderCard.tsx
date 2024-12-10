@@ -19,7 +19,7 @@ const HeaderCard: React.FC = () => {
   };
 
   return (
-    <div className="absolute top-1/4 right-0 m-4 bg-white p-8 rounded-lg shadow-xl z-20 w-100">
+    <div className="absolute top-1/5 right-0 m-4 bg-white p-8 rounded-lg shadow-xl z-20 w-100">
       <form>
         {/* Pilihan Donasi dengan tombol */}
         <div className="mb-4 flex justify-between">
