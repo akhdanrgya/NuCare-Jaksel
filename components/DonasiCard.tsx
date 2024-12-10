@@ -2,9 +2,9 @@ import { donations } from "../data/donations";
   
 const DonasiCards: React.FC = () => {
   return (
-    <section className="py-10 bg-gray-100">
+    <section className="py-24 bg-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-        <h2 className="text-3xl font-bold">Ayo Mulai Berdonasi!</h2>
+        <h2 className="text-4xl">Ayo Mulai Berdonasi!</h2>
       </div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
         {donations.map((donasi, idx) => (
