@@ -3,12 +3,19 @@
 import { useState } from "react";
 
 const HeaderCard: React.FC = () => {
-  // State untuk jenis donasi yang dipilih
   const [donationType, setDonationType] = useState<string>("zakat");
+  const [wealth, setWealth] = useState<number>(0);
 
-  // Handle perubahan pilihan jenis donasi
   const handleDonationTypeChange = (type: string) => {
     setDonationType(type);
+  };
+
+  const calculateZakat = (amount: number) => {
+    return amount * 0.025;
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWealth(parseInt(e.target.value) || 0);
   };
 
   return (
@@ -71,13 +78,15 @@ const HeaderCard: React.FC = () => {
               <input
                 id="wealth"
                 type="number"
+                value={wealth}
+                onChange={handleInputChange}
                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
                 placeholder="Masukkan jumlah kekayaan"
               />
             </div>
             <div className="text-center mb-6">
               <p className="text-lg font-semibold text-gray-800">
-                Zakat Maal Kamu: Rp 0
+                Zakat Maal Kamu: Rp {calculateZakat(wealth)}
               </p>
             </div>
 
