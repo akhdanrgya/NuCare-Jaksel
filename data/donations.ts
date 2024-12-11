@@ -11,7 +11,9 @@ export type Donasi = {
 };
 
 export const fetchDonations = async (): Promise<Donasi[]> => {
-  const { data, error } = await supabase.from("donations").select("*")
+  let { data, error } = await supabase
+  .from('donations')
+  .select('*')
 
   if (error) {
     console.log(`Error: ${error.message}`)
