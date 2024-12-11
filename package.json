@@ -9,9 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.3",
     "next": "15.0.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "supabase": "^2.0.0",
     "swiper": "^11.1.15"
   },
   "devDependencies": {

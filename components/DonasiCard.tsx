@@ -1,6 +1,18 @@
-import { donations } from "../data/donations";
-  
+'use client'
+import { useEffect, useState } from "react";
+import { fetchDonations, Donasi } from "../data/donations";
+
 const DonasiCards: React.FC = () => {
+  const [donations, setDonations] = useState<Donasi[]>([])
+
+  useEffect(()=> {
+    const getDonations = async() => {
+      const donationData = await fetchDonations()
+      setDonations(donationData)
+    }
+    getDonations()
+  }, [])
+
   return (
     <section className="py-24 bg-gray-100">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
@@ -14,17 +26,15 @@ const DonasiCards: React.FC = () => {
           >
             <img
               src={donasi.image}
-              alt={donasi.title}
+              alt={donasi.tittle}
               className="w-full h-48 object-cover rounded-t-lg"
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold text-green-600 mb-2">
-                {donasi.title}
+                {donasi.tittle}
               </h3>
               <p className="text-gray-700 mb-2">{donasi.description}</p>
-              <p className="text-gray-500 text-sm mb-4">
-                📍 {donasi.location}
-              </p>
+              <p className="text-gray-500 text-sm mb-4">📍 {donasi.location}</p>
               <p className="text-gray-700 font-bold">
                 Terkumpul: Rp {donasi.collected.toLocaleString("id-ID")}
               </p>
@@ -46,6 +56,5 @@ const DonasiCards: React.FC = () => {
     </section>
   );
 };
-  
-  export default DonasiCards;
-  
+
+export default DonasiCards;
