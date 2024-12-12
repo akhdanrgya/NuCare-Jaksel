@@ -16,7 +16,7 @@ export const fetchStats = async (): Promise<StatsType[]> => {
     return []
   }
 
-  console.log(data)
+  // console.log(data)
 
   return data || []
 

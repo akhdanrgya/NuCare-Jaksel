@@ -9,7 +9,6 @@ const Stats: React.FC = () => {
     const fetchData = async () => {
       const data = await fetchStats();
       setStats(data);
-      console.log(data)
     };
     fetchData();
   }, []);

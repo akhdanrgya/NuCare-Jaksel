@@ -1,35 +1,17 @@
 'use client'
 import { useEffect, useState } from "react"
-import { supabase } from "../libs/supabaseClient"
-
-export type Donasi = {
-  tittle: string
-  description: string
-  location: string
-  collected: number
-  daysLeft: number
-  image: string
-}
+import { fetchDonations, DonasiType } from "../data/donations"
 
 const DonasiCards: React.FC = () => {
-  const [donations, setDonations] = useState<Donasi[]>([])
-
-  const fetchDonations = async () => {
-    const { data, error } = await supabase.from('donations').select()
-    if (error) {
-      console.log(`Error: ${error}`)
-      return
-    }
-
-    if (data) {
-      setDonations(data)
-    }
-    console.log(data)
-  }
+  const [donations, setDonations] = useState<DonasiType[]>([])
 
   useEffect(() => {
-    fetchDonations()
-  }, [])
+    const fetchDonationsData = async () => {
+      const dataDonations = await fetchDonations()
+      setDonations(dataDonations)
+    }
+    fetchDonationsData()
+  },[])
 
   return (
     <section className="py-24 bg-gray-100">

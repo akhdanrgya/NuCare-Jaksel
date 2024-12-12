@@ -1,7 +1,7 @@
 
 import { supabase } from "../libs/supabaseClient";
 
-export type Donasi = {
+export type DonasiType = {
   tittle: string;
   description: string;
   location: string;
@@ -10,17 +10,17 @@ export type Donasi = {
   image: string;
 };
 
-export const fetchDonations = async (): Promise<Donasi[]> => {
+export const fetchDonations = async (): Promise<DonasiType[]> => {
   let { data, error } = await supabase
   .from('donations')
-  .select()
+  .select('*')
 
   if (error) {
     console.log(`Error: ${error.message}`)
     return []
   }
 
-  console.log(data)
+  // console.log(data)
 
   return data || []
 }
