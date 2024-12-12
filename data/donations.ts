@@ -13,7 +13,7 @@ export type Donasi = {
 export const fetchDonations = async (): Promise<Donasi[]> => {
   let { data, error } = await supabase
   .from('donations')
-  .select('*')
+  .select()
 
   if (error) {
     console.log(`Error: ${error.message}`)

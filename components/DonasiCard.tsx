@@ -15,7 +15,7 @@ const DonasiCards: React.FC = () => {
   const [donations, setDonations] = useState<Donasi[]>([])
 
   const fetchDonations = async () => {
-    const { data, error } = await supabase.from('donations').select('*')
+    const { data, error } = await supabase.from('donations').select()
     if (error) {
       console.log(`Error: ${error}`)
       return

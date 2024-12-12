@@ -1,6 +1,19 @@
-import stats from "../data/stat";
+'use client'
+import { useState, useEffect } from "react";
+import { fetchStats, StatsType } from "../data/stat";
 
 const Stats: React.FC = () => {
+  const [stats, setStats] = useState<StatsType[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchStats();
+      setStats(data);
+      console.log(data)
+    };
+    fetchData();
+  }, []);
+
     return (
       <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 bg-white shadow-lg rounded-xl p-6 flex justify-around items-center">
         {stats.map((stat, index) => (
