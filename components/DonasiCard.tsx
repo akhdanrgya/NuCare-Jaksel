@@ -1,9 +1,16 @@
 'use client'
 import { useEffect, useState } from "react"
 import { fetchDonations, DonasiType } from "../data/donations"
+import { useRouter } from "next/navigation"
 
 const DonasiCards: React.FC = () => {
   const [donations, setDonations] = useState<DonasiType[]>([])
+  const [isMounted, setIsMounted] = useState(false)  // Untuk memastikan komponen sudah dipasang di klien
+  const router = useRouter()
+
+  useEffect(() => {
+    setIsMounted(true)  // Set state menjadi true setelah komponen dipasang di klien
+  }, [])
 
   useEffect(() => {
     const fetchDonationsData = async () => {
@@ -11,7 +18,17 @@ const DonasiCards: React.FC = () => {
       setDonations(dataDonations)
     }
     fetchDonationsData()
-  },[])
+  }, [])
+
+  const handleCardClick = (tittle: string) => {
+    const formattedtittle = tittle
+      .replace(/^#/, "")
+      .replace(/\s+/g, "-")
+      .toLowerCase();
+    router.push(`/program/${formattedtittle}`)
+  }
+
+  if (!isMounted) return null  // Jangan render komponen sampai dipasang di klien
 
   return (
     <section className="py-24 bg-gray-100">
@@ -23,7 +40,8 @@ const DonasiCards: React.FC = () => {
           donations.map((donasi, idx) => (
             <div
               key={idx}
-              className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
+              className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
+              onClick={() => handleCardClick(donasi.tittle)}
             >
               <img
                 src={donasi.image}
@@ -42,20 +60,12 @@ const DonasiCards: React.FC = () => {
                 <p className="text-sm text-gray-500 mb-4">
                   ⏳ {donasi.daysLeft} Hari lagi
                 </p>
-                <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded w-full">
-                  Ikut Donasi
-                </button>
               </div>
             </div>
           ))
         ) : (
           <p className="text-center w-full py-6">Belum ada data donasi</p>
         )}
-      </div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mt-8">
-        <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded">
-          Program Lainnya
-        </button>
       </div>
     </section>
   )
