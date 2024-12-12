@@ -8,6 +8,8 @@ export type DonasiType = {
   collected: number;
   daysLeft: number;
   image: string;
+  detail: string;
+  donatur: number;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
