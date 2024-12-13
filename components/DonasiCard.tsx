@@ -1,35 +1,38 @@
-'use client'
-import { useEffect, useState } from "react"
-import { fetchDonations, insertDonations, DonasiType } from "../data/donations"
-import { useRouter } from "next/navigation"
+"use client";
+import { useEffect, useState } from "react";
+import { fetchDonations, insertDonations, DonasiType } from "../data/donations";
+import { useRouter } from "next/navigation";
 
 const DonasiCards: React.FC = () => {
-  const [donations, setDonations] = useState<DonasiType[]>([])
-  const [isMounted, setIsMounted] = useState(false)
-  const router = useRouter()
+  const [donations, setDonations] = useState<DonasiType[]>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
+    setIsMounted(true);
+  }, []);
 
   useEffect(() => {
     const fetchDonationsData = async () => {
-      const dataDonations = await fetchDonations()
-      setDonations(dataDonations)
-    }
-    fetchDonationsData()
-  }, [])
+      const dataDonations = await fetchDonations();
+      setDonations(dataDonations);
+    };
+    fetchDonationsData();
+  }, []);
 
   const handleCardClick = (tittle: string) => {
     const formattedtittle = tittle
       .replace(/^#/, "")
       .replace(/\s+/g, "-")
       .toLowerCase();
-    router.push(`/program/${formattedtittle}`)
+    router.push(`/program/${formattedtittle}`);
+  };
+
+  const handleProgramClick = () => {
+    router.push('/program')
   }
 
-
-  if (!isMounted) return null
+  if (!isMounted) return null;
 
   return (
     <section className="py-24 bg-gray-100">
@@ -54,7 +57,9 @@ const DonasiCards: React.FC = () => {
                   {donasi.tittle}
                 </h3>
                 <p className="text-gray-700 mb-2">{donasi.description}</p>
-                <p className="text-gray-500 text-sm mb-4">📍 {donasi.location}</p>
+                <p className="text-gray-500 text-sm mb-4">
+                  📍 {donasi.location}
+                </p>
                 <p className="text-gray-700 font-bold">
                   Terkumpul: Rp {donasi.collected.toLocaleString("id-ID")}
                 </p>
@@ -68,8 +73,13 @@ const DonasiCards: React.FC = () => {
           <p className="text-center w-full py-6">Belum ada data donasi</p>
         )}
       </div>
+      <div className="container mx-auto text-center mt-8">
+        <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded" onClick={() => handleProgramClick()}>
+          Program Lainnya
+        </button>
+      </div>
     </section>
-  )
-}
+  );
+};
 
-export default DonasiCards
+export default DonasiCards;
