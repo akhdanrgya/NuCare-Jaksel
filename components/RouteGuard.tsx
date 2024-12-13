@@ -10,11 +10,11 @@ const RouteGuard: React.FC<{ children: React.ReactNode; isPrivate?: boolean }> =
 
   useEffect(() => {
     if (!isLoading && isPrivate && !user) {
-      router.push('/login') // Redirect ke login kalau route private
+      router.push('/login')
     }
   }, [isLoading, isPrivate, user, router])
 
-  if (isLoading) return <div>Loading...</div> // Placeholder loading
+  if (isLoading) return <div>Loading...</div>
 
   return <>{children}</>
 }

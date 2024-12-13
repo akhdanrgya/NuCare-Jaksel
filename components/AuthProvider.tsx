@@ -19,23 +19,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   useEffect(() => {
     const getSession = async () => {
       const { data } = await supabase.auth.getSession()
+      console.log('Session from getSession:', data)
       setUser(data.session?.user || null)
       setIsLoading(false)
     }
 
+    // Get session on first load
     getSession()
 
+    // Listen for session changes
     const { data: authListener } = supabase.auth.onAuthStateChange((_, session) => {
+      console.log('Auth state changed:', session)
       setUser(session?.user || null)
       if (!session?.user) {
         router.push('/login')
       }
     })
 
+    // Cleanup listener on unmount
     return () => {
       authListener?.subscription.unsubscribe()
     }
   }, [router])
+
+  // While loading, show loading state
+  if (isLoading) {
+    return <div>Loading...</div>
+  }
 
   return (
     <AuthContext.Provider value={{ user, isLoading }}>
