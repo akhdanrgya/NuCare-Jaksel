@@ -5,11 +5,11 @@ import { useRouter } from "next/navigation"
 
 const DonasiCards: React.FC = () => {
   const [donations, setDonations] = useState<DonasiType[]>([])
-  const [isMounted, setIsMounted] = useState(false)  // Untuk memastikan komponen sudah dipasang di klien
+  const [isMounted, setIsMounted] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    setIsMounted(true)  // Set state menjadi true setelah komponen dipasang di klien
+    setIsMounted(true)
   }, [])
 
   useEffect(() => {
@@ -28,7 +28,7 @@ const DonasiCards: React.FC = () => {
     router.push(`/program/${formattedtittle}`)
   }
 
-  if (!isMounted) return null  // Jangan render komponen sampai dipasang di klien
+  if (!isMounted) return null
 
   return (
     <section className="py-24 bg-gray-100">

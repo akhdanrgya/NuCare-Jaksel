@@ -1,4 +1,3 @@
-
 import { supabase } from "../libs/supabaseClient";
 
 export type DonasiType = {
@@ -13,16 +12,26 @@ export type DonasiType = {
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
-  let { data, error } = await supabase
-  .from('donations')
-  .select('*')
+  let { data, error } = await supabase.from("donations").select("*");
 
   if (error) {
-    console.log(`Error: ${error.message}`)
-    return []
+    console.log(`Error: ${error.message}`);
+    return [];
   }
 
   // console.log(data)
 
-  return data || []
-}
+  return data || [];
+};
+
+export const insertDonations = async (donation: DonasiType): Promise<boolean> => {
+  const { error } = await supabase.from("donations").insert(donation);
+
+  if (error) {
+    console.error(`Error inserting donation: ${error.message}`);
+    return false;
+  }
+
+  console.log("Donation inserted successfully");
+  return true;
+};
