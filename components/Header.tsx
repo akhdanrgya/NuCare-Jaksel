@@ -8,6 +8,7 @@ const Header: React.FC = () => {
           <a href="#" className="text-gray-700 hover:text-green-500">Home</a>
           <a href="#" className="text-gray-700 hover:text-green-500">Donasi</a>
           <a href="#" className="text-gray-700 hover:text-green-500">Tentang</a>
+          <a href="/dashboard" className="text-gray-700 hover:text-green-500">Dashboard</a>
         </nav>
       </div>
     </header>
