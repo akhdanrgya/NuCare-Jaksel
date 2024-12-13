@@ -1,6 +1,6 @@
 'use client'
 import { useEffect, useState } from "react"
-import { fetchDonations, DonasiType } from "../data/donations"
+import { fetchDonations, insertDonations, DonasiType } from "../data/donations"
 import { useRouter } from "next/navigation"
 
 const DonasiCards: React.FC = () => {
@@ -27,6 +27,7 @@ const DonasiCards: React.FC = () => {
       .toLowerCase();
     router.push(`/program/${formattedtittle}`)
   }
+
 
   if (!isMounted) return null
 
