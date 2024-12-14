@@ -20,12 +20,12 @@ const DonasiCards: React.FC = () => {
     fetchDonationsData();
   }, []);
 
-  const handleCardClick = (tittle: string) => {
-    const formattedtittle = tittle
+  const handleCardClick = (url: string) => {
+    const formattedurl = url
       .replace(/^#/, "")
       .replace(/\s+/g, "-")
       .toLowerCase();
-    router.push(`/program/${formattedtittle}`);
+    router.push(`/program/${formattedurl}`);
   };
 
   const handleProgramClick = () => {
@@ -45,7 +45,7 @@ const DonasiCards: React.FC = () => {
             <div
               key={idx}
               className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
-              onClick={() => handleCardClick(donasi.tittle)}
+              onClick={() => handleCardClick(donasi.url)}
             >
               <img
                 src={donasi.image}

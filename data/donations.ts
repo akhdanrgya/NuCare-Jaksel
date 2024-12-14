@@ -9,6 +9,7 @@ export type DonasiType = {
   image: string;
   detail: string;
   donatur: number;
+  url: string;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
@@ -34,4 +35,19 @@ export const insertDonations = async (donation: DonasiType): Promise<boolean> =>
 
   console.log("Donation inserted successfully");
   return true;
+};
+
+export const fetchUrl = async (url: string): Promise<DonasiType | null> => {
+  let { data, error } = await supabase
+    .from('donations')
+    .select('*')
+    .eq('url', url)
+    .single();
+
+  if (error) {
+    console.error(`Error fetching donation by URL: ${error.message}`);
+    return null;
+  }
+
+  return data || null;
 };
