@@ -1,9 +1,13 @@
-import DonasiDetail from "../../../../components/DonasiDetail"
+import DonasiDetail from "../../../../components/DonasiDetail";
+import Header from "../../../../components/Header";
 
 const ProgramDetail = () => {
   return (
-    <DonasiDetail/>
-  )
-}
+    <div>
+      <Header />
+      <DonasiDetail />
+    </div>
+  );
+};
 
-export default ProgramDetail
+export default ProgramDetail;
