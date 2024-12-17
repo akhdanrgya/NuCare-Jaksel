@@ -1,6 +1,6 @@
-import { promises } from "dns";
+
 import { supabase } from "../libs/supabaseClient";
-import { DonasiType } from "./donations";
+
 
 export type BeritaType = {
     id: number
