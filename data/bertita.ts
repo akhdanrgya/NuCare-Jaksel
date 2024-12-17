@@ -1,4 +1,6 @@
+import { promises } from "dns";
 import { supabase } from "../libs/supabaseClient";
+import { DonasiType } from "./donations";
 
 export type BeritaType = {
     id: number
@@ -21,4 +23,19 @@ export const FetchBerita = async() => {
     }
 
     return data || []
+}
+
+export const FetchBeritaById = async (idx: number): Promise<BeritaType | null> => {
+    let { data, error } = await supabase
+        .from("berita")
+        .select('*')
+        .eq('id', idx)
+        .single()
+
+    if (error) {
+        console.error(`Error fetching berita by id: ${error.message}`)
+        return null
+    }
+
+    return data as BeritaType || null
 }

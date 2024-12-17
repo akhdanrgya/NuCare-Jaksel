@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType } from "../data/bertita";
+import { useRouter } from "next/navigation";
 
 const BeritaCard: React.FC = () => {
   const [berita, setBerita] = useState<BeritaType[]>([]);
+  const router = useRouter()
 
   useEffect(() => {
     const fetchBeritaData = async () => {
@@ -13,6 +15,10 @@ const BeritaCard: React.FC = () => {
     };
     fetchBeritaData();
   }, []);
+
+  const handleCardClick = (id: number) => {
+    router.push(`/berita/${id}`)
+  }
 
   return (
     <section className="py-24 bg-gray-100">
@@ -26,6 +32,7 @@ const BeritaCard: React.FC = () => {
             <div
               className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
               key={idx}
+              onClick={() => handleCardClick(data.id)}
             >
               <img
                 src={data.image}
