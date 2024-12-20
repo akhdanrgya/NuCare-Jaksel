@@ -14,13 +14,9 @@ const LoginPage = () => {
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
-        console.log('Auth state changed:', event)
-        console.log('Session:', session)
-
         if (event === 'SIGNED_IN' && session) {
           router.push('/dashboard')
         } else if (event === 'SIGNED_OUT') {
-          console.log('User signed out')
         }
       }
     )
@@ -42,9 +38,7 @@ const LoginPage = () => {
 
     if (error) {
       setError(error.message)
-      console.error('Login error:', error)
     } else {
-      console.log('Login successful, session:', data.session)
       router.push('/dashboard')
     }
 
