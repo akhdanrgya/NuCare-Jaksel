@@ -4,7 +4,7 @@ import createTransaction from '../../../../libs/transaction';
 export async function POST(req: NextRequest) {
   const params = {
     transaction_details: {
-      order_id: 'test1',
+      order_id: 'test2',
       gross_amount: 50000,
     },
     customer_details: {
