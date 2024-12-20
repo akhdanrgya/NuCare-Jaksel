@@ -1,6 +1,7 @@
 import { supabase } from "../libs/supabaseClient";
 
 export type DonasiType = {
+  id: number
   tittle: string;
   description: string;
   location: string;

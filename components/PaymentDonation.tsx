@@ -2,8 +2,7 @@
 import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { fetchUrl, DonasiType } from "../data/donations";
-import { randomInt } from "crypto";
-
+import { DonaturType, insertDonatur } from "../data/donatur";
 
 const PaymentDonation = () => {
   const { url } = useParams();
@@ -17,7 +16,8 @@ const PaymentDonation = () => {
   const [hideName, setHideName] = useState(false);
   const [message, setMessage] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
-  const [orderId, setOrderId] = useState("")
+  const [orderId, setOrderId] = useState("");
+  const [status, setStatus] = useState<any>(null);
 
   useEffect(() => {
     const getDonation = async () => {
@@ -50,10 +50,10 @@ const PaymentDonation = () => {
     };
 
     try {
-      const response = await fetch('/api/transaction', {
-        method: 'POST',
+      const response = await fetch("/api/transaction", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(data),
       });
@@ -61,54 +61,75 @@ const PaymentDonation = () => {
       const result = await response.json();
 
       if (response.ok) {
-        window.open(result.redirect_url, "_blank", "width=600,height=400,resizable,scrollbars=yes");
-        setOrderId(orderId)
-        checkStatus()
+        window.open(
+          result.redirect_url,
+          "_blank",
+          "width=600,height=400,resizable,scrollbars=yes"
+        );
+        setOrderId(orderId);
+        startPollingStatus(orderId);
       } else {
-        console.error('Transaction failed', result.error);
+        console.error("Transaction failed", result.error);
       }
     } catch (error) {
-      console.error('Error making the request', error);
+      console.error("Error making the request", error);
     }
   };
 
-  const checkStatus = async () => {
+  const startPollingStatus = (orderId: string) => {
+    const interval = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/status?orderId=${orderId}`);
+        if (response.ok) {
+          const data = await response.json();
+          setStatus(data);
+          if (data.transaction_status === "settlement") {
+            clearInterval(interval);
+            insert()
+          }
+        } else {
+          setError("Failed to fetch status");
+        }
+      } catch (err) {
+        setError("Error fetching status");
+      }
+    }, 5000);
+  };
+
+  const insert = async () => {
+    const donaturData: DonaturType = {
+      id: 0,
+      name,
+      value: parseInt(amount),
+      donationsId: donation?.id ?? 0,
+      notelp: parseInt(phoneNumber),
+      email,
+      orderId,
+    };
+
     try {
-      const serverKey = process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY;
-  
-      if (!serverKey) {
-        console.error('Server key is missing');
-        return;
-      }
-  
-      const response = await fetch(`https://api.sandbox.midtrans.com/v2/${orderId}/status`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Basic ${btoa(serverKey)}`,
-        },
-      });
-  
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        console.log(data.status_code);
-      } else {
-        console.error('Failed to fetch status:', response.status);
-      }
+      const result = await insertDonatur(donaturData);
+      console.log("Donatur berhasil disimpan:", result);
     } catch (error) {
-      console.error('Error fetching status:', error);
+      setError("Gagal menyimpan donatur");
+      console.error(error);
     }
   };
-  
-  
 
   return (
     <div className="container mx-auto px-4 mt-10">
-      <h1 className="text-3xl font-bold text-center mb-8">{donation?.tittle}</h1>
-      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-md shadow-md">
+      <h1 className="text-3xl font-bold text-center mb-8">
+        {donation?.tittle}
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-md shadow-md"
+      >
         <div className="mb-4">
-          <label htmlFor="amount" className="block text-gray-700 font-bold mb-2">
+          <label
+            htmlFor="amount"
+            className="block text-gray-700 font-bold mb-2"
+          >
             Jumlah Donasi:
           </label>
           <input
@@ -136,7 +157,10 @@ const PaymentDonation = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
+          <label
+            htmlFor="phoneNumber"
+            className="block text-gray-700 font-bold mb-2"
+          >
             Nomor Telpon:
           </label>
           <input
@@ -176,7 +200,10 @@ const PaymentDonation = () => {
         </div>
 
         <div className="mb-4">
-          <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
+          <label
+            htmlFor="message"
+            className="block text-gray-700 font-bold mb-2"
+          >
             Pesan:
           </label>
           <textarea
@@ -197,11 +224,16 @@ const PaymentDonation = () => {
               required
               className="form-checkbox h-5 w-5 text-gray-600"
             />
-            <span className="ml-2 text-gray-700">Saya setuju dengan syarat dan ketentuan yang berlaku</span>
+            <span className="ml-2 text-gray-700">
+              Saya setuju dengan syarat dan ketentuan yang berlaku
+            </span>
           </label>
         </div>
 
-        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+        <button
+          type="submit"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        >
           Donate
         </button>
       </form>
