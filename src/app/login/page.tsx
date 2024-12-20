@@ -15,19 +15,19 @@ const LoginPage = () => {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log('Auth State Changed:', event)
+        console.log('Session:', session)
         if (event === 'SIGNED_IN' && session) {
-          console.log('User signed in:', session)
           router.push('/dashboard')
-        } else if (event === 'SIGNED_OUT') {
-          console.log('User signed out')
         }
       }
     )
-    
+  
     return () => {
       subscription?.unsubscribe()
     }
   }, [])
+  
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()

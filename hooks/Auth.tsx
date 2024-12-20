@@ -17,12 +17,14 @@ export const AuthProvider = ({ children }: any) => {
             setSession(session)
             setUser(session?.user)
             setLoading(false);
+            console.log('Session dari getSession:', session);
         };
 
         const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
             setSession(session);
             setUser(session?.user)
             setLoading(false)
+            console.log('Session dari getSession:', session);
         });
 
         setData();
@@ -37,6 +39,7 @@ export const AuthProvider = ({ children }: any) => {
         user,
         signOut: () => supabase.auth.signOut(),
     };
+
 
     return (
         <AuthContext.Provider value={value}>
