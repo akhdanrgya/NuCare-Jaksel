@@ -1,0 +1,178 @@
+"use client";
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { fetchUrl, DonasiType } from "../data/donations";
+import { randomInt } from "crypto";
+
+
+const PaymentDonation = () => {
+  const { url } = useParams();
+  const [donation, setDonation] = useState<DonasiType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [amount, setAmount] = useState("");
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [hideName, setHideName] = useState(false);
+  const [message, setMessage] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+
+  useEffect(() => {
+    const getDonation = async () => {
+      if (url && typeof url === "string") {
+        const donationData = await fetchUrl(url);
+        if (donationData) {
+          setDonation(donationData);
+        } else {
+          setError("Donasi tidak ditemukan");
+        }
+      }
+      setLoading(false);
+    };
+
+    getDonation();
+  }, [url]);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const timestamp = Date.now();
+    const randomNum = Math.floor(Math.random() * 900000) + 100000;
+    const orderId = `${donation?.url}-${timestamp}-${randomNum}`;
+
+    const data = {
+      order_id: orderId,
+      gross_amount: parseInt(amount),
+      first_name: name,
+      email: email,
+      phone: phoneNumber,
+    };
+
+    try {
+      const response = await fetch('/api/transaction', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        window.open(result.redirect_url, "_blank");
+      } else {
+        console.error('Transaction failed', result.error);
+      }
+    } catch (error) {
+      console.error('Error making the request', error);
+    }
+  };
+
+  return (
+    <div className="container mx-auto px-4 mt-10">
+      <h1 className="text-3xl font-bold text-center mb-8">{donation?.tittle}</h1>
+      <form onSubmit={handleSubmit} className="bg-white p-8 rounded-md shadow-md">
+        <div className="mb-4">
+          <label htmlFor="amount" className="block text-gray-700 font-bold mb-2">
+            Jumlah Donasi:
+          </label>
+          <input
+            type="text"
+            id="amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            className="shadow appearance border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-gray-700 font-bold mb-2">
+            Nama:
+          </label>
+          <input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="shadow appearance-border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="phoneNumber" className="block text-gray-700 font-bold mb-2">
+            Nomor Telpon:
+          </label>
+          <input
+            type="tel"
+            id="phoneNumber"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
+            className="shadow appearance-border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 font-bold mb-2">
+            Email:
+          </label>
+          <input
+            type="email"
+            id="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="shadow appearance-border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="hideName" className="inline-flex items-center">
+            <input
+              type="checkbox"
+              id="hideName"
+              checked={hideName}
+              onChange={(e) => setHideName(e.target.checked)}
+              className="form-checkbox h-5 w-5 text-gray-600"
+            />
+            <span className="ml-2 text-gray-700">Sembunyikan Nama Saya</span>
+          </label>
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="message" className="block text-gray-700 font-bold mb-2">
+            Pesan:
+          </label>
+          <textarea
+            id="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="shadow appearance-border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="terms" className="inline-flex items-center">
+            <input
+              type="checkbox"
+              id="terms"
+              checked={termsAccepted}
+              onChange={(e) => setTermsAccepted(e.target.checked)}
+              required
+              className="form-checkbox h-5 w-5 text-gray-600"
+            />
+            <span className="ml-2 text-gray-700">Saya setuju dengan syarat dan ketentuan yang berlaku</span>
+          </label>
+        </div>
+
+        <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          Donate
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default PaymentDonation;

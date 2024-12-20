@@ -1,38 +1,44 @@
-'use client'
-import { useParams } from 'next/navigation'
-import { useState, useEffect } from 'react'
-import { fetchUrl } from '../data/donations'
-import { DonasiType } from '../data/donations'
-import { formatRupiah } from '../utils/formatRupiah'
+"use client";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { fetchUrl } from "../data/donations";
+import { DonasiType } from "../data/donations";
+import { formatRupiah } from "../utils/formatRupiah";
+import { useRouter } from "next/navigation";
 
 const DonasiDetail = () => {
-  const { url } = useParams()
-  const [donation, setDonation] = useState<DonasiType | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const { url } = useParams();
+  const [donation, setDonation] = useState<DonasiType | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const getDonation = async () => {
-      if (url && typeof url === 'string') {
-        const donationData = await fetchUrl(url)
+      if (url && typeof url === "string") {
+        const donationData = await fetchUrl(url);
         if (donationData) {
-          setDonation(donationData)
+          setDonation(donationData);
         } else {
-          setError('Donasi tidak ditemukan')
+          setError("Donasi tidak ditemukan");
         }
       }
-      setLoading(false)
-    }
+      setLoading(false);
+    };
 
-    getDonation()
-  }, [url])
+    getDonation();
+  }, [url]);
+
+  const handleDonasi = () => {
+    router.push(`/program/${url}/payment`);
+  };
 
   if (loading) {
-    return <div className="text-center text-gray-500">Loading...</div>
+    return <div className="text-center text-gray-500">Loading...</div>;
   }
 
   if (error) {
-    return <div className="text-center text-red-500">{error}</div>
+    return <div className="text-center text-red-500">{error}</div>;
   }
 
   return (
@@ -60,8 +66,14 @@ const DonasiDetail = () => {
               <p>{donation?.location}</p>
             </div>
             <div>
-              <p className="font-semibold text-gray-600">Jumlah yang terkumpul:</p>
-              <p>{donation?.collected ? formatRupiah(Number(donation.collected)) : 'Belum ada donasi'}</p>
+              <p className="font-semibold text-gray-600">
+                Jumlah yang terkumpul:
+              </p>
+              <p>
+                {donation?.collected
+                  ? formatRupiah(Number(donation.collected))
+                  : "Belum ada donasi"}
+              </p>
             </div>
             <div>
               <p className="font-semibold text-gray-600">Sisa hari:</p>
@@ -70,14 +82,17 @@ const DonasiDetail = () => {
           </div>
 
           <div className="text-center">
-            <button className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200">
+            <button
+              className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+              onClick={() => handleDonasi()}
+            >
               Donasi Sekarang
             </button>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default DonasiDetail
+export default DonasiDetail;
