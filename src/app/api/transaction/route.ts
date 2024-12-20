@@ -17,7 +17,6 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    // Proses transaksi dengan createTransaction
     return new Promise((resolve) => {
       createTransaction(params, (transaction: { token: string; redirect_url: string }, error: any) => {
         if (error) {

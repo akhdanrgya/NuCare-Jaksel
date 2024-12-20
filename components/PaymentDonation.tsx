@@ -17,6 +17,7 @@ const PaymentDonation = () => {
   const [hideName, setHideName] = useState(false);
   const [message, setMessage] = useState("");
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [orderId, setOrderId] = useState("")
 
   useEffect(() => {
     const getDonation = async () => {
@@ -60,7 +61,9 @@ const PaymentDonation = () => {
       const result = await response.json();
 
       if (response.ok) {
-        window.open(result.redirect_url, "_blank");
+        window.open(result.redirect_url, "_blank", "width=600,height=400,resizable,scrollbars=yes");
+        setOrderId(orderId)
+        checkStatus()
       } else {
         console.error('Transaction failed', result.error);
       }
@@ -68,6 +71,37 @@ const PaymentDonation = () => {
       console.error('Error making the request', error);
     }
   };
+
+  const checkStatus = async () => {
+    try {
+      const serverKey = process.env.NEXT_PUBLIC_MIDTRANS_SERVER_KEY;
+  
+      if (!serverKey) {
+        console.error('Server key is missing');
+        return;
+      }
+  
+      const response = await fetch(`https://api.sandbox.midtrans.com/v2/${orderId}/status`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Basic ${btoa(serverKey)}`,
+        },
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        console.log(data.status_code);
+      } else {
+        console.error('Failed to fetch status:', response.status);
+      }
+    } catch (error) {
+      console.error('Error fetching status:', error);
+    }
+  };
+  
+  
 
   return (
     <div className="container mx-auto px-4 mt-10">
