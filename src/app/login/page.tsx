@@ -35,8 +35,8 @@ const LoginPage = () => {
     if (error) {
       setError(error.message)
     } else {
-      console.log('Login successful, session:', data.session) 
-      window.location.href = '/dashboard'
+      console.log('Login successful, session:', data.session)
+      router.push('/dashboard')
     }
   }
   

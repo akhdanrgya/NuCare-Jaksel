@@ -1,12 +1,14 @@
-import { AuthProvider } from "../../../components/AuthProvider"
-import RouteGuard from "../../../components/RouteGuard"
+import { AuthProvider } from "../../../hooks/Auth";
+import ProtectedRoute from "../../../components/ProtectedRoute";
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <AuthProvider>
-      <RouteGuard isPrivate>
-        {children}
-      </RouteGuard>
+      <ProtectedRoute>{children}</ProtectedRoute>
     </AuthProvider>
-  )
+  );
 }
