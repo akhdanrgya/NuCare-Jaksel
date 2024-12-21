@@ -29,3 +29,14 @@ export const fetchRecentUser = async (id: string): Promise<UserType[]> => {
 
   return data || [];
 };
+
+export const updateUsername = async (id: string, value: string) => {
+  let { data, error } = await supabase
+    .from("profiles")
+    .update({ username: value })
+    .eq("id", id);
+
+  if (error) {
+    console.log(`Error: ${error.message}`);
+  }
+};

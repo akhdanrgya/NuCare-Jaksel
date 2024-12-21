@@ -3,11 +3,12 @@ import React, { useState, useEffect } from "react";
 import InputGroup from "../../FormElements/InputGroup";
 import { supabase } from "../../../libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
+import { updateUsername } from "../../../data/user";
 
 const Profile = () => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -17,7 +18,6 @@ const Profile = () => {
       } else {
         console.log("Fetched session:", data.session);
         setSession(data.session);
-        setUsername(data.session?.user.user_metadata.username || '');
       }
       setLoading(false);
     };
@@ -25,26 +25,17 @@ const Profile = () => {
     fetchSession();
   }, []);
 
-  const updateUserMetaData = async (userId: string, username: string) => {
-    const { error } = await supabase.auth.admin.updateUserById(userId, {
-      user_metadata: { username },
-    });
-
-    if (error) {
-      console.error('Gagal menambahkan metadata:', error.message);
-    } else {
-      console.log('Metadata berhasil ditambahkan!');
-    }
-  };
-
   const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (session && username !== session.user.user_metadata.username) {
-      await updateUserMetaData(session.user.id, username);
+
+    if (session?.user?.id) {
+      await updateUsername(session.user.id, username);
+    } else {
+      console.error("User ID is missing");
     }
   };
 
