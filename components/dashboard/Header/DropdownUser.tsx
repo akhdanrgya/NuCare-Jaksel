@@ -96,7 +96,7 @@ const DropdownUser = () => {
                 Jhon Smith
               </span>
               <span className="block font-medium text-dark-5 dark:text-dark-6">
-                jonson@nextadmin.com
+                {session?.user.email}
               </span>
             </span>
           </div>

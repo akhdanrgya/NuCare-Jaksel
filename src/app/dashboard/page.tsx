@@ -23,8 +23,7 @@ const DashboardPage = () => {
     fetchSession();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (!session) return <p>No active session. Please log in.</p>;
+  if (!session) return null
 
   return (
     <DefaultLayout>
