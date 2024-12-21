@@ -47,7 +47,6 @@ export default function SigninWithPassword() {
 
     setLoading(false)
   }
-
   return (
     <form onSubmit={handleLogin}>
       <div className="mb-4">

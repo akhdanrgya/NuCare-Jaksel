@@ -4,11 +4,14 @@ import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "../../ClickOutside";
+import { fetchRecentUser, UserType } from "../../../data/user";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<UserType| null>(null)
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -24,6 +27,23 @@ const DropdownUser = () => {
 
     fetchSession();
   }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      if (session?.user.id) {
+        const userData = await fetchRecentUser(session.user.id);
+        if (userData) {
+          setUser(userData[0] || null);
+        } else {
+          setError("Donasi tidak ditemukan");
+        }
+      }
+    };
+
+    if (session) {
+      getUser();
+    }
+  }, [session]);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -47,7 +67,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
-          <span className="hidden lg:block">{session?.user.email}</span>
+          <span className="hidden lg:block">{user?.username}</span>
 
           <svg
             className={`fill-current duration-200 ease-in ${
@@ -93,7 +113,7 @@ const DropdownUser = () => {
 
             <span className="block">
               <span className="block font-medium text-dark dark:text-white">
-                Jhon Smith
+                {user?.username}
               </span>
               <span className="block font-medium text-dark-5 dark:text-dark-6">
                 {session?.user.email}

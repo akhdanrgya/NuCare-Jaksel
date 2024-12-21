@@ -7,10 +7,6 @@ import Login from '../../../components/Login'
 
 const LoginPage = () => {
   const router = useRouter()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     const { data: listener } = supabase.auth.onAuthStateChange(
@@ -26,25 +22,6 @@ const LoginPage = () => {
       listener.subscription.unsubscribe()
     }
   }, [])
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
-
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
-
-    if (error) {
-      setError(error.message)
-    } else {
-      router.push('/dashboard')
-    }
-
-    setLoading(false)
-  }
 
   return (
     // <div>
