@@ -4,25 +4,51 @@ import InputGroup from "../../FormElements/InputGroup";
 import { supabase } from "../../../libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 
-
 const Profile = () => {
-    const [session, setSession] = useState<Session | null>(null);
-    const [loading, setLoading] = useState(true);
-  
-    useEffect(() => {
-      const fetchSession = async () => {
-        const { data, error } = await supabase.auth.getSession();
-        if (error) {
-          console.error("Error fetching session:", error);
-        } else {
-          console.log("Fetched session:", data.session);
-          setSession(data.session);
-        }
-        setLoading(false);
-      };
-  
-      fetchSession();
-    }, []);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching session:", error);
+      } else {
+        console.log("Fetched session:", data.session);
+        setSession(data.session);
+        setUsername(data.session?.user.user_metadata.username || '');
+      }
+      setLoading(false);
+    };
+
+    fetchSession();
+  }, []);
+
+  const updateUserMetaData = async (userId: string, username: string) => {
+    const { error } = await supabase.auth.admin.updateUserById(userId, {
+      user_metadata: { username },
+    });
+
+    if (error) {
+      console.error('Gagal menambahkan metadata:', error.message);
+    } else {
+      console.log('Metadata berhasil ditambahkan!');
+    }
+  };
+
+  const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (session && username !== session.user.user_metadata.username) {
+      await updateUserMetaData(session.user.id, username);
+    }
+  };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card">
@@ -31,7 +57,7 @@ const Profile = () => {
           Edit Profile
         </h3>
       </div>
-      <form action="#">
+      <form onSubmit={handleSubmit}>
         <div className="p-6.5">
           <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
             Email
@@ -47,6 +73,8 @@ const Profile = () => {
             label="Username"
             type="text"
             placeholder="Enter your username"
+            value={username}
+            onChange={handleUsernameChange}
             customClasses="mb-4.5"
           />
           <button className="flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90">
