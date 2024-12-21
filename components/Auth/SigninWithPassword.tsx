@@ -98,7 +98,7 @@ export default function SigninWithPassword() {
             type="password"
             name="password"
             placeholder="Enter your password"
-            autoComplete="password"
+            autoComplete="current-password"
             className="w-full rounded-lg border border-stroke bg-transparent py-[15px] pl-6 pr-11 font-medium text-dark outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
             onChange={(e) => setPassword(e.target.value)}
           />
