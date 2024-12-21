@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../../../libs/supabaseClient'
 import { useRouter } from 'next/navigation'
+import Login from '../../../components/Login'
 
 const LoginPage = () => {
   const router = useRouter()
@@ -46,27 +47,28 @@ const LoginPage = () => {
   }
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
-      </form>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-    </div>
+    // <div>
+    //   <h1>Login</h1>
+    //   <form onSubmit={handleLogin}>
+    //     <input
+    //       type="email"
+    //       placeholder="Email"
+    //       value={email}
+    //       onChange={(e) => setEmail(e.target.value)}
+    //     />
+    //     <input
+    //       type="password"
+    //       placeholder="Password"
+    //       value={password}
+    //       onChange={(e) => setPassword(e.target.value)}
+    //     />
+    //     <button type="submit" disabled={loading}>
+    //       {loading ? 'Logging in...' : 'Login'}
+    //     </button>
+    //   </form>
+    //   {error && <p style={{ color: 'red' }}>{error}</p>}
+    // </div>
+    <Login/>
   )
 }
 

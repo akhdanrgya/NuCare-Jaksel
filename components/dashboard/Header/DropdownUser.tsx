@@ -1,10 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { supabase } from "../../../libs/supabaseClient";
+import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import Image from "next/image";
 import ClickOutside from "../../ClickOutside";
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching session:", error);
+      } else {
+        console.log("Fetched session:", data.session);
+        setSession(data.session);
+      }
+      setLoading(false);
+    };
+
+    fetchSession();
+  }, []);
 
   return (
     <ClickOutside onClick={() => setDropdownOpen(false)} className="relative">
@@ -28,10 +47,12 @@ const DropdownUser = () => {
         </span>
 
         <span className="flex items-center gap-2 font-medium text-dark dark:text-dark-6">
-          <span className="hidden lg:block">Jhon Smith</span>
+          <span className="hidden lg:block">{session?.user.email}</span>
 
           <svg
-            className={`fill-current duration-200 ease-in ${dropdownOpen && "rotate-180"}`}
+            className={`fill-current duration-200 ease-in ${
+              dropdownOpen && "rotate-180"
+            }`}
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -141,7 +162,7 @@ const DropdownUser = () => {
             </li>
           </ul>
           <div className="p-2.5">
-            <button className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-dark-4 duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base">
+            <button className="flex w-full items-center gap-2.5 rounded-[7px] p-2.5 text-sm font-medium text-red duration-300 ease-in-out hover:bg-gray-2 hover:text-dark dark:text-dark-6 dark:hover:bg-dark-3 dark:hover:text-white lg:text-base" onClick={()=> supabase.auth.signOut()}>
               <svg
                 className="fill-current"
                 width="18"

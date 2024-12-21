@@ -1,3 +1,7 @@
+"use client";
+import { useEffect, useState } from "react";
+import { supabase } from "../../../libs/supabaseClient";
+import { Session } from "@supabase/supabase-js";
 import Link from "next/link";
 import DarkModeSwitcher from "./DarkModeSwitcher";
 import DropdownNotification from "./DropdownNotification";
@@ -9,6 +13,24 @@ const Header = (props: {
   sidebarOpen: string | boolean | undefined;
   setSidebarOpen: (arg0: boolean) => void;
 }) => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      const { data, error } = await supabase.auth.getSession();
+      if (error) {
+        console.error("Error fetching session:", error);
+      } else {
+        console.log("Fetched session:", data.session);
+        setSession(data.session);
+      }
+      setLoading(false);
+    };
+
+    fetchSession();
+  }, []);
+
   return (
     <header className="sticky top-0 z-999 flex w-full border-b border-stroke bg-white dark:border-stroke-dark dark:bg-gray-dark">
       <div className="flex flex-grow items-center justify-between px-4 py-5 shadow-2 md:px-5 2xl:px-10">
