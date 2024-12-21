@@ -17,7 +17,10 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "supabase": "^2.0.0",
-    "swiper": "^11.1.15"
+    "swiper": "^11.1.15",
+    "apexcharts": "^3.45.2",
+    "flatpickr": "^4.6.13",
+    "jsvectormap": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^20",
