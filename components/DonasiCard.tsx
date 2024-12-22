@@ -29,8 +29,8 @@ const DonasiCards: React.FC = () => {
   };
 
   const handleProgramClick = () => {
-    router.push('/program')
-  }
+    router.push("/program");
+  };
 
   if (!isMounted) return null;
 
@@ -74,7 +74,10 @@ const DonasiCards: React.FC = () => {
         )}
       </div>
       <div className="container mx-auto text-center mt-8">
-        <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded" onClick={() => handleProgramClick()}>
+        <button
+          className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
+          onClick={() => handleProgramClick()}
+        >
           Program Lainnya
         </button>
       </div>

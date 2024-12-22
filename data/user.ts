@@ -3,6 +3,8 @@ import { supabase } from "../libs/supabaseClient";
 export type UserType = {
   id: string;
   username: string;
+  fullname: string
+  phone: string
 };
 
 export const fetchUser = async (): Promise<UserType[]> => {
@@ -30,13 +32,12 @@ export const fetchRecentUser = async (id: string): Promise<UserType[]> => {
   return data || [];
 };
 
-export const updateUsername = async (id: string, value: string) => {
-  let { data, error } = await supabase
+export const updateUsername = async (id: string, username: string, fullname: string, phone: string) => {
+  const { data, error } = await supabase
     .from("profiles")
-    .update({ username: value })
+    .update({ username: username, fullname: fullname, phone: phone })
     .eq("id", id);
 
-  if (error) {
-    console.log(`Error: ${error.message}`);
-  }
+  return { error };
 };
+
