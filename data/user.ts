@@ -32,7 +32,7 @@ export const fetchRecentUser = async (id: string): Promise<UserType[]> => {
   return data || [];
 };
 
-export const updateUsername = async (id: string, username: string, fullname: string, phone: string) => {
+export const updateUser = async (id: string, username: string, fullname: string, phone: string) => {
   const { data, error } = await supabase
     .from("profiles")
     .update({ username: username, fullname: fullname, phone: phone })

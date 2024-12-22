@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import InputGroup from "../../FormElements/InputGroup";
 import { supabase } from "../../../libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
-import { updateUsername } from "../../../data/user";
+import { updateUser } from "../../../data/user";
 import Image from "next/image";
 
 const Profile = () => {
@@ -45,7 +45,7 @@ const Profile = () => {
     e.preventDefault();
     if (session?.user?.id) {
       const userId = session.user.id;
-      const { error } = await updateUsername(userId, username, fullname, phone);
+      const { error } = await updateUser(userId, username, fullname, phone);
       if (error) {
         console.error("Error updating profile:", error);
       } else {
@@ -188,6 +188,7 @@ const Profile = () => {
                       id="emailAddress"
                       placeholder="devidjond45@gmail.com"
                       defaultValue="devidjond45@gmail.com"
+                      value={session?.user.email}
                     />
                   </div>
                 </div>
@@ -238,7 +239,7 @@ const Profile = () => {
                 <div className="flex justify-end gap-3">
                   <button
                     className="flex justify-center rounded-[7px] border border-stroke px-6 py-[7px] font-medium text-dark hover:shadow-1 dark:border-dark-3 dark:text-white"
-                    type="submit"
+                    type="reset"
                   >
                     Cancel
                   </button>
