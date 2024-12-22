@@ -1,7 +1,7 @@
 import { supabase } from "../libs/supabaseClient";
 
 export type DonasiType = {
-  id: number
+  id: number;
   tittle: string;
   description: string;
   location: string;
@@ -11,6 +11,7 @@ export type DonasiType = {
   detail: string;
   donatur: number;
   url: string;
+  kategori: number;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
@@ -21,12 +22,12 @@ export const fetchDonations = async (): Promise<DonasiType[]> => {
     return [];
   }
 
-  // console.log(data)
-
   return data || [];
 };
 
-export const insertDonations = async (donation: DonasiType): Promise<boolean> => {
+export const insertDonations = async (
+  donation: DonasiType
+): Promise<boolean> => {
   const { error } = await supabase.from("donations").insert(donation);
 
   if (error) {
@@ -40,13 +41,29 @@ export const insertDonations = async (donation: DonasiType): Promise<boolean> =>
 
 export const fetchUrl = async (url: string): Promise<DonasiType | null> => {
   let { data, error } = await supabase
-    .from('donations')
-    .select('*')
-    .eq('url', url)
+    .from("donations")
+    .select("*")
+    .eq("url", url)
     .single();
 
   if (error) {
     console.error(`Error fetching donation by URL: ${error.message}`);
+    return null;
+  }
+
+  return data || null;
+};
+
+export const fetchDonationsByKategori = async (
+  kategori: number
+): Promise<DonasiType[] | null> => {
+  const { data, error } = await supabase
+    .from("donations")
+    .select("*")
+    .eq("kategori", kategori);
+
+  if (error) {
+    console.error(`Error fetching donation by kategori: ${error.message}`);
     return null;
   }
 

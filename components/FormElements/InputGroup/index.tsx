@@ -6,8 +6,8 @@ interface InputGroupProps {
   type: string;
   placeholder: string;
   required?: boolean;
-  value: string; // Menambahkan value
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Menambahkan onChange
+  value?: string;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void; // Menambahkan onChange
 }
 
 const InputGroup: React.FC<InputGroupProps> = ({

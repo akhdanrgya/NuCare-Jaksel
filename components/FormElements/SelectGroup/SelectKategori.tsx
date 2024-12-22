@@ -1,43 +1,56 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { fetchKategori, KategoriType } from "../../../data/kategori";
 
-const SelectGroupOne: React.FC = () => {
+const SelectKategori: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
+  const [kategori, setKategori] = useState<KategoriType[]>([]);
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
   };
 
+  useEffect(() => {
+    const fetchKategoriData = async () => {
+      const dataKategori = await fetchKategori();
+      setKategori(dataKategori);
+    };
+    fetchKategoriData();
+  }, []);
+
   return (
     <div className="mb-4.5">
       <label className="mb-3 block text-body-sm text-dark dark:text-white">
-        Subject
+        Kategori
       </label>
 
       <div className="relative z-20 bg-transparent dark:bg-dark-2">
         <select
           value={selectedOption}
+          title="kategori"
           onChange={(e) => {
             setSelectedOption(e.target.value);
             changeTextColor();
           }}
           className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${
-            isOptionSelected ? "text-dark dark:text-white" : ""
+            isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"
           }`}
         >
-          <option value="" disabled className="text-dark-6">
-            Select your subject
+          <option value="" disabled>
+            Select Kategori
           </option>
-          <option value="USA" className="text-dark-6">
-            USA
-          </option>
-          <option value="UK" className="text-dark-6">
-            UK
-          </option>
-          <option value="Canada" className="text-dark-6">
-            Canada
-          </option>
+          {kategori.length > 0 ? (
+            kategori.map((data, id) => (
+              <option key={id} value={data.id}>
+                {data.tittle}
+              </option>
+            ))
+          ) : (
+            <option value="" disabled>
+              Kategori Tidak Tersedia
+            </option>
+          )}
         </select>
 
         <span className="absolute right-4 top-1/2 z-30 -translate-y-1/2">
@@ -60,4 +73,4 @@ const SelectGroupOne: React.FC = () => {
   );
 };
 
-export default SelectGroupOne;
+export default SelectKategori;
