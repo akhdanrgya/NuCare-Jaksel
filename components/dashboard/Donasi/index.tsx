@@ -30,6 +30,26 @@ const Donasi = () => {
     setTarget(formattedValue);
   };
 
+  const uploadFile = async (file: File) => {
+    const fileName = `${Date.now()}-${file.name}`;
+    const { data: uploadData, error: uploadError } = await supabase.storage
+      .from("donationimage")
+      .upload(fileName, file);
+  
+    if (uploadError) {
+      console.error("Error uploading file:", uploadError);
+      alert("Gagal mengunggah gambar");
+      return null;
+    }
+  
+    const { data: publicUrlData } = supabase.storage
+      .from("donationimage")
+      .getPublicUrl(fileName);
+  
+    return publicUrlData?.publicUrl || null;
+  };
+  
+
   const insertDonations = async () => {
     const { data, error } = await supabase.from("donations").insert([
       {
@@ -37,13 +57,14 @@ const Donasi = () => {
         url,
         location,
         description: desc,
-        target: target.replace(/\./g, ""), // Remove formatting
-        deadline: deadLine,
-        article,
-        image_url: imageUrl,
-        kategori_id: kategoriId,
+        target: target.replace(/\./g, ""),
+        daysLeft: deadLine,
+        detail: article,
+        image: imageUrl || "https://via.placeholder.com/300x200",
+        kategori: kategoriId,
       },
     ]);
+
 
     if (error) {
       console.error("Error inserting donation:", error);
@@ -51,6 +72,16 @@ const Donasi = () => {
     } else {
       console.log("Donation inserted:", data);
       alert("Data donasi berhasil disimpan");
+    }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const uploadedUrl = await uploadFile(file);
+      if (uploadedUrl) {
+        setImageUrl(uploadedUrl);
+      }
     }
   };
 
@@ -117,7 +148,7 @@ const Donasi = () => {
             <InputGroup
               label="Tenggat Waktu"
               type="text"
-              placeholder="Masukan Tenggat Waktu (dd-mm-yyyy)"
+              placeholder="Masukan Tenggat Waktu (yyyy-mm-dd)"
               customClasses="mb-4.5"
               value={deadLine}
               onChange={(e) => setDeadLine(e.target.value)}
@@ -141,7 +172,7 @@ const Donasi = () => {
               <input
                 type="file"
                 className="w-full cursor-pointer rounded-[7px] border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-[#E2E8F0] file:px-6.5 file:py-[13px] file:text-body-sm file:font-medium file:text-dark-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-dark dark:border-dark-3 dark:bg-dark-2 dark:file:border-dark-3 dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
-                onChange={(e) => setImageUrl(e.target.files?.[0]?.name || "")}
+                onChange={handleFileChange}
                 placeholder="."
               />
             </div>
