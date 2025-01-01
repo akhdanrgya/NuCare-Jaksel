@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { fetchKategori, KategoriType } from "../../../data/kategori";
 
-const SelectKategori: React.FC = () => {
+const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
+  onChange,
+}) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [kategori, setKategori] = useState<KategoriType[]>([]);
@@ -32,6 +34,7 @@ const SelectKategori: React.FC = () => {
           onChange={(e) => {
             setSelectedOption(e.target.value);
             changeTextColor();
+            onChange(e.target.value);
           }}
           className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${
             isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"

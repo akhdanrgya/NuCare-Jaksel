@@ -1,11 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Card from "./Card";
 import InputGroup from "../../FormElements/InputGroup";
 import SelectKategori from "../../FormElements/SelectGroup/SelectKategori";
-import DatePickerOne from "../../FormElements/DatePicker/DatePickerOne";
 import { supabase } from "../../../libs/supabaseClient";
-import { DonasiType } from "../../../data/donations";
 
 const Donasi = () => {
   const [target, setTarget] = useState<string>("");
@@ -16,14 +14,13 @@ const Donasi = () => {
   const [deadLine, setDeadLine] = useState<string>("");
   const [article, setArticle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
+  const [kategoriId, setKategoriId] = useState<string>("");
 
   const formatNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "");
-
     const formattedValue = new Intl.NumberFormat("id-ID").format(
       parseInt(numericValue || "0")
     );
-
     return formattedValue;
   };
 
@@ -33,25 +30,40 @@ const Donasi = () => {
     setTarget(formattedValue);
   };
 
-  const handleSubmit = () => {
-    console.log("Anjay");
+  const insertDonations = async () => {
+    const { data, error } = await supabase.from("donations").insert([
+      {
+        tittle,
+        url,
+        location,
+        description: desc,
+        target: target.replace(/\./g, ""), // Remove formatting
+        deadline: deadLine,
+        article,
+        image_url: imageUrl,
+        kategori_id: kategoriId,
+      },
+    ]);
+
+    if (error) {
+      console.error("Error inserting donation:", error);
+      alert("Gagal menyimpan data donasi");
+    } else {
+      console.log("Donation inserted:", data);
+      alert("Data donasi berhasil disimpan");
+    }
   };
 
-  // const insertDonations = async(tittle, desc, location, ) => {
-  //   const {data, error} = await supabase
-  //   .from('donations')
-  //   .insert([
-  //     {tittle: tittle}
-  //   ])
-  // }
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    insertDonations();
+  };
 
   return (
     <div>
       <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-10">
         <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
-          <h3 className="font-semibold text-dark dark:text-white">
-            Form Donasi
-          </h3>
+          <h3 className="font-semibold text-dark dark:text-white">Form Donasi</h3>
         </div>
         <form action="#" onSubmit={handleSubmit}>
           <div className="p-6.5">
@@ -61,36 +73,39 @@ const Donasi = () => {
                 type="text"
                 placeholder="Masukan Judul"
                 customClasses="w-full xl:w-1/2"
+                value={tittle}
+                onChange={(e) => setTittle(e.target.value)}
               />
-
               <InputGroup
                 label="URL"
                 type="text"
                 placeholder="Masukan URL"
                 customClasses="w-full xl:w-1/2"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
               />
             </div>
-
             <InputGroup
               label="Lokasi"
               type="text"
               placeholder="Masukan Lokasi"
               customClasses="mb-4.5"
+              value={location}
+              onChange={(e) => setLocation(e.target.value)}
             />
-
             <div className="mb-6">
               <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
                 Deskripsi
               </label>
               <textarea
                 rows={6}
-                placeholder="Type your message"
+                placeholder="Masukan Deskripsi"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                value={desc}
+                onChange={(e) => setDesc(e.target.value)}
               ></textarea>
             </div>
-
-            <SelectKategori />
-
+            <SelectKategori onChange={(id) => setKategoriId(id)} />
             <InputGroup
               label="Target"
               type="text"
@@ -102,18 +117,21 @@ const Donasi = () => {
             <InputGroup
               label="Tenggat Waktu"
               type="text"
-              placeholder="Masukan Tenggat Waktu (dd-mm-yyy) - (01-01-2024)"
+              placeholder="Masukan Tenggat Waktu (dd-mm-yyyy)"
               customClasses="mb-4.5"
+              value={deadLine}
+              onChange={(e) => setDeadLine(e.target.value)}
             />
-
             <div className="mb-6">
               <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
                 Detail Atau Article
               </label>
               <textarea
                 rows={6}
-                placeholder="Type your message"
+                placeholder="Masukan Artikel"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                value={article}
+                onChange={(e) => setArticle(e.target.value)}
               ></textarea>
             </div>
             <div className="mb-6">
@@ -123,10 +141,10 @@ const Donasi = () => {
               <input
                 type="file"
                 className="w-full cursor-pointer rounded-[7px] border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-[#E2E8F0] file:px-6.5 file:py-[13px] file:text-body-sm file:font-medium file:text-dark-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-dark dark:border-dark-3 dark:bg-dark-2 dark:file:border-dark-3 dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                onChange={(e) => setImageUrl(e.target.files?.[0]?.name || "")}
                 placeholder="."
               />
             </div>
-
             <button
               className="flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90"
               type="submit"
