@@ -3,7 +3,6 @@ import { useEffect } from "react";
 
 const DatePickerOne = () => {
 useEffect(() => {
-  console.log(document.querySelector(".form-datepicker")); // Cek apakah elemen ditemukan
   flatpickr(".form-datepicker", {
     mode: "single",
     static: true,
@@ -20,7 +19,7 @@ useEffect(() => {
   return (
     <div>
       <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
-        Date picker
+        Tenggat Waktu
       </label>
       <div className="relative">
         <input

@@ -1,12 +1,21 @@
-'use client'
-import React, { useState } from "react";
+"use client";
+import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import InputGroup from "../../FormElements/InputGroup";
 import SelectKategori from "../../FormElements/SelectGroup/SelectKategori";
-import DatePickerTwo from "../../FormElements/DatePicker/DatePickerTwo";
+import DatePickerOne from "../../FormElements/DatePicker/DatePickerOne";
+import { supabase } from "../../../libs/supabaseClient";
+import { DonasiType } from "../../../data/donations";
 
 const Donasi = () => {
   const [target, setTarget] = useState<string>("");
+  const [tittle, setTittle] = useState<string>("");
+  const [url, setUrl] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [desc, setDesc] = useState<string>("");
+  const [deadLine, setDeadLine] = useState<string>("");
+  const [article, setArticle] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
 
   const formatNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "");
@@ -24,6 +33,18 @@ const Donasi = () => {
     setTarget(formattedValue);
   };
 
+  const handleSubmit = () => {
+    console.log("Anjay");
+  };
+
+  // const insertDonations = async(tittle, desc, location, ) => {
+  //   const {data, error} = await supabase
+  //   .from('donations')
+  //   .insert([
+  //     {tittle: tittle}
+  //   ])
+  // }
+
   return (
     <div>
       <div className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-10">
@@ -32,7 +53,7 @@ const Donasi = () => {
             Form Donasi
           </h3>
         </div>
-        <form action="#">
+        <form action="#" onSubmit={handleSubmit}>
           <div className="p-6.5">
             <div className="mb-4.5 flex flex-col gap-4.5 xl:flex-row">
               <InputGroup
@@ -72,14 +93,18 @@ const Donasi = () => {
 
             <InputGroup
               label="Target"
-              type="text" // Ganti type jadi text supaya bisa memformat angka
+              type="text"
               placeholder="Masukan Target Donasi"
               customClasses="mb-4.5"
               value={target}
-              onChange={handleTargetChange} // Handle perubahan input
+              onChange={handleTargetChange}
             />
-
-            <DatePickerTwo/>
+            <InputGroup
+              label="Tenggat Waktu"
+              type="text"
+              placeholder="Masukan Tenggat Waktu (dd-mm-yyy) - (01-01-2024)"
+              customClasses="mb-4.5"
+            />
 
             <div className="mb-6">
               <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
@@ -91,8 +116,21 @@ const Donasi = () => {
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
               ></textarea>
             </div>
+            <div className="mb-6">
+              <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
+                Upload Gambar
+              </label>
+              <input
+                type="file"
+                className="w-full cursor-pointer rounded-[7px] border-[1.5px] border-stroke bg-transparent outline-none transition file:mr-5 file:border-collapse file:cursor-pointer file:border-0 file:border-r file:border-solid file:border-stroke file:bg-[#E2E8F0] file:px-6.5 file:py-[13px] file:text-body-sm file:font-medium file:text-dark-5 file:hover:bg-primary file:hover:bg-opacity-10 focus:border-primary active:border-primary disabled:cursor-default disabled:bg-dark dark:border-dark-3 dark:bg-dark-2 dark:file:border-dark-3 dark:file:bg-white/30 dark:file:text-white dark:focus:border-primary"
+                placeholder="."
+              />
+            </div>
 
-            <button className="flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90">
+            <button
+              className="flex w-full justify-center rounded-[7px] bg-primary p-[13px] font-medium text-white hover:bg-opacity-90"
+              type="submit"
+            >
               Submit
             </button>
           </div>
