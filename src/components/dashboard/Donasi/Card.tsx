@@ -50,7 +50,7 @@ const Card = () => {
               <p className="text-gray-700 mb-2">{donasi.description}</p>
               <p className="text-gray-500 text-sm mb-4">📍 {donasi.location}</p>
               <p className="text-gray-700 font-bold">
-                Terkumpul: Rp {donasi.collected.toLocaleString("id-ID")}
+                Terkumpul: Rp {donasi.collected}
               </p>
               <p className="text-sm text-gray-500 mb-4">
                 ⏳ {donasi.daysLeft} Hari lagi

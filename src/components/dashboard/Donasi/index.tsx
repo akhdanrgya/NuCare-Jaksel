@@ -60,7 +60,7 @@ const Donasi = () => {
         target: target.replace(/\./g, ""),
         daysLeft: deadLine,
         detail: article,
-        image: imageUrl || "https://via.placeholder.com/300x200",
+        image: imageUrl,
         kategori: kategoriId,
       },
     ]);
