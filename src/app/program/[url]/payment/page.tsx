@@ -1,4 +1,4 @@
-import PaymentDonation from "../../../../../components/PaymentDonation"
+import PaymentDonation from "@/components/PaymentDonation"
 
 const Payment = () => {
     return (

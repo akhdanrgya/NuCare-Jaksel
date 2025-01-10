@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { fetchUrl } from "../data/donations";
 import { DonasiType } from "../data/donations";
-import { formatRupiah } from "../utils/formatRupiah";
+import { formatRupiah } from "@/utils/formatRupiah";
 import { useRouter } from "next/navigation";
 
 const DonasiDetail = () => {

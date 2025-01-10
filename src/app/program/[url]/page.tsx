@@ -1,5 +1,5 @@
-import DonasiDetail from "../../../../components/DonasiDetail";
-import Header from "../../../../components/Header";
+import DonasiDetail from "@/components/DonasiDetail";
+import Header from "@/components/Header";
 
 const ProgramDetail = () => {
   return (

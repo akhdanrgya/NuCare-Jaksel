@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react"
-import BeritaDetails from "../../../../components/BeritaDetails"
+import BeritaDetails from "@/components/BeritaDetails"
 
 
 const BeritaDetail = () => {

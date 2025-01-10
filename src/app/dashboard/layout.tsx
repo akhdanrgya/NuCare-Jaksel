@@ -1,5 +1,5 @@
-import { AuthProvider } from "../../../hooks/Auth";
-import ProtectedRoute from "../../../components/ProtectedRoute";
+import { AuthProvider } from "@/hooks/Auth";
+import ProtectedRoute from "@/components/ProtectedRoute";
 
 export default function DashboardLayout({
   children,

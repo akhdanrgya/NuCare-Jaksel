@@ -1,6 +1,6 @@
-import DefaultLayout from "../../../../components/dashboard/Layouts/DefaultLaout";
-import Breadcrumb from "../../../../components/Breadcrumbs/Breadcrumb";
-import Donasi from "../../../../components/dashboard/Donasi";
+import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import Donasi from "@/components/dashboard/Donasi";
 
 const DashboardDonasi = () => {
   return (

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '../../../libs/supabaseClient'
+import { supabase } from '@/libs/supabaseClient'
 import { useRouter } from 'next/navigation'
-import Login from '../../../components/Login'
+import Login from '@/components/Login'
 
 const LoginPage = () => {
   const router = useRouter()
