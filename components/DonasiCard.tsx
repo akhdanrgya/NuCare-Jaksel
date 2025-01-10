@@ -61,7 +61,7 @@ const DonasiCards: React.FC = () => {
                   📍 {donasi.location}
                 </p>
                 <p className="text-gray-700 font-bold">
-                  Terkumpul: Rp {donasi.collected.toLocaleString("id-ID")}
+                  Terkumpul: Rp {donasi.collected}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
                   ⏳ {donasi.daysLeft} Hari lagi
