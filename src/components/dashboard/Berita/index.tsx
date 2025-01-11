@@ -108,7 +108,7 @@ const Berita = () => {
                 <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
                     <h3 className="font-semibold text-dark dark:text-white">Form Donasi</h3>
                 </div>
-                <form action="#">
+                <form action="#" onSubmit={handleSubmit}>
                     <div className="p-6.5">
                         <div className="mb-4.5 flex flex-col gap-4.5 xl:flex-row">
                             <InputGroup
