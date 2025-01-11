@@ -1,10 +1,8 @@
 "use client";
-
 import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType } from "@/data/bertita";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
-import idLocale from "date-fns/locale/id";
 import { supabase } from "@/libs/supabaseClient";
 
 const Card = () => {
@@ -18,7 +16,7 @@ const Card = () => {
         };
         fetchBeritaData();
     }, []);
-    
+
     const handleCardClick = (id: number) => {
         router.push(`/berita/${id}`);
     };
@@ -69,7 +67,7 @@ const Card = () => {
                                     {data.judul}
                                 </h3>
                                 <p className="text-gray-700 mb-4">
-                                    {format(new Date(data.created_at), "dd MMMM yyyy", { locale: idLocale })}
+                                    {format(new Date(data.created_at), "dd MMMM yyyy")}
                                 </p>
                                 <div className="flex justify-between">
                                     <button
