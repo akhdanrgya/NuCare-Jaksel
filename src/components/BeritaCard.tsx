@@ -46,7 +46,7 @@ const BeritaCard: React.FC = () => {
             </div>
           ))
         ) : (
-          <p>anjay</p>
+          <p>Tidak ada berita saat ini</p>
         )}
       </div>
     </section>
