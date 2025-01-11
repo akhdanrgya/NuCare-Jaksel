@@ -35,7 +35,7 @@ const DropdownUser = () => {
         if (userData) {
           setUser(userData[0] || null);
         } else {
-          setError("Donasi tidak ditemukan");
+          setError("User tidak ditemukan");
         }
       }
     };

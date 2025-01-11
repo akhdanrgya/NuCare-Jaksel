@@ -39,6 +39,7 @@ const Donasi = () => {
     if (uploadError) {
       console.error("Error uploading file:", uploadError);
       alert("Gagal mengunggah gambar");
+      setImageUrl("https://placehold.co/300x200")
       return null;
     }
 
@@ -88,7 +89,7 @@ const Donasi = () => {
       await insertDonations(uploadedImageUrl);
     } catch (err) {
       console.error("Error handling submit:", err);
-      alert("Terjadi kesalahan saat menyimpan data");
+      alert("Terjadi kesalahan saat menyimpan data donasi");
     }
   };
 
