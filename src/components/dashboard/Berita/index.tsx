@@ -6,7 +6,6 @@ import {supabase} from "@/libs/supabaseClient";
 import {Session} from "@supabase/supabase-js";
 import {fetchRecentUser, UserType} from "@/data/user";
 
-
 const Berita = () => {
     const [tittle, setTittle] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string>("");
