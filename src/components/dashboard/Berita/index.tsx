@@ -84,10 +84,25 @@ const Berita = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        if (!tittle.trim()) {
+            alert("Judul tidak boleh kosong!");
+            return;
+        }
+
+        if (!article.trim()) {
+            alert("Artikel tidak boleh kosong!");
+            return;
+        }
+
+        const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+        const file = fileInput?.files?.[0];
+        if (!file) {
+            alert("Harap unggah gambar!");
+            return;
+        }
+
         try {
-            let uploadedImageUrl: null | string = "";
-            const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
-            const file = fileInput?.files?.[0];
+            let uploadedImageUrl: string | null = "";
             if (file) {
                 uploadedImageUrl = await uploadFile(file);
             }
@@ -98,6 +113,7 @@ const Berita = () => {
             alert("Terjadi kesalahan saat menyimpan data berita");
         }
     };
+
 
     return (
         <div>
