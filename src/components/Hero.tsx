@@ -23,6 +23,8 @@ const Hero: React.FC = () => {
                 src={src}
                 alt={`Slide ${index}`}
                 className="object-cover w-full h-full"
+                width={300}
+                height={200}
               />
             </SwiperSlide>
           ))}
