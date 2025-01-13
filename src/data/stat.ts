@@ -7,7 +7,7 @@ export type StatsType = {
 }
 
 export const fetchStats = async (): Promise<StatsType[]> => {
-  let {data, error} = await supabase
+  const {data, error} = await supabase
   .from('stats')
   .select('*')
 

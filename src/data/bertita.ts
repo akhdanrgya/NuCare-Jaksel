@@ -26,7 +26,7 @@ export const FetchBerita = async() => {
 }
 
 export const FetchBeritaById = async (idx: number): Promise<BeritaType | null> => {
-    let { data, error } = await supabase
+    const { data, error } = await supabase
         .from("berita")
         .select('*')
         .eq('id', idx)

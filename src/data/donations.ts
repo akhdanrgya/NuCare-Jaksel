@@ -15,7 +15,7 @@ export type DonasiType = {
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
-  let { data, error } = await supabase.from("donations").select("*");
+  const { data, error } = await supabase.from("donations").select("*");
 
   if (error) {
     console.log(`Error: ${error.message}`);
@@ -40,7 +40,7 @@ export const insertDonations = async (
 };
 
 export const fetchUrl = async (url: string): Promise<DonasiType | null> => {
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("donations")
     .select("*")
     .eq("url", url)

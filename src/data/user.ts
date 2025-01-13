@@ -8,7 +8,7 @@ export type UserType = {
 };
 
 export const fetchUser = async (): Promise<UserType[]> => {
-  let { data, error } = await supabase.from("profiles").select("*");
+  const { data, error } = await supabase.from("profiles").select("*");
 
   if (error) {
     console.log(`Error: ${error.message}`);
@@ -19,7 +19,7 @@ export const fetchUser = async (): Promise<UserType[]> => {
 };
 
 export const fetchRecentUser = async (id: string): Promise<UserType[]> => {
-  let { data, error } = await supabase
+  const { data, error } = await supabase
     .from("profiles")
     .select("*")
     .eq("id", id);
