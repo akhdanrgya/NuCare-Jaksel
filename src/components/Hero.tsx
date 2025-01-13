@@ -4,6 +4,7 @@ import 'swiper/css';
 import imageCarousel from '../data/image';
 import HeaderCard from './HeaderCard';
 import Stats from './Stats';
+import Image from "next/image";
 
 const Hero: React.FC = () => {
   return (
@@ -18,7 +19,7 @@ const Hero: React.FC = () => {
         >
           {imageCarousel.map((src, index) => (
             <SwiperSlide key={index}>
-              <img
+              <Image
                 src={src}
                 alt={`Slide ${index}`}
                 className="object-cover w-full h-full"

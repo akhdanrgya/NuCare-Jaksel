@@ -2,6 +2,7 @@
 import {useEffect, useState} from "react";
 import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
 import {useRouter} from "next/navigation";
+import Image from "next/image";
 
 const DonasiCards: React.FC = () => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
@@ -48,7 +49,7 @@ const DonasiCards: React.FC = () => {
                             className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
                             onClick={() => handleCardClick(donasi.url)}
                         >
-                            <img
+                            <Image
                                 src={donasi.image}
                                 alt={donasi.tittle}
                                 className="w-full h-48 object-cover rounded-t-lg"

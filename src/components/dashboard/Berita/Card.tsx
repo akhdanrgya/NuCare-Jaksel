@@ -4,6 +4,7 @@ import { FetchBerita, BeritaType } from "@/data/bertita";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
 import { supabase } from "@/libs/supabaseClient";
+import Image from "next/image";
 
 const Card = () => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
@@ -54,7 +55,7 @@ const Card = () => {
                             key={data.id}
                             className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
                         >
-                            <img
+                            <Image
                                 src={data.image}
                                 alt={data.judul}
                                 className="w-full h-48 object-cover rounded-t-lg"

@@ -8,6 +8,7 @@ import {
   insertDonations,
 } from "../../../data/donations";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const Card = () => {
   const [donations, setDonations] = useState<DonasiType[]>([]);
@@ -38,7 +39,7 @@ const Card = () => {
             className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
             onClick={() => handleCardClick(donasi.url)}
           >
-            <img
+            <Image
               src={donasi.image}
               alt={donasi.tittle}
               className="w-full h-48 object-cover rounded-t-lg"

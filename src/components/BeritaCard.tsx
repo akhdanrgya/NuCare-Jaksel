@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType } from "../data/bertita";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const BeritaCard: React.FC = () => {
   const [berita, setBerita] = useState<BeritaType[]>([]);
@@ -34,7 +35,7 @@ const BeritaCard: React.FC = () => {
               key={idx}
               onClick={() => handleCardClick(data.id)}
             >
-              <img
+              <Image
                 src={data.image}
                 alt={data.judul}
                 className="w-full h-48 object-cover rounded-t-lg"
