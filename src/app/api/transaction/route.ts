@@ -1,13 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createTransaction from '@/libs/transaction';
 
-export async function POST(req: NextRequest) {
+interface TransactionResult {
+  token: string;
+  redirect_url: string;
+}
+
+export async function POST(req: NextRequest): Promise<Response> {
   try {
     const body = await req.json();
 
     const params = {
       transaction_details: {
-        order_id: body.order_id || 'default_order_id',
+        order_id: body.order_id || `order_${Date.now()}`,
         gross_amount: body.gross_amount || 0,
       },
       customer_details: {
@@ -17,28 +22,26 @@ export async function POST(req: NextRequest) {
       },
     };
 
-    return new Promise((resolve) => {
-      createTransaction(params, (transaction: { token: string; redirect_url: string }, error: any) => {
+    const transaction = await new Promise<TransactionResult>((resolve, reject) => {
+      createTransaction(params, (transaction, error) => {
         if (error) {
-          const errorDetails = {
-            message: error.message || 'Unknown error',
-            code: error.code || 'Unknown code',
-          };
-
-          resolve(
-            NextResponse.json({ error: 'Transaction creation failed', details: errorDetails }, { status: 500 })
-          );
+          reject(error);
+        } else if (transaction) {
+          resolve(transaction);
         } else {
-          resolve(
-            NextResponse.json({
-              token: transaction.token,
-              redirect_url: transaction.redirect_url,
-            })
-          );
+          reject(new Error('Transaction is null'));
         }
       });
     });
-  } catch (error : any) {
-    return NextResponse.json({ error: 'Invalid request body', details: error.message }, { status: 400 });
+
+    return NextResponse.json({
+      token: transaction.token,
+      redirect_url: transaction.redirect_url,
+    });
+  } catch (error: any) {
+    return NextResponse.json(
+        { error: 'Transaction creation failed', details: error.message || 'Unknown error' },
+        { status: 500 }
+    );
   }
 }
