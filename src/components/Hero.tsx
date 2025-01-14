@@ -19,12 +19,10 @@ const Hero: React.FC = () => {
         >
           {imageCarousel.map((src, index) => (
             <SwiperSlide key={index}>
-              <Image
+              <img
                 src={src}
                 alt={`Slide ${index}`}
                 className="object-cover w-full h-full"
-                width={300}
-                height={200}
               />
             </SwiperSlide>
           ))}
