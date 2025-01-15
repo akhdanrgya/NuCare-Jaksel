@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType } from "@/data/bertita";
 import { useRouter } from "next/navigation";
@@ -31,8 +32,15 @@ const Card = () => {
         if (!confirmDelete) return;
 
         try {
+            const fileName = url.split("/").pop();
+
+            if (!fileName) {
+                alert("URL file tidak valid!");
+                return;
+            }
+
             const { error: deleteError } = await supabase.from("berita").delete().eq("id", id);
-            const { error: storageError } = await supabase.storage.from("beritaimage").remove([url]);
+            const { error: storageError } = await supabase.storage.from("beritaimage").remove([fileName]);
 
             if (deleteError || storageError) {
                 alert("Berita gagal dihapus!");
@@ -40,11 +48,13 @@ const Card = () => {
                 alert("Berita berhasil dihapus!");
                 setBerita((prev) => prev.filter((item) => item.id !== id));
             }
+
         } catch (error) {
             console.error("Error deleting berita:", error);
             alert("Terjadi kesalahan saat menghapus berita.");
         }
     };
+
 
     return (
         <section className="py-24 bg-gray-100">
@@ -59,6 +69,8 @@ const Card = () => {
                                 src={data.image}
                                 alt={data.judul}
                                 className="w-full h-48 object-cover rounded-t-lg"
+                                height={200}
+                                width={300}
                             />
                             <div className="p-4">
                                 <h3

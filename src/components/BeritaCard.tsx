@@ -39,6 +39,8 @@ const BeritaCard: React.FC = () => {
                 src={data.image}
                 alt={data.judul}
                 className="w-full h-48 object-cover rounded-t-lg"
+                height={200}
+                width={300}
               />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-black mb-2">{data.judul}</h3>
