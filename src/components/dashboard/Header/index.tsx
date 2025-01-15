@@ -102,10 +102,6 @@ const Header = (props: {
             <SearchForm />
             {/* <!-- Search Form --> */}
 
-            {/* <!-- Dark Mode Toggle --> */}
-            <DarkModeSwitcher />
-            {/* <!-- Dark Mode Toggle --> */}
-
             {/* <!-- Notification Menu Area --> */}
             <DropdownNotification />
             {/* <!-- Notification Menu Area --> */}

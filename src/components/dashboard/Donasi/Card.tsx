@@ -43,6 +43,8 @@ const Card = () => {
               src={donasi.image}
               alt={donasi.tittle}
               className="w-full h-48 object-cover rounded-t-lg"
+              height={200}
+              width={300}
             />
             <div className="p-4">
               <h3 className="text-lg font-semibold text-green-600 mb-2">

@@ -9,6 +9,7 @@ const Home: React.FC = () => {
     return (
         <>
             <Analytics/>
+
             <Header/>
             <Hero/>
             <DonasiCards/>
