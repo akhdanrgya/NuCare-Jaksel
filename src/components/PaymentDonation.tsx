@@ -3,6 +3,8 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { fetchUrl, DonasiType } from "../data/donations";
 import { DonaturType, insertDonatur } from "../data/donatur";
+import {updateCollected} from "../data/donations";
+import { v4 as uuidv4 } from "uuid";
 
 const PaymentDonation = () => {
   const { url } = useParams();
@@ -39,9 +41,7 @@ const PaymentDonation = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     setDone(true);
     event.preventDefault();
-    const timestamp = Date.now();
-    const randomNum = Math.floor(Math.random() * 900000) + 100000;
-    const orderId = `${donation?.url}-${timestamp}-${randomNum}`;
+    const orderId = uuidv4();
 
     const data = {
       order_id: orderId,
@@ -68,6 +68,7 @@ const PaymentDonation = () => {
           "_blank",
           "width=600,height=400,resizable,scrollbars=yes"
         );
+        console.log("Generated orderId: ", orderId)
         setOrderId(orderId);
         startPollingStatus(orderId);
       } else {
@@ -87,7 +88,8 @@ const PaymentDonation = () => {
           setStatus(data);
           if (data.transaction_status === "settlement") {
             clearInterval(interval);
-            insert();
+            insert(orderId);
+            updateCollected(donation?.id ?? 0, parseInt(amount))
           }
         } else {
           setError("Failed to fetch status");
@@ -98,15 +100,15 @@ const PaymentDonation = () => {
     }, 5000);
   };
 
-  const insert = async () => {
+  const insert = async (orderIdx: string) => {
     const donaturData: DonaturType = {
       id: 0,
-      name,
+      name: name,
       value: parseInt(amount),
       donationsId: donation?.id ?? 0,
       notelp: parseInt(phoneNumber),
-      email,
-      orderId,
+      email: email,
+      orderId: orderIdx,
     };
 
     try {
