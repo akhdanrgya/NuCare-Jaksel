@@ -91,6 +91,12 @@ const DonasiDetail = () => {
           </div>
         </div>
       </div>
+
+      {/*Article*/}
+
+      <div className="max-w-7xl mx-auto py-10 px-5 md:px-10 flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-10">
+        <p>{donation?.detail}</p>
+      </div>
     </section>
   );
 };
