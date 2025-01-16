@@ -83,7 +83,7 @@ const DataStatsOne: React.FC<dataStats> = () => {
                 </svg>
             ),
             color: "#FF9C55",
-            title: "Total Profit",
+            title: "Total Pendapatan Donasi",
             value: formatToRupiah(profit),
             growthRate: 4.35,
         },
@@ -111,7 +111,7 @@ const DataStatsOne: React.FC<dataStats> = () => {
                 </svg>
             ),
             color: "#8155FF",
-            title: "Total Donations",
+            title: "Total Donasi",
             value: totalProducts,
             growthRate: 2.59,
         },

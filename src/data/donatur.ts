@@ -29,7 +29,7 @@ export const insertDonatur = async (donaturData: DonaturType) => {
       throw new Error(error.message);
     }
 
-    return data; // Mengembalikan data yang berhasil disimpan
+    return data;
   } catch (error) {
     console.error("Error inserting donatur:", error);
     throw error;
