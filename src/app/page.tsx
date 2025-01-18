@@ -4,6 +4,7 @@ import DonasiCards from "@/components/DonasiCard";
 import Footer from "@/components/Footer";
 import BeritaCard from "@/components/BeritaCard";
 import {Analytics} from "@vercel/analytics/react"
+import Profile from "@/components/Profile";
 
 const Home: React.FC = () => {
     return (
@@ -14,6 +15,7 @@ const Home: React.FC = () => {
             <Hero/>
             <DonasiCards/>
             <BeritaCard/>
+            <Profile/>
             <Footer/>
 
         </>
