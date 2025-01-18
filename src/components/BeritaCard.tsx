@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType } from "../data/bertita";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import {format} from "date-fns";
+
 
 const BeritaCard: React.FC = () => {
   const [berita, setBerita] = useState<BeritaType[]>([]);
@@ -44,7 +46,7 @@ const BeritaCard: React.FC = () => {
               />
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-black mb-2">{data.judul}</h3>
-                <p className="text-gray-700 mb-2">{data.created_at}</p>
+                <p className="text-gray-700 mb-2">{format(new Date(data.created_at), "dd MMMM yyyy")}</p>
               </div>
             </div>
           ))
