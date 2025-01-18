@@ -1,6 +1,12 @@
+import Header from "@/components/Header";
+import BeritaCard from "@/components/BeritaCard";
+
 const Berita = () => {
-    return(
-        <div>Berita page</div>
+    return (
+        <>
+            <Header/>
+            <BeritaCard/>
+        </>
     )
 }
 
