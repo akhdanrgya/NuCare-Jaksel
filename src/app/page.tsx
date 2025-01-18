@@ -12,10 +12,12 @@ const Home: React.FC = () => {
             <Analytics/>
 
             <Header/>
+
             <Hero/>
             <DonasiCards/>
             <BeritaCard/>
             <Profile/>
+
             <Footer/>
 
         </>

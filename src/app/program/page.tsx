@@ -6,7 +6,7 @@ const program = () => {
     return (
         <>
             <Header/>
-            <DonasiCards/>
+            <DonasiCards lainnya={false}/>
         </>
     )
 }

@@ -5,7 +5,7 @@ const Berita = () => {
     return (
         <>
             <Header/>
-            <BeritaCard/>
+            <BeritaCard lainnya={false}/>
         </>
     )
 }

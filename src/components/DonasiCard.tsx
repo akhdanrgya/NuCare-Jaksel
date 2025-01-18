@@ -5,7 +5,11 @@ import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 
-const DonasiCards: React.FC = () => {
+interface DonasiCardsProps {
+    lainnya?: boolean;
+}
+
+const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
@@ -80,14 +84,16 @@ const DonasiCards: React.FC = () => {
                     </div>
                 )}
             </div>
-            <div className="container mx-auto text-center mt-8">
-                <button
-                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
-                    onClick={() => handleProgramClick()}
-                >
-                    Program Lainnya
-                </button>
-            </div>
+            {lainnya ? (
+                <div className="container mx-auto text-center mt-8">
+                    <button
+                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
+                        onClick={() => handleProgramClick()}
+                    >
+                        Program Lainnya
+                    </button>
+                </div>
+            ) : null}
         </section>
     );
 };
