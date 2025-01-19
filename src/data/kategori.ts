@@ -16,3 +16,18 @@ export const fetchKategori = async (): Promise<KategoriType[]> => {
 
     return data || []
 }
+
+export const fetchKategoriById = async (id: number) => {
+    const { data, error } = await supabase
+        .from("kategori")
+        .select("tittle")
+        .eq("id", id)
+        .single();
+
+    if (error) {
+        console.error(`Error: ${error.message}`);
+        return null;
+    }
+
+    return data?.tittle || null;
+};

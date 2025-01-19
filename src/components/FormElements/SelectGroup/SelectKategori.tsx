@@ -1,13 +1,19 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchKategori, KategoriType } from "../../../data/kategori";
+import { fetchKategori, KategoriType, fetchKategoriById } from "../../../data/kategori";
 
-const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
-  onChange,
+interface SelectKategoriProps {
+  defaultValue: number;
+  onChange: (id: string) => void
+}
+
+const SelectKategori: React.FC<SelectKategoriProps> = ({
+  onChange, defaultValue
 }) => {
   const [selectedOption, setSelectedOption] = useState<string>("");
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [kategori, setKategori] = useState<KategoriType[]>([]);
+  const [defaultKategori, setDefaultKategori] = useState<KategoriType[]>([]);
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
@@ -20,6 +26,18 @@ const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
     };
     fetchKategoriData();
   }, []);
+
+  useEffect(() => {
+    const fetchKategoriByIdx = async () => {
+      if (!defaultValue) return;
+
+      const dataKategori = await fetchKategoriById(defaultValue);
+      setDefaultKategori(dataKategori);
+    };
+
+    fetchKategoriByIdx();
+    console.log("default kategori", defaultKategori);
+  }, [defaultValue]);
 
   return (
     <div className="mb-4.5">

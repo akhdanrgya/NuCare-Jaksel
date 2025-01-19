@@ -38,7 +38,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
   React.useEffect(() => {
     if (defaultValues) {
       console.log(defaultValues);
-      setFormData(defaultValues); // Set default values kalau tersedia
+      setFormData(defaultValues);
     }
   }, [defaultValues]);
 
@@ -170,7 +170,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 onChange={(e) => setDesc(e.target.value)}
               ></textarea>
             </div>
-            <SelectKategori onChange={(id) => setKategoriId(id)} />
+            <SelectKategori onChange={(id) => setKategoriId(id)} defaultValue={formData.kategori} />
 
             <InputGroup
               label="Target"
