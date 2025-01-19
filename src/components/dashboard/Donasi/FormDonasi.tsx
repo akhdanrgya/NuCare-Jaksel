@@ -13,7 +13,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
   const [url, setUrl] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
-  const [deadLine, setDeadLine] = useState<string>("");
+  const [deadLine, setDeadLine] = useState<Date>(new Date());
   const [article, setArticle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [kategoriId, setKategoriId] = useState<string>("");
@@ -31,7 +31,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
       donatur: 0,
       url: "",
       kategori: 0,
-      target: ""
+      target: 0
     }
   );
 
@@ -57,8 +57,8 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
 
   const handleTargetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    const formattedValue = formatNumber(rawValue);
-    setTarget(formattedValue);
+    const formattedValue = Number(rawValue);
+    setFormData((prev) => ({ ...prev, target: formattedValue }));
   };
 
   const uploadFile = async (file: File) => {
@@ -84,21 +84,23 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
   const insertDonations = async (uploadedImageUrl: string | null) => {
     const { data, error } = await supabase.from("donations").insert([
       {
-        title,
-        url,
-        location,
-        description: desc,
-        target: target.replace(/\./g, ""),
-        daysLeft: deadLine,
-        detail: article,
-        image: uploadedImageUrl || imageUrl,
-        kategori: kategoriId,
+        title: formData.title,
+        url: formData.url,
+        location: formData.location,
+        description: formData.description,
+        target: String(formData.target).replace(/\./g, ""),
+        daysLeft: formData.daysLeft,
+        detail: formData.detail,
+        image: uploadedImageUrl || formData.image,
+        kategori: formData.kategori,
         collected: 0
       },
+
+      console.table(formData)
     ]);
 
     if (error) {
-      console.error("Error inserting donation:", error);
+      console.error("Error inserting donation:", error.message);
       alert("Gagal menyimpan data donasi");
     } else {
       console.log("Donation inserted:", data);
@@ -177,8 +179,8 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
               type="text"
               placeholder="Masukan Target Donasi"
               customClasses="mb-4.5"
-              value={formData.target}
-              onChange={(e) => setFormData((prev) => ({ ...prev, target: e.target.value }))}
+              value={String(formData.target)}
+              onChange={handleTargetChange}
             />
 
             <InputGroup
@@ -187,7 +189,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
               placeholder="Masukan Tenggat Donasi"
               customClasses="mb-4.5"
               value={formData.daysLeft}
-              onChange={(e) => setFormData((prev) => ({ ...prev, daysLeft: e.target.value }))}
+              onChange={handleChange}
             />
 
             <div className="mb-6">

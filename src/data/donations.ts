@@ -12,7 +12,7 @@ export type DonasiType = {
   donatur: number;
   url: string;
   kategori: number;
-  target: string;
+  target: number;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
