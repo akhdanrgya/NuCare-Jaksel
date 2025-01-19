@@ -109,7 +109,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                     judul: formData.judul,
                     article: formData.article,
                     author_name: user?.username,
-                    image: uploadedImageUrl || imageUrl,
+                    image: uploadedImageUrl || formData.image,
                 }
             ])
             .eq("id", id)
@@ -138,7 +138,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
 
         const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')
         const file = fileInput?.files?.[0]
-        if (!file) {
+        if (!file && !formData.image.trim()) {
             alert("Harap unggah gambar!")
             return
         }
