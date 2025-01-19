@@ -1,11 +1,14 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { fetchKategori, KategoriType } from "../../../data/kategori";
+import { fetchKategori, KategoriType, fetchKategoriById } from "../../../data/kategori";
 
-const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
-  onChange,
-}) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+interface SelectKategoriProps {
+  defaultValue: number;
+  onChange: (id: string) => void;
+}
+
+const SelectKategori: React.FC<SelectKategoriProps> = ({ onChange, defaultValue }) => {
+  const [selectedOption, setSelectedOption] = useState<string>(defaultValue.toString());
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [kategori, setKategori] = useState<KategoriType[]>([]);
 
@@ -20,6 +23,20 @@ const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
     };
     fetchKategoriData();
   }, []);
+
+  useEffect(() => {
+    const fetchKategoriByIdx = async () => {
+      if (defaultValue) {
+        const dataKategori = await fetchKategoriById(defaultValue);
+        if (dataKategori) {
+          setSelectedOption(dataKategori.id.toString());
+        }
+      }
+    };
+    fetchKategoriByIdx();
+  }, [defaultValue]);
+
+  console.log(selectedOption);
 
   return (
     <div className="mb-4.5">
@@ -36,16 +53,14 @@ const SelectKategori: React.FC<{ onChange: (id: string) => void }> = ({
             changeTextColor();
             onChange(e.target.value);
           }}
-          className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${
-            isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"
-          }`}
+          className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"}`}
         >
           <option value="" disabled>
             Select Kategori
           </option>
           {kategori.length > 0 ? (
-            kategori.map((data, id) => (
-              <option key={id} value={data.id}>
+            kategori.map((data) => (
+              <option key={data.id} value={data.id.toString()}>
                 {data.tittle}
               </option>
             ))

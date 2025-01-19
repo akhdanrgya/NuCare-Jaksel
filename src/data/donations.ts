@@ -2,16 +2,17 @@ import { supabase } from "../libs/supabaseClient";
 
 export type DonasiType = {
   id: number;
-  tittle: string;
+  title: string;
   description: string;
   location: string;
   collected: number;
-  daysLeft: number;
+  daysLeft: string;
   image: string;
   detail: string;
   donatur: number;
   url: string;
   kategori: number;
+  target: number;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
@@ -70,45 +71,19 @@ export const fetchDonationsByKategori = async (
   return data || null;
 };
 
-export const updateCollected = async (
-    idDonations: number,
-    value: number
-): Promise<boolean> => {
-  try {
-    const { data, error: fetchError } = await supabase
-        .from("donations")
-        .select("collected")
-        .eq("id", idDonations)
-        .single();
+export const fetchDonationById = async (id: number): Promise<DonasiType | null> => {
+  const { data, error } = await supabase
+    .from("donations")
+    .select('*')
+    .eq('id', id)
+    .single()
 
-    if (fetchError) {
-      console.error(`Error fetching collected value: ${fetchError.message}`);
-      return false;
-    }
 
-    if (!data) {
-      console.error("Donation not found");
-      return false;
-    }
 
-    const newCollected = data.collected + value;
-
-    const { error: updateError } = await supabase
-        .from("donations")
-        .update({ collected: newCollected })
-        .eq("id", idDonations);
-
-    if (updateError) {
-      console.error(`Error updating collected: ${updateError.message}`);
-      return false;
-    }
-
-    console.log("Collected updated successfully");
-    return true;
-  } catch (err) {
-    console.error("Unexpected error updating collected:", err);
-    return false;
+  if (error) {
+    console.error(`Error fetching berita by id: ${error.message}`)
+    return null
   }
+
+  return data as DonasiType || null
 };
-
-

@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
-import Dashboard from "@/components/dashboard";
+import { ApexOptions } from "apexcharts";
+import React from "react";
+
 
 const DashboardPage = () => {
   const [session, setSession] = useState<Session | null>(null);
@@ -28,7 +30,11 @@ const DashboardPage = () => {
 
   return (
     <DefaultLayout>
-      <Dashboard/>
+      <div>
+        <h1>Welcome to the Dashboard</h1>
+        <p>User ID: {session.user.id}</p>
+        <button onClick={() => supabase.auth.signOut()}>Sign Out</button>
+      </div>
     </DefaultLayout>
   );
 };

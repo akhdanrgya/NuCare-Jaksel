@@ -1,6 +1,13 @@
+import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
+import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
+import FormBerita from "@/components/dashboard/Berita/FormBerita";
+
 const AddBerita = () => {
-    return(
-        <div>ini form isinya ntar</div>
+    return (
+        <DefaultLayout>
+            <Breadcrumb pageName="Tambah Berita" />
+            <FormBerita />
+        </DefaultLayout>
     )
 }
 
