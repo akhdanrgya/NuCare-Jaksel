@@ -10,47 +10,46 @@ import FormDonasi from "@/components/dashboard/Donasi/FormDonasi";
 const EditBerita = () => {
     const { id } = useParams(); // Ambil parameter id dari URL
     const [donationData, setDonationData] = useState<DonasiType | null>(null);
-    const [loading, setLoading] = useState<boolean>(true); // Untuk menangani status loading
-    const [error, setError] = useState<string | null>(null); // Untuk menangani error
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchDonasi = async () => {
             if (id) {
-                setLoading(true); // Mulai loading data
+                setLoading(true);
                 try {
-                    const data = await fetchDonationById(Number(id)); // Ambil data berita berdasarkan id
+                    const data = await fetchDonationById(Number(id));
                     console.log(`datanya: ${data}`)
                     setDonationData(data);
                 } catch (err) {
-                    setError("Failed to load data"); // Set error jika fetch gagal
+                    setError("Failed to load data");
                 } finally {
-                    setLoading(false); // Selesai loading
+                    setLoading(false);
                 }
             }
         };
 
-        // Hanya panggil fetchBerita jika id sudah ada
         if (id) {
             fetchDonasi();
         }
     }, [id]);
 
     if (loading) {
-        return <p>Loading...</p>; // Tampilkan loading saat data sedang diambil
+        return <p>Loading...</p>;
     }
 
     if (error) {
-        return <p>{error}</p>; // Tampilkan error jika terjadi masalah
+        return <p>{error}</p>;
     }
 
     if (!donationData) {
-        return <p>Data not found</p>; // Tampilkan pesan jika data tidak ditemukan
+        return <p>Data not found</p>;
     }
 
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Edit Donasi" />
-            <FormDonasi defaultValues={donationData} />
+            <FormDonasi defaultValues={donationData} editing={true}/>
         </DefaultLayout>
     )
 }
