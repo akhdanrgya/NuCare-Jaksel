@@ -139,7 +139,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 placeholder="Masukan Judul"
                 customClasses="w-full xl:w-1/2"
                 value={formData.title}
-                onChange={(e) => setTittle(e.target.value)}
+                onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
               />
               <InputGroup
                 label="URL"
@@ -147,7 +147,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 placeholder="Masukkan URL"
                 customClasses="w-full xl:w-1/2"
                 value={formData.url}
-                onChange={(e) => setUrl(e.target.value)}
+                onChange={(e) => setFormData((prev) => ({ ...prev, url: e.target.value }))}
               />
             </div>
             <InputGroup
@@ -156,7 +156,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
               placeholder="Masukan Lokasi"
               customClasses="mb-4.5"
               value={formData.location}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => setFormData((prev) => ({ ...prev, location: e.target.value }))}
             />
             <div className="mb-6">
               <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
@@ -167,7 +167,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 placeholder="Masukan Deskripsi"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                 value={formData.description}
-                onChange={(e) => setDesc(e.target.value)}
+                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
               ></textarea>
             </div>
             <SelectKategori onChange={(id) => setKategoriId(id)} defaultValue={formData.kategori} />
@@ -178,7 +178,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
               placeholder="Masukan Target Donasi"
               customClasses="mb-4.5"
               value={formData.target}
-              onChange={(e) => setLocation(e.target.value)}
+              onChange={(e) => setFormData((prev) => ({ ...prev, target: e.target.value }))}
             />
 
             <InputGroup
@@ -187,7 +187,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
               placeholder="Masukan Tenggat Donasi"
               customClasses="mb-4.5"
               value={formData.daysLeft}
-              onChange={handleTargetChange}
+              onChange={(e) => setFormData((prev) => ({ ...prev, daysLeft: e.target.value }))}
             />
 
             <div className="mb-6">
@@ -199,7 +199,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 placeholder="Masukan Artikel"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                 value={formData.detail}
-                onChange={(e) => setArticle(e.target.value)}
+                onChange={(e) => setFormData((prev) => ({ ...prev, detail: e.target.value }))}
               ></textarea>
             </div>
             <div className="mb-6">
