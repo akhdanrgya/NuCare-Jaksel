@@ -9,9 +9,9 @@ export type KategoriType = {
 export const fetchKategori = async (): Promise<KategoriType[]> => {
     const { data, error } = await supabase.from("kategori").select("*")
 
-    if (error){
+    if (error) {
         console.log(`Error: ${error.message}`)
-        return[]
+        return []
     }
 
     return data || []
@@ -20,7 +20,7 @@ export const fetchKategori = async (): Promise<KategoriType[]> => {
 export const fetchKategoriById = async (id: number) => {
     const { data, error } = await supabase
         .from("kategori")
-        .select("tittle")
+        .select("*")
         .eq("id", id)
         .single();
 
@@ -29,5 +29,5 @@ export const fetchKategoriById = async (id: number) => {
         return null;
     }
 
-    return data?.tittle || null;
+    return data || null;
 };

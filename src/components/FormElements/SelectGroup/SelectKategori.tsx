@@ -4,16 +4,13 @@ import { fetchKategori, KategoriType, fetchKategoriById } from "../../../data/ka
 
 interface SelectKategoriProps {
   defaultValue: number;
-  onChange: (id: string) => void
+  onChange: (id: string) => void;
 }
 
-const SelectKategori: React.FC<SelectKategoriProps> = ({
-  onChange, defaultValue
-}) => {
-  const [selectedOption, setSelectedOption] = useState<string>("");
+const SelectKategori: React.FC<SelectKategoriProps> = ({ onChange, defaultValue }) => {
+  const [selectedOption, setSelectedOption] = useState<string>(defaultValue.toString());
   const [isOptionSelected, setIsOptionSelected] = useState<boolean>(false);
   const [kategori, setKategori] = useState<KategoriType[]>([]);
-  const [defaultKategori, setDefaultKategori] = useState<KategoriType[]>([]);
 
   const changeTextColor = () => {
     setIsOptionSelected(true);
@@ -29,14 +26,14 @@ const SelectKategori: React.FC<SelectKategoriProps> = ({
 
   useEffect(() => {
     const fetchKategoriByIdx = async () => {
-      if (!defaultValue) return;
-
-      const dataKategori = await fetchKategoriById(defaultValue);
-      setDefaultKategori(dataKategori);
+      if (defaultValue) {
+        const dataKategori = await fetchKategoriById(defaultValue);
+        if (dataKategori) {
+          setSelectedOption(dataKategori.id.toString());  // Set selected option based on default value
+        }
+      }
     };
-
     fetchKategoriByIdx();
-    console.log("default kategori", defaultKategori);
   }, [defaultValue]);
 
   return (
@@ -54,16 +51,14 @@ const SelectKategori: React.FC<SelectKategoriProps> = ({
             changeTextColor();
             onChange(e.target.value);
           }}
-          className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${
-            isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"
-          }`}
+          className={`relative z-20 w-full appearance-none rounded-[7px] border border-stroke bg-transparent px-5.5 py-3 outline-none transition focus:border-primary active:border-primary dark:border-dark-3 dark:bg-dark-2 dark:focus:border-primary ${isOptionSelected ? "text-dark dark:text-white" : "text-dark-6"}`}
         >
           <option value="" disabled>
             Select Kategori
           </option>
           {kategori.length > 0 ? (
-            kategori.map((data, id) => (
-              <option key={id} value={data.id}>
+            kategori.map((data) => (
+              <option key={data.id} value={data.id.toString()}>
                 {data.tittle}
               </option>
             ))
