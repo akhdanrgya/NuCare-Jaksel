@@ -142,6 +142,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             alert("Harap unggah gambar!")
             return
         }
+        
 
         try {
             let uploadedImageUrl: string | null = ""
