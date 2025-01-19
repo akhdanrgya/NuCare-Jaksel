@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "./DonasiPage";
 import InputGroup from "../../FormElements/InputGroup";
 import SelectKategori from "../../FormElements/SelectGroup/SelectKategori";
@@ -18,6 +18,8 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [kategoriId, setKategoriId] = useState<string>("");
 
+
+
   const [formData, setFormData] = React.useState<DonasiType>(
     defaultValues || {
       id: 0,
@@ -26,7 +28,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
       location: "",
       collected: 0,
       daysLeft: new Date().toISOString().split("T")[0],
-      image: "",
+      image: imageUrl,
       detail: "",
       donatur: 0,
       url: "",
@@ -35,12 +37,21 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
     }
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (defaultValues) {
       console.log(defaultValues);
       setFormData(defaultValues);
     }
   }, [defaultValues]);
+
+  useEffect(() => {
+    if (kategoriId) {
+      setFormData((prev) => ({
+        ...prev,
+        kategori: parseInt(kategoriId, 10) || 0
+      }));
+    }
+  }, [kategoriId]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
