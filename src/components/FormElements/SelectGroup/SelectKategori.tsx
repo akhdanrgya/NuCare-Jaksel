@@ -29,12 +29,14 @@ const SelectKategori: React.FC<SelectKategoriProps> = ({ onChange, defaultValue 
       if (defaultValue) {
         const dataKategori = await fetchKategoriById(defaultValue);
         if (dataKategori) {
-          setSelectedOption(dataKategori.id.toString());  // Set selected option based on default value
+          setSelectedOption(dataKategori.id.toString());
         }
       }
     };
     fetchKategoriByIdx();
   }, [defaultValue]);
+
+  console.log(selectedOption);
 
   return (
     <div className="mb-4.5">
