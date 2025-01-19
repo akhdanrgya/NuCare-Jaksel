@@ -149,12 +149,17 @@ const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
                 uploadedImageUrl = await uploadFile(file);
             }
 
-            await insertDonations(uploadedImageUrl);
+            if (editing) {
+                await updateDonations(uploadedImageUrl);
+            } else {
+                await insertDonations(uploadedImageUrl);
+            }
         } catch (err) {
             console.error("Error handling submit:", err);
             alert("Terjadi kesalahan saat menyimpan data donasi");
         }
     };
+
 
     return (
         <div>
