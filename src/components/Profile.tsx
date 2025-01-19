@@ -1,16 +1,33 @@
 import React from "react";
+import YoutubeVideoFrame from "@/components/YoutubeVideoFrame";
 
 const Profile = () => {
     return (
         <section className="py-24">
-            <div className="container">
-                <div className="row d-flex justify-content-center align-items-center">
-                    <div className="col">gambar</div>
-                    <div className="col-12">anjay</div>
+            <div className="container mx-auto px-4">
+
+                <div className="flex flex-col lg:flex-row items-center gap-4 justify-center">
+                    <div className="w-2/5">
+                        <YoutubeVideoFrame videoId="S4kgqJnMELk" />
+                    </div>
+
+                    <div className="lg:w-1/2 w-full">
+                        <p className="text-justify leading-relaxed">
+                            19 tahun sudah LAZISNU PBNU berkiprah di dunia filantropi, dalam misi kemanusiaan. Dengan melibatkan lebih
+                            dari ratusan ribu donatur dan relawan, LAZISNU telah memberikan manfaat kepada jutaan jiwa/warga yang
+                            membutuhkan.
+                            <br />
+                            <br />
+                            Guna membangun LAZISNU menjadi satu struktur lembaga yang koheren, serta memanfaatkan potensi era digital
+                            untuk meningkatkan efisiensi, transparansi dan partisipasi dalam pengumpulan dan pengelolaan zakat, maka
+                            di tahun 2024 LAZISNU PBNU melaksanakan Rapat Kerja Nasional (Rakernas) dengan mengambil tema "Unlocking
+                            the Potential of Amil Zakat in the Digital Era”.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
-    )
-}
+    );
+};
 
-export default Profile
+export default Profile;
