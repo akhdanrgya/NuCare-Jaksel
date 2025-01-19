@@ -8,6 +8,7 @@ import { supabase } from "@/libs/supabaseClient";
 import Image from "next/image";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import Form from "@/components/dashboard/Berita/FormBerita";
+import Link from "next/link";
 
 const Berita = () => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
@@ -63,16 +64,13 @@ const Berita = () => {
             <div className="">
                 <h1>List Berita</h1>
                 <div className="">
-                    <Popover key="blur" showArrow={false}>
-                        <PopoverTrigger>
-                            <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                                Tambah Berita
-                            </button>
-                        </PopoverTrigger>
-                        <PopoverContent className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[300px] p-6 bg-white rounded-md shadow-lg">
-                            <Form />
-                        </PopoverContent>
-                    </Popover>
+                    <Link href="/dashboard/berita/add">
+                        <button className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+                            Tambah Berita
+                        </button>
+                    </Link>
+
+
                     <button
                         className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600" >
                         Delete
@@ -104,18 +102,13 @@ const Berita = () => {
                                     {format(new Date(data.created_at), "dd MMMM yyyy")}
                                 </p>
                                 <div className="flex justify-between">
-                                    <Popover backdrop="blur" offset={10} placement="bottom">
-                                        <PopoverTrigger>
-                                            <button
-                                                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-                                            >
-                                                Edit
-                                            </button>
-                                        </PopoverTrigger>
-                                        <PopoverContent className="w-[240px]">
-                                            <Form />
-                                        </PopoverContent>
-                                    </Popover>
+                                    <Link href={`/dashboard/berita/edit/${data.id}`}>
+                                        <button
+                                            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+                                        >
+                                            Edit
+                                        </button>
+                                    </Link>
 
                                     <button
                                         className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600"
