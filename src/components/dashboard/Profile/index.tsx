@@ -182,13 +182,14 @@ const Profile = () => {
                       </svg>
                     </span>
                     <input
-                      className="w-full rounded-[7px] border-[1.5px] border-stroke bg-white py-2.5 pl-12.5 pr-4.5 text-dark focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
+                      className="w-full rounded-[7px] border-[1.5px] border-stroke bg-gray-400 py-2.5 pl-12.5 pr-4.5 text-dark-5 focus:border-primary focus-visible:outline-none dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                       type="email"
                       name="emailAddress"
                       id="emailAddress"
                       placeholder="devidjond45@gmail.com"
                       defaultValue="devidjond45@gmail.com"
                       value={session?.user.email}
+                      disabled={true}
                     />
                   </div>
                 </div>
