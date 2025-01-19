@@ -1,7 +1,7 @@
 import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Donasi from "@/components/dashboard/Donasi";
-import DonasiPage from "@/components/dashboard/Donasi/Card";
+import Donasi from "@/components/dashboard/Donasi/FormDonasi";
+import DonasiPage from "@/components/dashboard/Donasi/DonasiPage";
 
 const DashboardDonasi = () => {
   return (

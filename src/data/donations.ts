@@ -2,16 +2,17 @@ import { supabase } from "../libs/supabaseClient";
 
 export type DonasiType = {
   id: number;
-  tittle: string;
+  title: string;
   description: string;
   location: string;
   collected: number;
-  daysLeft: number;
+  daysLeft: string;
   image: string;
   detail: string;
   donatur: number;
   url: string;
   kategori: number;
+  target: string;
 };
 
 export const fetchDonations = async (): Promise<DonasiType[]> => {
@@ -68,4 +69,21 @@ export const fetchDonationsByKategori = async (
   }
 
   return data || null;
+};
+
+export const fetchDonationById = async (id: number): Promise<DonasiType | null> => {
+  const { data, error } = await supabase
+    .from("donations")
+    .select('*')
+    .eq('id', id)
+    .single()
+
+
+
+  if (error) {
+    console.error(`Error fetching berita by id: ${error.message}`)
+    return null
+  }
+
+  return data as DonasiType || null
 };

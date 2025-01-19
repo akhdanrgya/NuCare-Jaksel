@@ -14,9 +14,6 @@ const FormBerita = ({ defaultValues }: { defaultValues?: BeritaType }) => {
     const [session, setSession] = useState<Session | null>(null);
     const [user, setUser] = useState<UserType | null>(null);
 
-    const [berita, setBerita] = useState<BeritaType | null>(null);
-    const [error, setError] = useState<string | null>(null);
-
     const [formData, setFormData] = React.useState<BeritaType>(
         defaultValues || { id: 0, judul: "", image: "", created_at: "", kategori: "", article: "", author_name: "" }
     );

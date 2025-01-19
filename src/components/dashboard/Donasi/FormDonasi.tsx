@@ -1,14 +1,15 @@
 "use client";
 import React, { useState } from "react";
-import Card from "./Card";
+import Card from "./DonasiPage";
 import InputGroup from "../../FormElements/InputGroup";
 import SelectKategori from "../../FormElements/SelectGroup/SelectKategori";
 import { supabase } from "../../../libs/supabaseClient";
 import { DatePicker } from "@nextui-org/date-picker";
+import { DonasiType } from "@/data/donations";
 
-const Donasi = () => {
+const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
   const [target, setTarget] = useState<string>("");
-  const [tittle, setTittle] = useState<string>("");
+  const [title, setTittle] = useState<string>("");
   const [url, setUrl] = useState<string>("");
   const [location, setLocation] = useState<string>("");
   const [desc, setDesc] = useState<string>("");
@@ -16,6 +17,35 @@ const Donasi = () => {
   const [article, setArticle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [kategoriId, setKategoriId] = useState<string>("");
+
+  const [formData, setFormData] = React.useState<DonasiType>(
+    defaultValues || {
+      id: 0,
+      title: "",
+      description: "",
+      location: "",
+      collected: 0,
+      daysLeft: new Date().toISOString().split("T")[0],
+      image: "",
+      detail: "",
+      donatur: 0,
+      url: "",
+      kategori: 0,
+      target: ""
+    }
+  );
+
+  React.useEffect(() => {
+    if (defaultValues) {
+      console.log(defaultValues);
+      setFormData(defaultValues); // Set default values kalau tersedia
+    }
+  }, [defaultValues]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
   const formatNumber = (value: string) => {
     const numericValue = value.replace(/\D/g, "");
@@ -54,7 +84,7 @@ const Donasi = () => {
   const insertDonations = async (uploadedImageUrl: string | null) => {
     const { data, error } = await supabase.from("donations").insert([
       {
-        tittle,
+        title,
         url,
         location,
         description: desc,
@@ -108,7 +138,7 @@ const Donasi = () => {
                 type="text"
                 placeholder="Masukan Judul"
                 customClasses="w-full xl:w-1/2"
-                value={tittle}
+                value={formData.title}
                 onChange={(e) => setTittle(e.target.value)}
               />
               <InputGroup
@@ -116,7 +146,7 @@ const Donasi = () => {
                 type="text"
                 placeholder="Masukkan URL"
                 customClasses="w-full xl:w-1/2"
-                value={url}
+                value={formData.url}
                 onChange={(e) => setUrl(e.target.value)}
               />
             </div>
@@ -125,7 +155,7 @@ const Donasi = () => {
               type="text"
               placeholder="Masukan Lokasi"
               customClasses="mb-4.5"
-              value={location}
+              value={formData.location}
               onChange={(e) => setLocation(e.target.value)}
             />
             <div className="mb-6">
@@ -136,28 +166,30 @@ const Donasi = () => {
                 rows={6}
                 placeholder="Masukan Deskripsi"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                value={desc}
+                value={formData.description}
                 onChange={(e) => setDesc(e.target.value)}
               ></textarea>
             </div>
             <SelectKategori onChange={(id) => setKategoriId(id)} />
+
             <InputGroup
               label="Target"
               type="text"
               placeholder="Masukan Target Donasi"
               customClasses="mb-4.5"
-              value={target}
+              value={formData.target}
+              onChange={(e) => setLocation(e.target.value)}
+            />
+
+            <InputGroup
+              label="Tenggat Donasi"
+              type="Date"
+              placeholder="Masukan Tenggat Donasi"
+              customClasses="mb-4.5"
+              value={formData.daysLeft}
               onChange={handleTargetChange}
             />
 
-            <div className="w-full max-w-xl flex flex-row gap-4 mb-4.5 ">
-              <DatePicker
-                showMonthAndYearPickers
-                label="Tenggat Waktu"
-                variant="bordered"
-                onChange={(date) => setDeadLine(date?.toString().split("T")[0] || "")}
-              />
-            </div>
             <div className="mb-6">
               <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
                 Detail Atau Article
@@ -166,7 +198,7 @@ const Donasi = () => {
                 rows={6}
                 placeholder="Masukan Artikel"
                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                value={article}
+                value={formData.detail}
                 onChange={(e) => setArticle(e.target.value)}
               ></textarea>
             </div>
@@ -189,9 +221,8 @@ const Donasi = () => {
           </div>
         </form>
       </div>
-      <Card />
     </div>
   );
 };
 
-export default Donasi;
+export default FormDonasi;
