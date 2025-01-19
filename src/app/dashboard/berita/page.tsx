@@ -6,7 +6,7 @@ const DashboardBerita = () => {
   return (
     <DefaultLayout>
       <Breadcrumb pageName="Berita" />
-      <Berita/>
+      <Berita />
     </DefaultLayout>
   );
 };

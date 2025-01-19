@@ -4,14 +4,35 @@ import Card from "@/components/dashboard/Berita";
 import InputGroup from "@/components/FormElements/InputGroup";
 import { supabase } from "@/libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
+import { FetchBeritaById, BeritaType } from "@/data/bertita";
 import { fetchRecentUser, UserType } from "@/data/user";
 
-const FormBerita = () => {
+const FormBerita = ({ defaultValues }: { defaultValues?: BeritaType }) => {
     const [tittle, setTittle] = useState<string>("");
     const [imageUrl, setImageUrl] = useState<string>("");
     const [article, setArticle] = useState<string>("");
     const [session, setSession] = useState<Session | null>(null);
     const [user, setUser] = useState<UserType | null>(null);
+
+    const [berita, setBerita] = useState<BeritaType | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const [formData, setFormData] = React.useState<BeritaType>(
+        defaultValues || { id: 0, judul: "", image: "", created_at: "", kategori: "", article: "", author_name: "" }
+    );
+
+    React.useEffect(() => {
+        if (defaultValues) {
+            console.log(defaultValues);
+            setFormData(defaultValues); // Set default values kalau tersedia
+        }
+    }, [defaultValues]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({ ...prev, [name]: value }));
+    };
+
 
     useEffect(() => {
         const fetchSession = async () => {
@@ -116,7 +137,7 @@ const FormBerita = () => {
 
 
     return (
-        <div className="w-full h-full absolute top-0 backdrop-filter backdrop-brightness-75 backdrop-blur-md">
+        <div className="w-full h-full">
             <div
                 className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-10">
                 <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
@@ -130,7 +151,7 @@ const FormBerita = () => {
                                 type="text"
                                 placeholder="Masukan Judul"
                                 customClasses="w-full xl:w-1/2"
-                                value={tittle}
+                                value={formData.judul}
                                 onChange={(e) => setTittle(e.target.value)}
                             />
                         </div>
@@ -142,7 +163,7 @@ const FormBerita = () => {
                                 rows={6}
                                 placeholder="Masukan Artikel"
                                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
-                                value={article}
+                                value={formData.article}
                                 onChange={(e) => setArticle(e.target.value)}
                             ></textarea>
                         </div>
