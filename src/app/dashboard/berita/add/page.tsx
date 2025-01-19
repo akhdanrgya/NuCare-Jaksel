@@ -5,7 +5,7 @@ import FormBerita from "@/components/dashboard/Berita/FormBerita";
 const AddBerita = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Berita" />
+            <Breadcrumb pageName="Tambah Berita" />
             <FormBerita />
         </DefaultLayout>
     )
