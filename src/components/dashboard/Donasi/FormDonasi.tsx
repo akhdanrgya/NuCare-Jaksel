@@ -70,7 +70,6 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
     if (uploadError) {
       console.error("Error uploading file:", uploadError);
       alert("Gagal mengunggah gambar");
-      setImageUrl("https://placehold.co/300x200")
       return null;
     }
 
@@ -80,6 +79,17 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
 
     return publicUrlData?.publicUrl || null;
   };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileInput = e.target;
+    const file = fileInput?.files?.[0];
+
+    if (file) {
+      const uploadedImageUrl = await uploadFile(file);
+      setFormData((prev) => ({ ...prev, image: uploadedImageUrl || prev.image }));
+    }
+  };
+
 
   const insertDonations = async (uploadedImageUrl: string | null) => {
     const { data, error } = await supabase.from("donations").insert([
@@ -172,7 +182,7 @@ const FormDonasi = ({ defaultValues }: { defaultValues?: DonasiType }) => {
                 onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
               ></textarea>
             </div>
-            <SelectKategori onChange={(id) => setKategoriId(id)} defaultValue={formData.kategori} />
+            <SelectKategori onChange={(id) => setFormData((prev) => ({ ...prev, kategori: Number(id) }))} defaultValue={formData.kategori} />
 
             <InputGroup
               label="Target"
