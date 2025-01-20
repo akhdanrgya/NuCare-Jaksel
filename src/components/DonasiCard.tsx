@@ -4,6 +4,14 @@ import {useEffect, useState} from "react";
 import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
+import {Montserrat} from "next/font/google";
+import ProgressBar from "@/components/ProgressBar";
+
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["400", "700"], // Pilih weight sesuai kebutuhan
+    variable: "--font-montserrat", // Custom CSS variable
+});
 
 interface DonasiCardsProps {
     lainnya?: boolean;
@@ -41,9 +49,9 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
     if (!isMounted) return null;
 
     return (
-        <section className="py-24 bg-gray-100">
+        <section className={`${montserrat.variable} font-montserrat py-24 bg-gray-100`}>
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                <h2 className="text-4xl">Ayo Mulai Berdonasi!</h2>
+                <h2 className="text-4xl font-montserrat">Ayo Mulai Berdonasi!</h2>
             </div>
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -51,43 +59,49 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
                     donations.map((donasi, idx) => (
                         <div
                             key={idx}
-                            className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
+                            className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
                             onClick={() => handleCardClick(donasi.url)}
                         >
                             <Image
                                 src={donasi.image}
-                                alt={donasi.tittle}
+                                alt={donasi.title}
                                 className="w-full h-48 object-cover rounded-t-lg"
                                 width={300}
                                 height={200}
                             />
-                            <div className="p-4">
-                                <h3 className="text-lg font-semibold text-green-600 mb-2">
-                                    {donasi.tittle}
+                            <div className="p-6">
+                                <h3 className="font-bold text-xl font-montserrat">
+                                    {donasi.title}
                                 </h3>
-                                <p className="text-gray-700 mb-2">{donasi.description}</p>
-                                <p className="text-gray-500 text-sm mb-4">
-                                    📍 {donasi.location}
+                                <p className="text-gray-500 text-sm mb-20 font-montserrat">
+                                    {donasi.location.toUpperCase()}
                                 </p>
-                                <p className="text-gray-700 font-bold">
-                                    Terkumpul: Rp {donasi.collected}
-                                </p>
-                                <p className="text-sm text-gray-500 mb-4">
-                                    ⏳ {donasi.daysLeft} Hari lagi
-                                </p>
+
+                                <ProgressBar target={donasi.target} collected={donasi.collected} />
+
+                                <div className="flex justify-between font-montserrat">
+                                    <p className="text-gray-500">
+                                        Terkumpul
+                                    </p>
+                                    <p className="text-green-500 font-montserrat">
+                                        {donasi.collected}
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     ))
                 ) : (
                     <div className="justify-center items-center">
-                            <p className="text-center w-full py-6">Tidak ada donasi saat ini</p>
+                        <p className="text-center w-full py-6 font-montserrat">
+                            Tidak ada donasi saat ini
+                        </p>
                     </div>
                 )}
             </div>
             {lainnya ? (
                 <div className="container mx-auto text-center mt-8">
                     <button
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
+                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
                         onClick={() => handleProgramClick()}
                     >
                         Program Lainnya

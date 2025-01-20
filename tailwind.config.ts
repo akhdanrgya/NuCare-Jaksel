@@ -19,6 +19,9 @@ const config: Config = {
       ...defaultTheme.screens,
     },
     extend: {
+      fontFamily: {
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      },
       colors: {
         current: "currentColor",
         transparent: "transparent",
