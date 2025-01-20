@@ -1,7 +1,7 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
+import {fetchDonations, insertDonations, DonasiType, deleteDonation} from "../data/donations";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Montserrat} from "next/font/google";
@@ -75,14 +75,15 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                         <div
                             key={idx}
                             className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
-                            onClick={() => handleCardClick(donasi.url)}
                         >
+
                             <Image
                                 src={donasi.image}
                                 alt={donasi.title}
-                                className="w-full h-48 object-cover rounded-t-lg"
+                                className="w-full h-48 object-cover rounded-t-lg cursor-pointer"
                                 width={300}
                                 height={200}
+                                onClick={() => handleCardClick(donasi.url)}
                             />
                             <div className="p-6">
                                 <h1 className="font-bold text-xl font-montserrat mb-2">
@@ -94,7 +95,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
 
                                 <ProgressBar target={donasi.target} collected={donasi.collected}/>
 
-                                <div className="flex justify-between font-montserrat mb-4">
+                                <div className="flex justify-between font-montserrat">
                                     <p className="text-gray-500">
                                         Terkumpul
                                     </p>
@@ -102,25 +103,25 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                         {donasi.collected}
                                     </p>
                                 </div>
-
-                                {dashboard ? (
-                                    <div className="flex justify-between">
-                                        <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
-                                            <button
-                                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat"
-                                            >
-                                                Edit Donation
-                                            </button>
-                                        </Link>
-                                            <button
-                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
-                                            >
-                                                Delete Donation
-                                            </button>
-                                    </div>
-                                ) : null}
-
                             </div>
+                            {dashboard ? (
+                                <div className="flex justify-between px-10 py-5">
+                                    <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat"
+                                        >
+                                            Edit Donation
+                                        </button>
+                                    </Link>
+                                    <button
+                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
+                                        onClick={() => deleteDonation(donasi.id)}
+                                    >
+                                        Delete Donation
+                                    </button>
+                                </div>
+                            ) : null}
+
                         </div>
                     ))
                 ) : (
