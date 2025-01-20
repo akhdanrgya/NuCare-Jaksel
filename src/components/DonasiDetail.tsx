@@ -49,14 +49,14 @@ const DonasiDetail = () => {
           <img
             className="rounded-lg shadow-lg w-full h-auto object-cover"
             src={donation?.image}
-            alt={donation?.tittle}
+            alt={donation?.title}
           />
         </div>
 
         {/* Content Section */}
         <div className="w-full md:w-2/3">
           <h1 className="text-4xl font-semibold text-center md:text-left mb-6">
-            {donation?.tittle}
+            {donation?.title}
           </h1>
           <p className="text-lg text-gray-700 mb-6">{donation?.description}</p>
 
@@ -90,6 +90,12 @@ const DonasiDetail = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/*Article*/}
+
+      <div className="max-w-7xl mx-auto py-10 px-5 md:px-10 flex flex-col md:flex-row items-center space-y-8 md:space-y-0 md:space-x-10">
+        <p>{donation?.detail}</p>
       </div>
     </section>
   );

@@ -1,12 +1,28 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchDonations, insertDonations, DonasiType } from "../data/donations";
-import { useRouter } from "next/navigation";
+import React, {useEffect, useState} from "react";
+import {fetchDonations, DonasiType, deleteDonation} from "../data/donations";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
+import {Montserrat} from "next/font/google";
+import ProgressBar from "@/components/ProgressBar";
+import Link from "next/link";
+import SearchForm from "@/components/dashboard/Header/SearchForm";
+import {fetchKategoriById, KategoriType} from "@/data/kategori";
 
-const DonasiCards: React.FC = () => {
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
+});
+
+interface DonasiCardsProps {
+    dashboard?: boolean;
+}
+
+const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
+    const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
 
@@ -21,6 +37,21 @@ const DonasiCards: React.FC = () => {
         };
         fetchDonationsData();
     }, []);
+
+    useEffect(() => {
+        const fetchKategoriData = async () => {
+            const kategoriData: Record<number, string> = {};
+            for (const donasi of donations) {
+                const dataKategori = await fetchKategoriById(donasi.kategori);
+                kategoriData[donasi.kategori] = dataKategori.tittle;
+            }
+            setKategori(kategoriData);
+        };
+
+        if (donations.length > 0) {
+            fetchKategoriData();
+        }
+    }, [donations]);
 
     const handleCardClick = (url: string) => {
         const formattedurl = url
@@ -37,57 +68,90 @@ const DonasiCards: React.FC = () => {
     if (!isMounted) return null;
 
     return (
-        <section className="py-24 bg-gray-100">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                <h2 className="text-4xl">Ayo Mulai Berdonasi!</h2>
-            </div>
+        <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
+            {!dashboard ? (
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                </div>
+            ) : (
+                <div className="m-10 flex justify-between">
+                    <SearchForm header={false} search={"Donation"}/>
+                    <Link href="/dashboard/donasi/add">
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                            Add New
+                        </button>
+                    </Link>
+                </div>
+            )}
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {donations.length > 0 ? (
                     donations.map((donasi, idx) => (
                         <div
                             key={idx}
-                            className="bg-white p-6 rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
-                            onClick={() => handleCardClick(donasi.url)}
+                            className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
                         >
+                            <div className="absolute bg-green-300 m-4 p-1 rounded opacity-90 right-0 top-0">
+                                <h1 className="font-montserrat text-white">
+                                    {kategori[donasi.kategori] || "Loading..."}
+                                </h1>
+                            </div>
+
                             <Image
                                 src={donasi.image}
                                 alt={donasi.title}
-                                className="w-full h-48 object-cover rounded-t-lg"
+                                className="w-full h-48 cursor-pointer"
                                 width={300}
                                 height={200}
+                                onClick={() => handleCardClick(donasi.url)}
                             />
-                            <div className="p-4">
-                                <h3 className="text-lg font-semibold text-green-600 mb-2">
-                                    {donasi.title}
-                                </h3>
-                                <p className="text-gray-700 mb-2">{donasi.description}</p>
-                                <p className="text-gray-500 text-sm mb-4">
-                                    📍 {donasi.location}
+                            <div className="p-6">
+                                <h1 className="font-bold text-xl font-montserrat mb-2">{donasi.title}</h1>
+                                <p className="text-gray-500 text-sm mb-20 font-montserrat">
+                                    {donasi.location.toUpperCase()}
                                 </p>
-                                <p className="text-gray-700 font-bold">
-                                    Terkumpul: Rp {donasi.collected}
-                                </p>
-                                <p className="text-sm text-gray-500 mb-4">
-                                    ⏳ {donasi.daysLeft} Hari lagi
-                                </p>
+
+                                <ProgressBar target={donasi.target} collected={donasi.collected}/>
+
+                                <div className="flex justify-between font-montserrat">
+                                    <p className="text-gray-500">Terkumpul</p>
+                                    <p className="text-green-500 font-montserrat">{donasi.collected}</p>
+                                </div>
                             </div>
+                            {dashboard ? (
+                                <div className="flex justify-between px-10 py-5">
+                                    <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
+                                            Edit Donation
+                                        </button>
+                                    </Link>
+                                    <button
+                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
+                                        onClick={() => deleteDonation(donasi.id)}
+                                    >
+                                        Delete Donation
+                                    </button>
+                                </div>
+                            ) : null}
                         </div>
                     ))
                 ) : (
                     <div className="justify-center items-center">
-                        <p className="text-center w-full py-6">Tidak ada donasi saat ini</p>
+                        <p className="text-center w-full py-6 font-montserrat">Tidak ada donasi saat ini</p>
                     </div>
                 )}
             </div>
-            <div className="container mx-auto text-center mt-8">
-                <button
-                    className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
-                    onClick={() => handleProgramClick()}
-                >
-                    Program Lainnya
-                </button>
-            </div>
+            {!dashboard ? (
+                <div className="container mx-auto text-center mt-8">
+                    <button
+                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
+                        onClick={() => handleProgramClick()}
+                    >
+                        Program Lainnya
+                    </button>
+                </div>
+            ) : null}
         </section>
     );
 };

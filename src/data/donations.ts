@@ -87,3 +87,15 @@ export const fetchDonationById = async (id: number): Promise<DonasiType | null> 
 
   return data as DonasiType || null
 };
+
+export const deleteDonation = async (id: number): Promise<boolean> => {
+  const { error } = await supabase.from("donations").delete().eq("id", id);
+
+  if (error) {
+    console.error(`Error deleting donation: ${error.message}`);
+    return false;
+  }
+
+  console.log("Donation deleted successfully");
+  return true;
+};

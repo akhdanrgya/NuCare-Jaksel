@@ -1,8 +1,13 @@
 'use client'
+import Header from "@/components/Header";
+import DonasiCards from "@/components/DonasiCard";
 
 const program = () => {
-    return(
-        <div>anjay</div>
+    return (
+        <>
+            <Header/>
+            <DonasiCards dashboard={false}/>
+        </>
     )
 }
 
