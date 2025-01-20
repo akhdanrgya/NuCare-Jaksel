@@ -18,7 +18,7 @@ const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
     const [desc, setDesc] = useState<string>("");
     const [deadLine, setDeadLine] = useState<Date>(new Date());
     const [article, setArticle] = useState<string>("");
-    const [imageUrl, setImageUrl] = useState<string>(""); // Initialize with an empty string
+    const [imageUrl, setImageUrl] = useState<string>("");
     const [kategoriId, setKategoriId] = useState<string>("");
 
     const [formData, setFormData] = React.useState<DonasiType>(

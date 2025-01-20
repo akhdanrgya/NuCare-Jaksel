@@ -1,14 +1,15 @@
 import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
-import Donasi from "@/components/dashboard/Donasi/FormDonasi";
-import DonasiPage from "@/components/dashboard/Donasi/DonasiPage";
+import Link from "next/link";
+import React from "react";
+import DonasiCard from "@/components/DonasiCard";
 
 const DashboardDonasi = () => {
   return (
-    <DefaultLayout>
-      <Breadcrumb pageName="Donasi" />
-      <DonasiPage />
-    </DefaultLayout>
+      <DefaultLayout>
+          <Breadcrumb pageName="Donasi"/>
+          <DonasiCard dashboard={true} />
+      </DefaultLayout>
   );
 };
 
