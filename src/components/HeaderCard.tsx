@@ -24,9 +24,9 @@ const HeaderCard: React.FC = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
 
-    console.log(__dirname);
+    event.preventDefault()
 
-    router.replace("`/tabarru?wealth=${wealth}`")
+    router.push(`/tabarru?wealth=${wealth}`)
 
   }
 

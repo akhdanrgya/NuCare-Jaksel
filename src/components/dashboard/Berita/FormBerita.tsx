@@ -168,7 +168,7 @@ const FormBerita = ({ editing, defaultValues }: FormBeritaProps) => {
             <div
                 className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-10">
                 <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
-                    <h3 className="font-semibold text-dark dark:text-white">Form Donasi</h3>
+                    <h3 className="font-semibold text-dark dark:text-white">Form Berita</h3>
                 </div>
                 <form action="#" onSubmit={handleSubmit}>
                     <div className="p-6.5">
