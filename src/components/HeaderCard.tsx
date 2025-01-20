@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import InputGroup from "./FormElements/InputGroup";
+import { useRouter } from "next/navigation";
 
 const HeaderCard: React.FC = () => {
   const [donationType, setDonationType] = useState<string>("zakat");
   const [wealth, setWealth] = useState<number>(0);
+  const router = useRouter();
 
   const handleDonationTypeChange = (type: string) => {
     setDonationType(type);
@@ -18,40 +21,49 @@ const HeaderCard: React.FC = () => {
     setWealth(parseInt(e.target.value) || 0);
   };
 
+
+  const handleSubmit = async (event: React.FormEvent) => {
+
+    event.preventDefault()
+
+    router.push(`/tabarru?wealth=${wealth}`)
+
+  }
+
+
   return (
     <div className="absolute top-1/5 right-0 m-4 bg-white p-8 rounded-lg shadow-xl z-20 w-100">
-      <form>
+      <form
+        onSubmit={handleSubmit}
+      >
         {/* Pilihan Donasi dengan tombol */}
         <div className="mb-4 flex justify-between">
           <button
             type="button"
-            className={`w-24 py-2 rounded-lg mx-2 ${
-              donationType === "zakat"
-                ? "bg-green-500 text-white"
-                : "bg-gray-200 text-black"
-            }`}
+            className={`w-24 py-2 rounded-lg mx-2 ${donationType === "zakat"
+              ? "bg-green-500 text-white"
+              : "bg-gray-200 text-black"
+              }`}
             onClick={() => handleDonationTypeChange("zakat")}
           >
             Zakat
           </button>
           <button
             type="button"
-            className={`w-24 py-2 rounded-lg mx-2 ${
-              donationType === "infak"
-                ? "bg-green-500 text-white"
-                : "bg-gray-200 text-black"
-            }`}
+            className={`w-24 py-2 rounded-lg mx-2 ${donationType === "infak"
+              ? "bg-green-500 text-white"
+              : "bg-gray-200 text-black"
+              }`}
             onClick={() => handleDonationTypeChange("infak")}
           >
             Infak
           </button>
           <button
             type="button"
-            className={`w-24 py-2 rounded-lg mx-2 ${
-              donationType === "wakaf"
-                ? "bg-green-500 text-white"
-                : "bg-gray-200 text-black"
-            }`}
+            className={`w-24 py-2 rounded-lg mx-2 ${donationType === "wakaf"
+              ? "bg-green-500 text-white"
+              : "bg-gray-200 text-black"
+              }`}
             onClick={() => handleDonationTypeChange("wakaf")}
           >
             Wakaf
@@ -75,13 +87,14 @@ const HeaderCard: React.FC = () => {
               <label htmlFor="wealth" className="block text-gray-700 mb-2">
                 Kekayaan (1 tahun)
               </label>
-              <input
+              <InputGroup
                 id="wealth"
                 type="number"
-                value={wealth}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
                 placeholder="Masukkan jumlah kekayaan"
+                customClasses=""
+                value={String(wealth)}
+                onChange={handleInputChange}
+                classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
               />
             </div>
             <div className="text-center mb-6">
@@ -99,13 +112,13 @@ const HeaderCard: React.FC = () => {
         )}
 
         {donationType === "infak" && (
-            <div className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
+          <div className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
             <div className="mb-4">
               <h2 className="text-xl font-semibold text-center text-gray-800">
                 Ayo mulai infak
               </h2>
               <p className="text-center text-gray-600 mb-4">
-              Silakan isi jumlah infakmu. Insya Allah berkah.
+                Silakan isi jumlah infakmu. Insya Allah berkah.
               </p>
             </div>
 
@@ -113,13 +126,14 @@ const HeaderCard: React.FC = () => {
               <label htmlFor="wealth" className="block text-gray-700 mb-2">
                 Nominal infak
               </label>
-              <input
+              <InputGroup
                 id="wealth"
                 type="number"
-                value={wealth}
-                onChange={handleInputChange}
-                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
                 placeholder="Masukkan jumlah kekayaan"
+                customClasses=""
+                value={String(wealth)}
+                onChange={handleInputChange}
+                classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
               />
             </div>
 
@@ -132,35 +146,36 @@ const HeaderCard: React.FC = () => {
         )}
         {donationType === "wakaf" && (
           <div className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-md">
-          <div className="mb-4">
-            <h2 className="text-xl font-semibold text-center text-gray-800">
-            Ayo mulai wakaf
-            </h2>
-            <p className="text-center text-gray-600 mb-4">
-            Mari wakaf tunai bersama kami!
-            </p>
-          </div>
+            <div className="mb-4">
+              <h2 className="text-xl font-semibold text-center text-gray-800">
+                Ayo mulai wakaf
+              </h2>
+              <p className="text-center text-gray-600 mb-4">
+                Mari wakaf tunai bersama kami!
+              </p>
+            </div>
 
-          <div className="mb-4">
-            <label htmlFor="wealth" className="block text-gray-700 mb-2">
-              Nominal infak
-            </label>
-            <input
-              id="wealth"
-              type="number"
-              value={wealth}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
-              placeholder="Masukkan jumlah kekayaan"
-            />
-          </div>
+            <div className="mb-4">
+              <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                Nominal Wakaf
+              </label>
+              <InputGroup
+                id="wealth"
+                type="number"
+                placeholder="Masukkan jumlah kekayaan"
+                customClasses=""
+                value={String(wealth)}
+                onChange={handleInputChange}
+                classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+              />
+            </div>
 
-          <div className="text-center">
-            <button className="bg-green-500 text-white px-6 py-3 rounded-lg w-full hover:bg-green-600">
-              Wakaf sekarang
-            </button>
+            <div className="text-center">
+              <button className="bg-green-500 text-white px-6 py-3 rounded-lg w-full hover:bg-green-600">
+                Wakaf sekarang
+              </button>
+            </div>
           </div>
-        </div>
         )}
       </form>
     </div>

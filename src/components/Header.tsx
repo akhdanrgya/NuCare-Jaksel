@@ -3,7 +3,9 @@ const Header: React.FC = () => {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto flex justify-between items-center p-4 px-40 py-6">
-        <a className="text-xl font-bold" href="/">NU CARE JAKARTA SELATAN</a>
+        <div>
+          <a><img src="/images/logo/logoNUCare.png" className="h-30 w-50" alt="" /></a>
+        </div>
         <nav className="space-x-4">
           <a href="/" className="text-gray-700 hover:text-green-500">Home</a>
           <a href="/program" className="text-gray-700 hover:text-green-500">Program</a>

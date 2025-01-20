@@ -125,10 +125,12 @@ export const updateCollected = async (
 
     if (updateError) {
       console.error(`Error updating collected: ${updateError.message}`);
+      alert("Gagal memperbarui data collected")
       return false;
     }
 
     console.log("Collected updated successfully");
+    alert("Berhasil Collected")
     return true;
   }
 
@@ -136,3 +138,58 @@ export const updateCollected = async (
   return false;
 };
 
+
+// export const updateCollected = async (
+//     id: number,
+//     value: number
+// ): Promise<boolean> => {
+//   const { data, error } = await supabase
+//       .from("donations")
+//       .select("collected")
+//       .eq("id", id)
+//       .single();
+
+//   if (error) {
+//     console.error(`Error fetching donation by id: ${error.message}`);
+//     return false;
+//   }
+  
+//   if (data) {
+//     const newCollected = data.collected + value;
+
+//     const { error: updateError } = await supabase
+//         .from("donations")
+//         .update({ collected: newCollected })
+//         .eq("id", id);
+
+//     if (updateError) {
+//       console.error(`Error updating collected: ${updateError.message}`);
+//       return false;
+//     }
+
+//     console.log("Collected updated successfully");
+//     return true;
+//   }
+
+//   console.log("Donation not found");
+//   return false;
+// };
+
+
+// export const updateCollected = async (id: number, collected: number) => {
+//   const { data, error } = await supabase
+//     .from("donations")
+//     .update([
+//       {
+//         collected
+//       }
+//     ])
+//     .eq("id", id)
+
+//   if (error) {
+//     console.error("Error updating collected:", error)
+//     alert("Gagal memperbarui data collected")
+//   } else {
+//     alert("Data collected berhasil diperbarui")
+//   }
+// }

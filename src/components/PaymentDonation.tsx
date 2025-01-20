@@ -3,10 +3,12 @@ import { useParams } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { fetchUrl, DonasiType } from "../data/donations";
 import { DonaturType, insertDonatur } from "../data/donatur";
-import {updateCollected} from "../data/donations";
+import InputGroup from "./FormElements/InputGroup";
+
+import { updateCollected } from "../data/donations";
 import { v4 as uuidv4 } from "uuid";
 
-const PaymentDonation = () => {
+const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
   const { url } = useParams();
   const [donation, setDonation] = useState<DonasiType | null>(null);
   const [loading, setLoading] = useState(true);
@@ -37,6 +39,14 @@ const PaymentDonation = () => {
 
     getDonation();
   }, [url]);
+
+
+  useEffect(() => {
+    console.log(`nilai wealth: ${wealth}`)
+    if (wealth) {
+      setAmount(wealth); // Set amount berdasarkan wealth
+    }
+  }, [wealth]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     setDone(true);
@@ -137,13 +147,14 @@ const PaymentDonation = () => {
             >
               Jumlah Donasi:
             </label>
-            <input
-              type="text"
-              id="amount"
+            <InputGroup
+              id="wealth"
+              type="number"
+              placeholder="Masukkan jumlah"
+              customClasses=""
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="shadow appearance border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
+              classInput="shadow appearance border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
 

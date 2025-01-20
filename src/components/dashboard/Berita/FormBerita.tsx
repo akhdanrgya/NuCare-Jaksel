@@ -1,24 +1,24 @@
 "use client"
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@/components/dashboard/Berita";
 import InputGroup from "@/components/FormElements/InputGroup";
-import {supabase} from "@/libs/supabaseClient";
-import {Session} from "@supabase/supabase-js";
-import {FetchBeritaById, BeritaType} from "@/data/bertita";
-import {fetchRecentUser, UserType} from "@/data/user";
+import { supabase } from "@/libs/supabaseClient";
+import { Session } from "@supabase/supabase-js";
+import { FetchBeritaById, BeritaType, insertBerita } from "@/data/bertita";
+import { fetchRecentUser, UserType } from "@/data/user";
 
 interface FormBeritaProps {
     editing?: boolean;
     defaultValues?: BeritaType;
 }
 
-const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
+const FormBerita = ({ editing, defaultValues }: FormBeritaProps) => {
     const [imageUrl, setImageUrl] = useState<string>("")
     const [session, setSession] = useState<Session | null>(null)
     const [user, setUser] = useState<UserType | null>(null)
 
     const [formData, setFormData] = useState<BeritaType>(
-        defaultValues || {id: 0, judul: "", image: "", created_at: "", kategori: "", article: "", author_name: ""}
+        defaultValues || { id: 0, judul: "", image: "", created_at: "", kategori: "", article: "", author_name: "" }
     )
 
     useEffect(() => {
@@ -29,13 +29,13 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
     }, [defaultValues])
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target
-        setFormData((prev) => ({...prev, [name]: value}))
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
     useEffect(() => {
         const fetchSession = async () => {
-            const {data, error} = await supabase.auth.getSession()
+            const { data, error } = await supabase.auth.getSession()
             if (error) {
                 console.error("Error fetching session:", error)
             } else {
@@ -64,45 +64,39 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
     }, [session])
 
     const uploadFile = async (file: File) => {
-        const fileName = `${Date.now()}-${file.name}`
-        const {error: uploadError} = await supabase.storage
+        const folderName = "beritaprivateimg"; // folder gambar donasi private
+        const fileName = `${folderName}/${Date.now()}-${file.name}`;
+
+        // Upload file ke folder 'private' di bucket 'ngetes'
+        const { error: uploadError } = await supabase.storage
             .from("beritaimage")
-            .upload(fileName, file)
+            .upload(fileName, file);
 
         if (uploadError) {
-            console.error("Error uploading file:", uploadError)
-            alert("Gagal mengunggah gambar")
-            setImageUrl("https://placehold.co/300x200")
-            return null
+            console.error("Error uploading file:", uploadError);
+            alert("Gagal mengunggah gambar");
+            return null;
         }
 
-        const {data: publicUrlData} = supabase.storage
+        // Mendapatkan URL public untuk file yang baru diupload
+        const { data: publicUrlData } = supabase.storage
             .from("beritaimage")
-            .getPublicUrl(fileName)
+            .getPublicUrl(fileName);
 
-        return publicUrlData?.publicUrl || null
-    }
-
-    const insertBerita = async (uploadedImageUrl: string | null) => {
-        const {data, error} = await supabase.from("berita").insert([
-            {
-                judul: formData.judul,
-                article: formData.article,
-                author_name: user?.username,
-                image: uploadedImageUrl || imageUrl,
-            }
-        ])
-
-        if (error) {
-            console.error("Error adding berita:", error)
-            alert("Gagal menyimpan data berita")
-        } else {
-            alert("Data berita berhasil disimpan")
+        // Periksa apakah data ada
+        if (!publicUrlData) {
+            console.error("Error fetching file URL: No data returned");
+            return null;
         }
+
+
+        // Mengembalikan URL yang bisa diakses
+        return publicUrlData?.publicUrl || null;
     }
+
 
     const updateBerita = async (id: number, uploadedImageUrl: string | null) => {
-        const {data, error} = await supabase
+        const { data, error } = await supabase
             .from("berita")
             .update([
                 {
@@ -142,7 +136,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             alert("Harap unggah gambar!")
             return
         }
-        
+
 
         try {
             let uploadedImageUrl: string | null = ""
@@ -153,7 +147,13 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             if (editing && defaultValues?.id) {
                 await updateBerita(defaultValues.id, uploadedImageUrl)
             } else {
-                await insertBerita(uploadedImageUrl)
+                await insertBerita(
+                    formData.judul,
+                    formData.article,
+                    user?.username,
+                    uploadedImageUrl || imageUrl
+
+                )
             }
 
         } catch (err) {
@@ -168,7 +168,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             <div
                 className="rounded-[10px] border border-stroke bg-white shadow-1 dark:border-dark-3 dark:bg-gray-dark dark:shadow-card mb-10">
                 <div className="border-b border-stroke px-6.5 py-4 dark:border-dark-3">
-                    <h3 className="font-semibold text-dark dark:text-white">Form Donasi</h3>
+                    <h3 className="font-semibold text-dark dark:text-white">Form Berita</h3>
                 </div>
                 <form action="#" onSubmit={handleSubmit}>
                     <div className="p-6.5">
@@ -179,7 +179,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                                 placeholder="Masukan Judul"
                                 customClasses="w-full xl:w-1/2"
                                 value={formData.judul}
-                                onChange={(e) => setFormData((prev) => ({...prev, judul: e.target.value}))}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, judul: e.target.value }))}
                             />
                         </div>
                         <div className="mb-6">
@@ -191,7 +191,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                                 placeholder="Masukan Artikel"
                                 className="w-full rounded-[7px] border-[1.5px] border-stroke bg-transparent px-5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                                 value={formData.article}
-                                onChange={(e) => setFormData((prev) => ({...prev, article: e.target.value}))}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, article: e.target.value }))}
                             ></textarea>
                         </div>
                         <div className="mb-6">
