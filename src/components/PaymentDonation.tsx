@@ -124,7 +124,7 @@ const PaymentDonation = () => {
     return (
       <div className="container mx-auto px-4 mt-10">
         <h1 className="text-3xl font-bold text-center mb-8">
-          {donation?.tittle}
+          {donation?.title}
         </h1>
         <form
           onSubmit={handleSubmit}
