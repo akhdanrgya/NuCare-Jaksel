@@ -1,18 +1,19 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import {fetchDonations, insertDonations, DonasiType, deleteDonation} from "../data/donations";
+import {fetchDonations, DonasiType, deleteDonation} from "../data/donations";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
+import {fetchKategoriById, KategoriType} from "@/data/kategori";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
-    weight: ["400", "700"], // Pilih weight sesuai kebutuhan
-    variable: "--font-montserrat", // Custom CSS variable
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
 });
 
 interface DonasiCardsProps {
@@ -21,6 +22,7 @@ interface DonasiCardsProps {
 
 const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
+    const [kategori, setKategori] = useState<Record<number, string>>({}); // State untuk menyimpan kategori berdasarkan ID
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
 
@@ -35,6 +37,21 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
         };
         fetchDonationsData();
     }, []);
+
+    useEffect(() => {
+        const fetchKategoriData = async () => {
+            const kategoriData: Record<number, string> = {};
+            for (const donasi of donations) {
+                const dataKategori = await fetchKategoriById(donasi.kategori);
+                kategoriData[donasi.kategori] = dataKategori.tittle;
+            }
+            setKategori(kategoriData);
+        };
+
+        if (donations.length > 0) {
+            fetchKategoriData();
+        }
+    }, [donations]);
 
     const handleCardClick = (url: string) => {
         const formattedurl = url
@@ -58,9 +75,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                 </div>
             ) : (
                 <div className="m-10 flex justify-between">
-
                     <SearchForm header={false} search={"Donation"}/>
-
                     <Link href="/dashboard/donasi/add">
                         <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                             Add New
@@ -76,6 +91,11 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                             key={idx}
                             className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg cursor-pointer"
                         >
+                            <div className="absolute bg-green-300 m-4 p-1 rounded opacity-90 right-0 top-0">
+                                <h1 className="font-montserrat text-white">
+                                    {kategori[donasi.kategori] || "Loading..."}
+                                </h1>
+                            </div>
 
                             <Image
                                 src={donasi.image}
@@ -86,9 +106,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                 onClick={() => handleCardClick(donasi.url)}
                             />
                             <div className="p-6">
-                                <h1 className="font-bold text-xl font-montserrat mb-2">
-                                    {donasi.title}
-                                </h1>
+                                <h1 className="font-bold text-xl font-montserrat mb-2">{donasi.title}</h1>
                                 <p className="text-gray-500 text-sm mb-20 font-montserrat">
                                     {donasi.location.toUpperCase()}
                                 </p>
@@ -96,20 +114,15 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                 <ProgressBar target={donasi.target} collected={donasi.collected}/>
 
                                 <div className="flex justify-between font-montserrat">
-                                    <p className="text-gray-500">
-                                        Terkumpul
-                                    </p>
-                                    <p className="text-green-500 font-montserrat">
-                                        {donasi.collected}
-                                    </p>
+                                    <p className="text-gray-500">Terkumpul</p>
+                                    <p className="text-green-500 font-montserrat">{donasi.collected}</p>
                                 </div>
                             </div>
                             {dashboard ? (
                                 <div className="flex justify-between px-10 py-5">
                                     <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
                                         <button
-                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat"
-                                        >
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
                                             Edit Donation
                                         </button>
                                     </Link>
@@ -121,14 +134,11 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                     </button>
                                 </div>
                             ) : null}
-
                         </div>
                     ))
                 ) : (
                     <div className="justify-center items-center">
-                        <p className="text-center w-full py-6 font-montserrat">
-                            Tidak ada donasi saat ini
-                        </p>
+                        <p className="text-center w-full py-6 font-montserrat">Tidak ada donasi saat ini</p>
                     </div>
                 )}
             </div>
