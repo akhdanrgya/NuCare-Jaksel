@@ -62,23 +62,23 @@ export const insertBerita = async (judul: string, article: string, author_name: 
     return data
 }
 
-const updateBerita = async (id: number, judul:string, article:string, author_name:string ,uploadedImageUrl: string | null) => {
-        const { data, error } = await supabase
-            .from("berita")
-            .update([
-                {
-                    judul,
-                    article,
-                    author_name,
-                    image: uploadedImageUrl
-                }
-            ])
-            .eq("id", id)
+const updateBerita = async (id: number, judul: string, article: string, author_name: string, uploadedImageUrl: string | null) => {
+    const { data, error } = await supabase
+        .from("berita")
+        .update([
+            {
+                judul,
+                article,
+                author_name,
+                image: uploadedImageUrl
+            }
+        ])
+        .eq("id", id)
 
-        if (error) {
-            console.error("Error updating berita:", error)
-            alert("Gagal memperbarui data berita")
-        } else {
-            alert("Data berita berhasil diperbarui")
-        }
+    if (error) {
+        console.error("Error updating berita:", error)
+        alert("Gagal memperbarui data berita")
+    } else {
+        alert("Data berita berhasil diperbarui")
     }
+}

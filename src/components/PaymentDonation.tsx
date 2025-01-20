@@ -5,7 +5,7 @@ import { fetchUrl, DonasiType } from "../data/donations";
 import { DonaturType, insertDonatur } from "../data/donatur";
 import InputGroup from "./FormElements/InputGroup";
 
-import {updateCollected} from "../data/donations";
+import { updateCollected } from "../data/donations";
 import { v4 as uuidv4 } from "uuid";
 
 const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {

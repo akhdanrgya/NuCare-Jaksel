@@ -99,3 +99,21 @@ export const deleteDonation = async (id: number): Promise<boolean> => {
   console.log("Donation deleted successfully");
   return true;
 };
+
+export const updateCollected = async (id: number, collected: number) => {
+  const { data, error } = await supabase
+    .from("donations")
+    .update([
+      {
+        collected
+      }
+    ])
+    .eq("id", id)
+
+  if (error) {
+    console.error("Error updating collected:", error)
+    alert("Gagal memperbarui data collected")
+  } else {
+    alert("Data collected berhasil diperbarui")
+  }
+}
