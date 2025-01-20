@@ -1,11 +1,13 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
+import Link from "next/link";
+import SearchForm from "@/components/dashboard/Header/SearchForm";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -14,10 +16,10 @@ const montserrat = Montserrat({
 });
 
 interface DonasiCardsProps {
-    lainnya?: boolean;
+    dashboard?: boolean;
 }
 
-const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
+const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
@@ -49,10 +51,23 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
     if (!isMounted) return null;
 
     return (
-        <section className={`${montserrat.variable} font-montserrat py-24 bg-gray-100`}>
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                <h2 className="text-4xl font-montserrat">Ayo Mulai Berdonasi!</h2>
-            </div>
+        <section className={`${montserrat.variable} font-montserrat bg-gray-100`}>
+            {!dashboard ? (
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                </div>
+            ) : (
+                <div className="m-10 flex justify-between">
+
+                    <SearchForm header={false} search={"Donation"}/>
+
+                    <Link href="/dashboard/donasi/add">
+                        <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                            Add New
+                        </button>
+                    </Link>
+                </div>
+            )}
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {donations.length > 0 ? (
@@ -70,16 +85,16 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
                                 height={200}
                             />
                             <div className="p-6">
-                                <h3 className="font-bold text-xl font-montserrat">
+                                <h1 className="font-bold text-xl font-montserrat mb-2">
                                     {donasi.title}
-                                </h3>
+                                </h1>
                                 <p className="text-gray-500 text-sm mb-20 font-montserrat">
                                     {donasi.location.toUpperCase()}
                                 </p>
 
-                                <ProgressBar target={donasi.target} collected={donasi.collected} />
+                                <ProgressBar target={donasi.target} collected={donasi.collected}/>
 
-                                <div className="flex justify-between font-montserrat">
+                                <div className="flex justify-between font-montserrat mb-4">
                                     <p className="text-gray-500">
                                         Terkumpul
                                     </p>
@@ -87,6 +102,19 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
                                         {donasi.collected}
                                     </p>
                                 </div>
+
+                                {dashboard ? (
+                                    <div>
+                                        <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
+                                            <button
+                                                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat"
+                                            >
+                                                Edit Program
+                                            </button>
+                                        </Link>
+                                    </div>
+                                ) : null}
+
                             </div>
                         </div>
                     ))
@@ -98,7 +126,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({lainnya = true}) => {
                     </div>
                 )}
             </div>
-            {lainnya ? (
+            {!dashboard ? (
                 <div className="container mx-auto text-center mt-8">
                     <button
                         className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
