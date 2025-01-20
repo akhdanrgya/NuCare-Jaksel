@@ -22,7 +22,7 @@ interface DonasiCardsProps {
 
 const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
-    const [kategori, setKategori] = useState<Record<number, string>>({}); // State untuk menyimpan kategori berdasarkan ID
+    const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
 
