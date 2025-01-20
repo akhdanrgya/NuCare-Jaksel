@@ -1,8 +1,8 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {fetchDonations, insertDonations, DonasiType} from "../data/donations";
-import {useRouter} from "next/navigation";
+import { useEffect, useState } from "react";
+import { fetchDonations, insertDonations, DonasiType } from "../data/donations";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 
 const DonasiCards: React.FC = () => {
@@ -52,14 +52,14 @@ const DonasiCards: React.FC = () => {
                         >
                             <Image
                                 src={donasi.image}
-                                alt={donasi.tittle}
+                                alt={donasi.title}
                                 className="w-full h-48 object-cover rounded-t-lg"
                                 width={300}
                                 height={200}
                             />
                             <div className="p-4">
                                 <h3 className="text-lg font-semibold text-green-600 mb-2">
-                                    {donasi.tittle}
+                                    {donasi.title}
                                 </h3>
                                 <p className="text-gray-700 mb-2">{donasi.description}</p>
                                 <p className="text-gray-500 text-sm mb-4">
@@ -76,7 +76,7 @@ const DonasiCards: React.FC = () => {
                     ))
                 ) : (
                     <div className="justify-center items-center">
-                            <p className="text-center w-full py-6">Tidak ada donasi saat ini</p>
+                        <p className="text-center w-full py-6">Tidak ada donasi saat ini</p>
                     </div>
                 )}
             </div>

@@ -10,6 +10,7 @@ import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/popover";
 import Form from "@/components/dashboard/Berita/FormBerita";
 import Link from "next/link";
 
+
 const Berita = () => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
     const router = useRouter();
@@ -17,6 +18,7 @@ const Berita = () => {
     useEffect(() => {
         const fetchBeritaData = async () => {
             const dataBeritas = await FetchBerita();
+
             setBerita(dataBeritas);
         };
         fetchBeritaData();
