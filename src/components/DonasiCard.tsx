@@ -68,7 +68,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
     if (!isMounted) return null;
 
     return (
-        <section className={`${montserrat.variable} font-montserrat bg-gray-100`}>
+        <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
             {!dashboard ? (
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
                     <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
