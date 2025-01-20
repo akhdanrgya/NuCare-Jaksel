@@ -125,10 +125,12 @@ export const updateCollected = async (
 
     if (updateError) {
       console.error(`Error updating collected: ${updateError.message}`);
+      alert("Gagal memperbarui data collected")
       return false;
     }
 
     console.log("Collected updated successfully");
+    alert("Berhasil Collected")
     return true;
   }
 
