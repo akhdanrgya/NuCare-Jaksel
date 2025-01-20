@@ -104,14 +104,19 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                 </div>
 
                                 {dashboard ? (
-                                    <div>
+                                    <div className="flex justify-between">
                                         <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
                                             <button
                                                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat"
                                             >
-                                                Edit Program
+                                                Edit Donation
                                             </button>
                                         </Link>
+                                            <button
+                                                className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
+                                            >
+                                                Delete Donation
+                                            </button>
                                     </div>
                                 ) : null}
 
