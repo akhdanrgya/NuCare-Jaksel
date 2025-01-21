@@ -133,7 +133,7 @@ const DonasiDetail = () => {
 
                     <div className="mt-5 ">
                         <button
-                            className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200 w-full"
+                            className="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-200 w-full"
                             onClick={handleDonasi}
                         >
                             Donasi Sekarang
