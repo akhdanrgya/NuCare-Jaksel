@@ -65,6 +65,12 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
         router.push("/program");
     };
 
+    const formatRupiah = (value: number): string => {
+        return new Intl.NumberFormat("id-ID", {
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
+
     if (!isMounted) return null;
 
     return (
@@ -115,7 +121,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
 
                                 <div className="flex justify-between font-montserrat">
                                     <p className="text-gray-500">Terkumpul</p>
-                                    <p className="text-green-500 font-montserrat">{donasi.collected}</p>
+                                    <p className="text-green-500 font-montserrat">{formatRupiah(donasi.collected)}</p>
                                 </div>
                             </div>
                             {dashboard ? (

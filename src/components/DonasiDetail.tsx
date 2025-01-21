@@ -1,14 +1,14 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
-import { fetchUrl } from "../data/donations";
-import { DonasiType } from "../data/donations";
-import { useRouter } from "next/navigation";
+import {useParams} from "next/navigation";
+import {useState, useEffect} from "react";
+import {fetchUrl} from "../data/donations";
+import {DonasiType} from "../data/donations";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
+import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
-import { fetchKategoriById } from "@/data/kategori";
+import {fetchKategoriById} from "@/data/kategori";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 });
 
 const DonasiDetail = () => {
-    const { url } = useParams();
+    const {url} = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -48,6 +48,13 @@ const DonasiDetail = () => {
 
         getDonation();
     }, [url]);
+
+    const formatRupiah = (value: number): string => {
+        return new Intl.NumberFormat("id-ID", {
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
+
 
     const handleDonasi = () => {
         if (url) {
@@ -100,17 +107,20 @@ const DonasiDetail = () => {
                         </div>
                     </div>
 
+                    <hr className="border-gray-300 my-4"/>
+
+
                     <div className="flex justify-between mb-5">
                         <div>
                             <p>Terkumpul</p>
                             <p className="text-green-500 text-2xl">
-                                {donation?.collected ? `${donation.collected}` : "0"}
+                                {donation?.collected ? `${formatRupiah(donation.collected)}` : "0"}
                             </p>
                         </div>
                         <div>
                             <p>Dana Dibutuhkan</p>
                             <p className="font-semibold text-gray-900 text-2xl">
-                                {donation?.target ? `${donation.target}` : "0"}
+                                {donation?.target ? `${formatRupiah(donation.target)}` : "0"}
                             </p>
                         </div>
                     </div>
@@ -121,9 +131,9 @@ const DonasiDetail = () => {
                         collected={donation?.collected || 0}
                     />
 
-                    <div className="mt-5">
+                    <div className="mt-5 ">
                         <button
-                            className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                            className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200 w-full"
                             onClick={handleDonasi}
                         >
                             Donasi Sekarang
