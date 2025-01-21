@@ -55,20 +55,23 @@ const BeritaDetails = () => {
                         <div className="container mx-auto px-20">
                             {/* Gambar Berita */}
                             <div className="flex justify-center items-center">
-                                <Image src={berita.image} alt={berita.judul} width={1080} height={1920} />
+                                <Image src={berita.image} alt={berita.judul} width={1080} height={1920}/>
                             </div>
 
                             {/* Informasi Berita */}
-                            <div className="mt-20 mb-10">
+                            <div className="mt-20">
                                 <h1 className="font-bold text-4xl">{berita.judul}</h1>
                                 <div className="flex gap-8 my-2">
                                     <p className="flex gap-1">
                                         By <span className="font-semibold text-gray-700">{berita.author_name}</span>
                                     </p>
-                                    <span>|</span>
+                                    <div className="w-px bg-gray-300"></div>
                                     <p>{format(new Date(berita.created_at), "dd MMMM yyyy")}</p>
                                 </div>
                             </div>
+
+                            <hr className="border-gray-300 my-4 mb-10"/>
+
 
                             {/* Artikel */}
                             <div>
