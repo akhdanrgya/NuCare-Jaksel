@@ -59,7 +59,7 @@ const BeritaDetails = () => {
                             <div className="mt-20 mb-10">
                                 <h1 className="font-bold text-4xl">{berita.judul}</h1>
                                 <div className="flex gap-8 my-2">
-                                    <p className="">By {berita.author_name}</p>
+                                    <p className="flex gap-1">By<p className="font-semibold text-gray-7">{berita.author_name} </p> </p>
                                     <p className="">|</p>
                                     <p className="">{format(new Date(berita.created_at), "dd MMMM yyyy")}</p>
                                 </div>
