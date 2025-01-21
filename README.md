@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NuCare-Jaksel
 
-## Getting Started
+**NuCare-Jaksel** adalah platform donasi berbasis web yang dibangun menggunakan [Next.js](https://nextjs.org/). Platform
+ini bertujuan untuk memudahkan pengguna dalam memberikan donasi dan mendukung berbagai program sosial di wilayah Jakarta
+Selatan.
 
-First, run the development server:
+## Fitur
+
+- **Halaman Donasi**: Menampilkan daftar program donasi yang tersedia.
+- **Detail Program**: Informasi lengkap mengenai setiap program donasi.
+- **Proses Pembayaran**: Integrasi dengan metode pembayaran untuk memudahkan donasi.
+- **Dashboard Admin**: Mengelola program donasi, kategori, dan laporan donasi.
+
+## Teknologi yang Digunakan
+
+- **Framework**: [Next.js](https://nextjs.org/)
+- **Bahasa Pemrograman**: TypeScript
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Autentikasi**: [SupabaseAuth](https://supabase.com/docs/guides/auth)
+- **Database**: [Supabase](https://supabase.io/)
+- **Deployment**: [Vercel](https://vercel.com/)
+
+## Prasyarat
+
+Pastikan Anda telah menginstal perangkat berikut:
+
+- [Node.js](https://nodejs.org/) versi 14 atau lebih baru
+- [npm](https://www.npmjs.com/) atau [Yarn](https://yarnpkg.com/)
+
+## Instalasi
+
+1. **Kloning repositori ini**:
+
+   ```bash
+   git clone https://github.com/akhdanrgya/NuCare-Jaksel.git
+   ```
+
+2. **Masuk ke direktori proyek**:
+
+   ```bash
+   cd NuCare-Jaksel
+   ```
+
+3. **Instal dependensi**:
+
+   Menggunakan npm:
+
+   ```bash
+   npm install
+   ```
+
+   Atau menggunakan Yarn:
+
+   ```bash
+   yarn install
+   ```
+
+4. **Konfigurasi Environment Variables**:
+
+   Buat file `.env.local` di root proyek dan tambahkan variabel lingkungan yang diperlukan:
+
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   
+   NEXT_PUBLIC_MIDTRANS_MERCHAND_ID=your_mercband_id
+   NEXT_PUBLIC_MIDTRANS_CLIENT_KEY=your_client_key
+   NEXT_PUBLIC_MIDTRANS_SERVER_KEY=your_server_key
+   ```
+
+   Pastikan untuk mengganti `your_supabase_url` dan `your_supabase_anon_key` dengan kredensial Supabase Anda.
+
+## Menjalankan Proyek
+
+Untuk memulai server pengembangan:
+
+Menggunakan npm:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Menggunakan Yarn:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+yarn dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Buka localhost anda di browser untuk melihat aplikasi.
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Proyek ini dikonfigurasi untuk deployment di [Vercel](https://vercel.com/). Untuk melakukan deployment:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Buat akun Vercel** dan hubungkan dengan repositori GitHub Anda.
+2. **Impor proyek** dan atur variabel lingkungan di dashboard Vercel sesuai dengan `.env.local`.
+3. **Deploy** proyek melalui dashboard Vercel.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Kontribusi
 
-## Deploy on Vercel
+Kontribusi sangat diterima! Silakan fork repositori ini dan buat pull request dengan perubahan yang Anda usulkan.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Lisensi
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proyek ini dilisensikan di bawah [MIT License](LICENSE).
