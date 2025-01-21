@@ -18,9 +18,10 @@ const montserrat = Montserrat({
 
 interface DonasiCardsProps {
     dashboard?: boolean;
+    detail?: boolean;
 }
 
-const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
+const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
@@ -75,19 +76,21 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
 
     return (
         <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
-            {!dashboard ? (
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
-                </div>
-            ) : (
-                <div className="m-10 flex justify-between">
-                    <SearchForm header={false} search={"Donation"}/>
-                    <Link href="/dashboard/donasi/add">
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-                            Add New
-                        </button>
-                    </Link>
-                </div>
+            {detail ? null : (
+                !dashboard ? (
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                        <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                    </div>
+                ) : (
+                    <div className="m-10 flex justify-between">
+                        <SearchForm header={false} search={"Donation"}/>
+                        <Link href="/dashboard/donasi/add">
+                            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                                Add New
+                            </button>
+                        </Link>
+                    </div>
+                )
             )}
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -148,16 +151,18 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                     </div>
                 )}
             </div>
-            {!dashboard ? (
-                <div className="container mx-auto text-center mt-8">
-                    <button
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
-                        onClick={() => handleProgramClick()}
-                    >
-                        Program Lainnya
-                    </button>
-                </div>
-            ) : null}
+            {detail ? null : (
+                !dashboard ? (
+                    <div className="container mx-auto text-center mt-8">
+                        <button
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
+                            onClick={() => handleProgramClick()}
+                        >
+                            Program Lainnya
+                        </button>
+                    </div>
+                ) : null
+            )}
         </section>
     );
 };
