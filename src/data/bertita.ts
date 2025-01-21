@@ -55,11 +55,11 @@ export const insertBerita = async (judul: string, article: string, author_name: 
     if (error) {
         console.error("Error adding berita:", error.message)
         alert("Gagal menyimpan data berita")
-        return null
+        return { data, error }
     }
 
     alert("Data berita berhasil disimpan")
-    return data
+    return { data, error }
 }
 
 const updateBerita = async (id: number, judul: string, article: string, author_name: string, uploadedImageUrl: string | null) => {

@@ -6,6 +6,7 @@ import { supabase } from "@/libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import { FetchBeritaById, BeritaType, insertBerita } from "@/data/bertita";
 import { fetchRecentUser, UserType } from "@/data/user";
+import { useRouter } from "next/navigation";
 
 interface FormBeritaProps {
     editing?: boolean;
@@ -16,6 +17,7 @@ const FormBerita = ({ editing, defaultValues }: FormBeritaProps) => {
     const [imageUrl, setImageUrl] = useState<string>("")
     const [session, setSession] = useState<Session | null>(null)
     const [user, setUser] = useState<UserType | null>(null)
+    const router = useRouter()
 
     const [formData, setFormData] = useState<BeritaType>(
         defaultValues || { id: 0, judul: "", image: "", created_at: "", kategori: "", article: "", author_name: "" }
@@ -115,52 +117,83 @@ const FormBerita = ({ editing, defaultValues }: FormBeritaProps) => {
             alert("Data berita berhasil diperbarui")
         }
     }
-
-
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
+        e.preventDefault();
 
         if (!formData.judul.trim()) {
-            alert("Judul tidak boleh kosong!")
-            return
+            alert("Judul tidak boleh kosong!");
+            return;
         }
 
         if (!formData.article.trim()) {
-            alert("Artikel tidak boleh kosong!")
-            return
+            alert("Artikel tidak boleh kosong!");
+            return;
         }
 
-        const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]')
-        const file = fileInput?.files?.[0]
+        const fileInput = document.querySelector<HTMLInputElement>('input[type="file"]');
+        const file = fileInput?.files?.[0];
         if (!file && !formData.image.trim()) {
-            alert("Harap unggah gambar!")
-            return
+            alert("Harap unggah gambar!");
+            return;
         }
-
 
         try {
-            let uploadedImageUrl: string | null = ""
+            let uploadedImageUrl: string | null = "";
             if (file) {
-                uploadedImageUrl = await uploadFile(file)
+                uploadedImageUrl = await uploadFile(file);
             }
 
+            let operationSuccessful = false;
+
             if (editing && defaultValues?.id) {
-                await updateBerita(defaultValues.id, uploadedImageUrl)
+                const { error } = await supabase
+                    .from("berita")
+                    .update({
+                        judul: formData.judul,
+                        article: formData.article,
+                        author_name: user?.username,
+                        image: uploadedImageUrl || formData.image,
+                    })
+                    .eq("id", defaultValues.id);
+
+                if (error) {
+                    console.error("Error updating berita:", error);
+                    alert("Gagal memperbarui data berita");
+                } else {
+                    alert("Data berita berhasil diperbarui");
+                    operationSuccessful = true;
+                }
             } else {
-                await insertBerita(
+                const { error } = await insertBerita(
                     formData.judul,
                     formData.article,
                     user?.username,
                     uploadedImageUrl || imageUrl
+                );
 
-                )
+                if (error) {
+                    console.error("Error inserting berita:", error);
+                    alert("Gagal menambahkan data berita");
+                } else {
+                    alert("Data berita berhasil ditambahkan");
+                    operationSuccessful = true;
+                }
+            }
+
+            if (operationSuccessful) {
+                alert("Berhasil, kembali ke Home");
+                router.push("/dashboard/berita");
             }
 
         } catch (err) {
-            console.error("Error handling submit berita:", err)
-            alert("Terjadi kesalahan saat menyimpan data berita")
+            console.error("Error handling submit berita:", err);
+            alert("Terjadi kesalahan saat menyimpan data berita");
         }
-    }
+    };
+
+
+
+
 
 
     return (

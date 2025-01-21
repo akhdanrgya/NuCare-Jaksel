@@ -4,22 +4,24 @@ import { supabase } from "../../../libs/supabaseClient";
 import { DonasiType } from "@/data/donations";
 import InputGroup from "../../FormElements/InputGroup";
 import SelectKategori from "../../FormElements/SelectGroup/SelectKategori";
+import { useRouter } from "next/navigation";
 
 interface FormDonasiProps {
   editing?: boolean;
   defaultValues?: DonasiType;
 }
 
-const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
-    const [target, setTarget] = useState<string>("");
-    const [title, setTittle] = useState<string>("");
-    const [url, setUrl] = useState<string>("");
-    const [location, setLocation] = useState<string>("");
-    const [desc, setDesc] = useState<string>("");
-    const [deadLine, setDeadLine] = useState<Date>(new Date());
-    const [article, setArticle] = useState<string>("");
-    const [imageUrl, setImageUrl] = useState<string>("");
-    const [kategoriId, setKategoriId] = useState<string>("");
+const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
+  const [target, setTarget] = useState<string>("");
+  const [title, setTittle] = useState<string>("");
+  const [url, setUrl] = useState<string>("");
+  const [location, setLocation] = useState<string>("");
+  const [desc, setDesc] = useState<string>("");
+  const [deadLine, setDeadLine] = useState<Date>(new Date());
+  const [article, setArticle] = useState<string>("");
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [kategoriId, setKategoriId] = useState<string>("");
+  const router = useRouter()
 
   const [formData, setFormData] = React.useState<DonasiType>(
     defaultValues || {
@@ -120,6 +122,8 @@ const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
       console.log("Donation inserted:", data);
       alert("Data donasi berhasil disimpan");
     }
+
+    return { data, error }
   };
 
   const updateDonations = async (uploadedImageUrl: string | null) => {
@@ -146,6 +150,8 @@ const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
       console.log("Donation updated:", data);
       alert("Data donasi berhasil diperbarui");
     }
+
+    return { data, error }
   };
 
 
@@ -160,11 +166,35 @@ const FormDonasi = ({editing, defaultValues}: FormDonasiProps) => {
         uploadedImageUrl = await uploadFile(file);
       }
 
-      if (editing) {
-        await updateDonations(uploadedImageUrl);
+      let operationSuccess = false;
+
+      if (editing && defaultValues?.id) {
+        const { data, error } = await updateDonations(uploadedImageUrl);
+
+        if (error) {
+          console.error("Error updating berita:", error);
+          alert("Gagal memperbarui data berita");
+        } else {
+          alert("Data berita berhasil diperbarui");
+          operationSuccess = true;
+        }
       } else {
-        await insertDonations(uploadedImageUrl);
+        const { data, error } = await insertDonations(uploadedImageUrl);
+
+        if (error) {
+          console.error("Error inserting berita:", error);
+          alert("Gagal menambahkan data berita");
+        } else {
+          alert("Data berita berhasil ditambahkan");
+          operationSuccess = true;
+        }
       }
+
+      if (operationSuccess) {
+        alert("Berhasil, kembali ke Home");
+        router.push("/dashboard/donasi");
+      }
+
     } catch (err) {
       console.error("Error handling submit:", err);
       alert("Terjadi kesalahan saat menyimpan data donasi");
