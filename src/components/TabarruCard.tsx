@@ -1,34 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import InputGroup from "./FormElements/InputGroup";
 import { useRouter } from "next/navigation";
 
 const HeaderCard: React.FC = () => {
+  // default cardnya zakat
   const [donationType, setDonationType] = useState<string>("zakat");
   const [wealth, setWealth] = useState<number>(0);
+  const [calculatedZakat, setCalculatedZakat] = useState<number>(0);
   const router = useRouter();
 
   const handleDonationTypeChange = (type: string) => {
     setDonationType(type);
   };
 
-  const calculateZakat = (amount: number) => {
-    return amount * 0.025;
-  };
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWealth(parseInt(e.target.value) || 0);
   };
 
+  useEffect(() => {
+    if (donationType === "zakat") {
+      setCalculatedZakat(wealth * 0.025); // Hitung zakat jika donasi adalah zakat
+    }
+  }, [wealth, donationType]);
 
   const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    router.push(`/tabarru?wealth=${donationType === "zakat" ? calculatedZakat : wealth}`);
 
-    event.preventDefault()
-
-    router.push(`/tabarru?wealth=${wealth}`)
-
-  }
+  };
 
 
   return (
@@ -99,7 +100,7 @@ const HeaderCard: React.FC = () => {
             </div>
             <div className="text-center mb-6">
               <p className="text-lg font-semibold text-gray-800">
-                Zakat Maal Kamu: Rp {calculateZakat(wealth)}
+                Zakat Maal Kamu: Rp {calculatedZakat}
               </p>
             </div>
 

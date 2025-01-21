@@ -2,7 +2,7 @@
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import imageCarousel from '../data/image';
-import HeaderCard from './HeaderCard';
+import HeaderCard from './TabarruCard';
 import Stats from './Stats';
 import Image from "next/image";
 
