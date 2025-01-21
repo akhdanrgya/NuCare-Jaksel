@@ -45,8 +45,6 @@ const BeritaDetails = () => {
     }, [idx]);
 
     return (
-        <>
-            <Header/>
             <section className={`${montserrat.variable} font-montserrat py-24`}>
                 {error ? (
                     <p>{error}</p>
@@ -92,8 +90,6 @@ const BeritaDetails = () => {
                     <p>Loading...</p>
                 )}
             </section>
-            <Footer/>
-        </>
 
     );
 };
