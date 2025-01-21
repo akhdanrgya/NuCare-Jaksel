@@ -88,15 +88,17 @@ export const fetchDonationById = async (id: number): Promise<DonasiType | null> 
   return data as DonasiType || null
 };
 
-export const deleteDonation = async (id: number): Promise<boolean> => {
-  const { error } = await supabase.from("donations").delete().eq("id", id);
+export const deleteDonation = async (id: number, url: string): Promise<boolean> => {
+  const fileName = url.split("/").pop();
+  const { error: donationError } = await supabase.from("donations").delete().eq("id", id);
+  const { error: storageError } = await supabase.storage.from("donationimage").remove([`donasiprivateimg/${fileName}`]);
 
-  if (error) {
-    console.error(`Error deleting donation: ${error.message}`);
+  if (donationError || storageError) {
+    alert(`Error deleting donation`);
     return false;
   }
 
-  console.log("Donation deleted successfully");
+  alert("Donation deleted successfully");
   return true;
 };
 

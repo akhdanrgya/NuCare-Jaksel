@@ -82,3 +82,24 @@ const updateBerita = async (id: number, judul: string, article: string, author_n
         alert("Data berita berhasil diperbarui")
     }
 }
+
+export const deleteBerita = async (id: number, url: string) => {
+    const confirmDelete = confirm("Apakah Anda yakin ingin menghapus berita ini?");
+    if (!confirmDelete) return;
+
+    const fileName = url.split("/").pop();
+
+    if (!fileName) {
+        alert("URL file tidak valid!");
+        return;
+    }
+
+    const { error: deleteError } = await supabase.from("berita").delete().eq("id", id);
+    const { error: storageError } = await supabase.storage.from("beritaimage").remove([`beritaprivateimg/${fileName}`]);
+
+    if (deleteError || storageError) {
+        alert("Berita gagal dihapus!");
+    } else {
+        alert("Berita berhasil dihapus!");
+    }
+}
