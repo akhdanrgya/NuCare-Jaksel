@@ -1,11 +1,13 @@
 import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import BeritaCard from "@/components/BeritaCard";
 
 const Berita = () => {
     return (
         <>
             <Header/>
-            <BeritaCard lainnya={false}/>
+            <BeritaCard detail={true}/>
+            <Footer/>
         </>
     )
 }
