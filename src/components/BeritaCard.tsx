@@ -5,9 +5,9 @@ import {FetchBerita, BeritaType, deleteBerita} from "../data/bertita";
 import {useRouter} from "next/navigation";
 import Image from "next/image";
 import {format} from "date-fns";
-import {Montserrat} from "next/font/google";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
+import {Montserrat} from "next/font/google";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -46,7 +46,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
             {detail ? null : (
                 !dashboard ? (
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                        <h2 className="text-4xl">Berita</h2>
+                        <h2 className="text-4xl font-montserrat font-bold">Berita</h2>
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">

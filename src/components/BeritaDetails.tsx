@@ -45,8 +45,6 @@ const BeritaDetails = () => {
     }, [idx]);
 
     return (
-        <>
-            <Header />
             <section className={`${montserrat.variable} font-montserrat py-24`}>
                 {error ? (
                     <p>{error}</p>
@@ -80,20 +78,18 @@ const BeritaDetails = () => {
                         </div>
 
                         {/* Berita Lainnya */}
-                        <div className="container mx-auto px-20 mt-24">
+                        <div className="container mx-auto px-10 mt-24">
                             <div className="flex justify-between">
-                                <h3 className="font-semibold">Berita Lainnya</h3>
-                                <h3 className="font-semibold text-green-500">Selanjutnya</h3>
+                                <h3 className="font-semibold text-xl">Berita Lainnya</h3>
+                                <h3 className="font-semibold text-green-500 text-xl">Selanjutnya</h3>
                             </div>
-                            <BeritaCard detail={true} />
                         </div>
+                        <BeritaCard detail={true}/>
                     </>
                 ) : (
                     <p>Loading...</p>
                 )}
             </section>
-            <Footer />
-        </>
 
     );
 };

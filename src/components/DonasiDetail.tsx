@@ -9,6 +9,7 @@ import Image from "next/image";
 import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import {fetchKategoriById} from "@/data/kategori";
+import DonasiCards from "@/components/DonasiCard";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -103,7 +104,7 @@ const DonasiDetail = () => {
                         </div>
                         <div>
                             <p>Author</p>
-                            <p>Anjay</p>
+                            <p>{donation?.author || "Tidak Tersedia"}</p>
                         </div>
                     </div>
 
@@ -133,7 +134,7 @@ const DonasiDetail = () => {
 
                     <div className="mt-5 ">
                         <button
-                            className="bg-blue-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-blue-600 transition duration-200 w-full"
+                            className="bg-green-500 text-white font-semibold py-3 px-6 rounded-lg hover:bg-green-600 transition duration-200 w-full"
                             onClick={handleDonasi}
                         >
                             Donasi Sekarang
@@ -146,6 +147,15 @@ const DonasiDetail = () => {
             <div className="max-w-7xl mx-auto py-10 px-5 md:px-10">
                 <p>{donation?.detail || "Detail tidak tersedia"}</p>
             </div>
+
+            <div className="container mx-auto px-10 mt-24">
+                <div className="flex justify-between">
+                    <h3 className="font-semibold text-xl">Program Lainnya</h3>
+                    <h3 className="font-semibold text-green-500 text-xl">Selanjutnya</h3>
+                </div>
+            </div>
+            <DonasiCards detail={true}/>
+
         </section>
     );
 };

@@ -1,9 +1,16 @@
 import React from "react";
 import YoutubeVideoFrame from "@/components/YoutubeVideoFrame";
+import {Montserrat} from "next/font/google";
+
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
+});
 
 const Profile = () => {
     return (
-        <section className="py-24">
+        <section className={`${montserrat.variable} font-montserrat py-24`}>
             <div className="container mx-auto px-4">
 
                 <div className="flex flex-col lg:flex-row items-center gap-4 justify-center">
