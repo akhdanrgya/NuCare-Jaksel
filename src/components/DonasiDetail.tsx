@@ -104,7 +104,7 @@ const DonasiDetail = () => {
                         </div>
                         <div>
                             <p>Author</p>
-                            <p>Anjay</p>
+                            <p>{donation?.author || "Tidak Tersedia"}</p>
                         </div>
                     </div>
 
