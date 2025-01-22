@@ -4,6 +4,8 @@ import PaymentDonation from "@/components/PaymentDonation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
+export const dynamic = "force-dynamic";
+
 const TabarruForm = () => {
     const searchParams = useSearchParams();
     const [wealth, setWealth] = useState<string | null>(null);
@@ -14,7 +16,6 @@ const TabarruForm = () => {
         setWealth(Array.isArray(data) ? data[0] : data);
     }, [searchParams]);
 
-    // Jangan render `PaymentDonation` sampai wealth siap
     if (!wealth) return <div>Loading...</div>;
 
     return <PaymentDonation wealth={wealth} />;
