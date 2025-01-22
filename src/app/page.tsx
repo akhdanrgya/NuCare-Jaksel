@@ -13,11 +13,12 @@ const Home: React.FC = () => {
             <Analytics/>
 
             <Header/>
-
-            <Hero/>
-            <DonasiCards/>
-            <BeritaCard/>
-            <Profile/>
+            <div className="mt-20">
+                <Hero/>
+                <DonasiCards/>
+                <BeritaCard/>
+                <Profile/>
+            </div>
 
             <Footer/>
 
