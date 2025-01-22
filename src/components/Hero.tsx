@@ -4,11 +4,17 @@ import 'swiper/css';
 import imageCarousel from '../data/image';
 import HeaderCard from './TabarruCard';
 import Stats from './Stats';
-import Image from "next/image";
+import {Montserrat} from "next/font/google";
+
+const montserrat = Montserrat({
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
+});
 
 const Hero: React.FC = () => {
   return (
-    <section className="relative text-white py-20 text-center h-screen">
+    <section className={`${montserrat.variable} font-montserrat relative text-white py-20 text-center h-screen`}>
       {/* Swiper sebagai Background */}
       <div className="absolute inset-0 z-0">
         <Swiper

@@ -6,6 +6,7 @@ import BeritaCard from "@/components/BeritaCard";
 import {Analytics} from "@vercel/analytics/react"
 import Profile from "@/components/Profile";
 
+
 const Home: React.FC = () => {
     return (
         <>
