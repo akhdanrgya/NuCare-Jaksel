@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/libs/supabaseClient";
 import { Session } from "@supabase/supabase-js";
 import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
-import { ApexOptions } from "apexcharts";
 import React from "react";
 
 

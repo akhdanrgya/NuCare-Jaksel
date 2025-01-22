@@ -1,7 +1,6 @@
 import React from "react";
 import DataStatsOne from "@/components/DataStats/DataStatsOne";
-import ChartOne from "@/components/dashboard/Charts/ChartOne";
-import ChartTwo from "@/components/dashboard/Charts/ChartTwo";
+
 
 const Dashboard = () => {
     return (
