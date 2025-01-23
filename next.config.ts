@@ -10,6 +10,10 @@ const nextConfig = {
             },
         ],
     },
+    experimental: {
+        appDir: true,
+        dynamicParams: true,
+    },
 };
 
 module.exports = nextConfig;

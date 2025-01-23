@@ -18,9 +18,10 @@ const montserrat = Montserrat({
 
 interface DonasiCardsProps {
     dashboard?: boolean;
+    detail?: boolean;
 }
 
-const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false }) => {
+const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
@@ -75,23 +76,31 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false }) => {
         router.push("/program");
     };
 
+    const formatRupiah = (value: number): string => {
+        return new Intl.NumberFormat("id-ID", {
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
+
     if (!isMounted) return null;
 
     return (
         <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
-            {!dashboard ? (
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
-                </div>
-            ) : (
-                <div className="m-10 flex justify-between">
-                    <SearchForm header={false} search={"Donation"} />
-                    <Link href="/dashboard/donasi/add">
-                        <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-                            Add New
-                        </button>
-                    </Link>
-                </div>
+            {detail ? null : (
+                !dashboard ? (
+                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                        <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                    </div>
+                ) : (
+                    <div className="m-10 flex justify-between">
+                        <SearchForm header={false} search={"Donation"}/>
+                        <Link href="/dashboard/donasi/add">
+                            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                                Add New
+                            </button>
+                        </Link>
+                    </div>
+                )
             )}
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -125,7 +134,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false }) => {
 
                                 <div className="flex justify-between font-montserrat">
                                     <p className="text-gray-500">Terkumpul</p>
-                                    <p className="text-green-500 font-montserrat">{donasi.collected}</p>
+                                    <p className="text-green-500 font-montserrat">{formatRupiah(donasi.collected)}</p>
                                 </div>
                             </div>
                             {dashboard ? (
@@ -152,16 +161,18 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false }) => {
                     </div>
                 )}
             </div>
-            {!dashboard ? (
-                <div className="container mx-auto text-center mt-8">
-                    <button
-                        className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
-                        onClick={() => handleProgramClick()}
-                    >
-                        Program Lainnya
-                    </button>
-                </div>
-            ) : null}
+            {detail ? null : (
+                !dashboard ? (
+                    <div className="container mx-auto text-center mt-8">
+                        <button
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
+                            onClick={() => handleProgramClick()}
+                        >
+                            Program Lainnya
+                        </button>
+                    </div>
+                ) : null
+            )}
         </section>
     );
 };

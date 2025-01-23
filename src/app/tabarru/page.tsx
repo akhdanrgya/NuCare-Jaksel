@@ -1,19 +1,24 @@
-"use client"
+"use client";
 
-import PaymentDonation from "@/components/PaymentDonation"
+import PaymentDonation from "@/components/PaymentDonation";
 import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
+
+export const dynamic = "force-dynamic";
 
 const TabarruForm = () => {
     const searchParams = useSearchParams();
-    const data = searchParams.get("wealth"); // Mengambil query parameter wealth
+    const [wealth, setWealth] = useState<string | null>(null);
 
-    console.log(`nilai wealth di URL: ${data}`)
-    // Ensure 'data' is a string (if it's an array, pick the first item)
-    const wealth = Array.isArray(data) ? data[0] : data;
+    useEffect(() => {
+        const data = searchParams.get("wealth");
+        console.log(`nilai wealth di URL: ${data}`);
+        setWealth(Array.isArray(data) ? data[0] : data);
+    }, [searchParams]);
 
-    return (
-        <PaymentDonation wealth={wealth} />
-    )
-}
+    if (!wealth) return <div>Loading...</div>;
+
+    return <PaymentDonation wealth={wealth} />;
+};
 
 export default TabarruForm;

@@ -1,6 +1,13 @@
 'use client'
 import { useState, useEffect } from "react";
 import { fetchStats, StatsType } from "../data/stat";
+import {Montserrat} from "next/font/google";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-montserrat",
+});
 
 const Stats: React.FC = () => {
   const [stats, setStats] = useState<StatsType[]>([]);
@@ -14,7 +21,7 @@ const Stats: React.FC = () => {
   }, []);
 
     return (
-      <div className="absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 bg-white shadow-lg rounded-xl p-6 flex justify-around items-center">
+      <div className={`${montserrat.variable} font-montserrat absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 bg-white shadow-lg rounded-xl p-6 flex justify-around items-center`}>
         {stats.map((stat, index) => (
           <div
             key={index}

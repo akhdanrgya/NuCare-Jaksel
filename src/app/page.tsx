@@ -6,17 +6,19 @@ import BeritaCard from "@/components/BeritaCard";
 import {Analytics} from "@vercel/analytics/react"
 import Profile from "@/components/Profile";
 
+
 const Home: React.FC = () => {
     return (
         <>
             <Analytics/>
 
             <Header/>
-
-            <Hero/>
-            <DonasiCards/>
-            <BeritaCard/>
-            <Profile/>
+            <div className="mt-20">
+                <Hero/>
+                <DonasiCards/>
+                <BeritaCard/>
+                <Profile/>
+            </div>
 
             <Footer/>
 
