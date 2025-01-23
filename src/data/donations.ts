@@ -88,6 +88,22 @@ export const fetchDonationById = async (id: number): Promise<DonasiType | null> 
   return data as DonasiType || null
 };
 
+export const fetchDonationByTitle = async (title: string): Promise<string[] | null> => {
+  const { data, error } = await supabase
+    .from("donations")
+    .select('title')
+    
+    console.table(data)
+
+  if (error) {
+    console.error(`Error fetching berita by id: ${error.message}`)
+    return null
+  }
+
+  // Pastikan data ada dan kembalikan hanya field 'title' dalam bentuk array
+  return data ? data.map((donation) => donation.title) : null;
+};
+
 export const deleteDonation = async (id: number, url: string): Promise<boolean> => {
   const fileName = url.split("/").pop();
   const { error: donationError } = await supabase.from("donations").delete().eq("id", id);

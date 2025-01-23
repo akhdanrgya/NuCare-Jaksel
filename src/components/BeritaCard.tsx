@@ -1,11 +1,11 @@
 "use client";
 
-import React, {useState, useEffect} from "react";
-import {FetchBerita, BeritaType, deleteBerita} from "../data/bertita";
-import {useRouter} from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { FetchBerita, BeritaType, deleteBerita } from "../data/bertita";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {format} from "date-fns";
-import {Montserrat} from "next/font/google";
+import { format } from "date-fns";
+import { Montserrat } from "next/font/google";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
 
@@ -20,7 +20,7 @@ interface BeritaCardProps {
 }
 
 
-const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false}) => {
+const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false }) => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
     const router = useRouter()
 
@@ -43,12 +43,12 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false}) => {
     return (
         <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
             {!dashboard ? (
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                <h2 className="text-4xl">Berita</h2>
-            </div>
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                    <h2 className="text-4xl">Berita</h2>
+                </div>
             ) : (
                 <div className="m-10 flex justify-between">
-                    <SearchForm header={false} search={"Donation"}/>
+                    <SearchForm header={false} search={"Berita"} />
                     <Link href="/dashboard/berita/add">
                         <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                             Add New
@@ -81,20 +81,20 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false}) => {
                                 </div>
                             </div>
                             {dashboard ? (
-                            <div className="flex justify-between px-10 py-5">
-                                <Link href={`/dashboard/donasi/edit/${data.id}`}>
+                                <div className="flex justify-between px-10 py-5">
+                                    <Link href={`/dashboard/donasi/edit/${data.id}`}>
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
+                                            Edit
+                                        </button>
+                                    </Link>
                                     <button
-                                        className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
-                                        Edit
+                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
+                                        onClick={() => deleteBerita(data.id, data.image)}
+                                    >
+                                        Delete
                                     </button>
-                                </Link>
-                                <button
-                                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
-                                    onClick={() => deleteBerita(data.id, data.image)}
-                                >
-                                    Delete
-                                </button>
-                            </div>
+                                </div>
                             ) : (null)}
 
                         </div>

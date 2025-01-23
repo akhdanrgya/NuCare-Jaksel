@@ -49,7 +49,7 @@ const EditBerita = () => {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Edit Donasi" />
-            <FormDonasi defaultValues={donationData} editing={true}/>
+            <FormDonasi defaultValues={donationData} editing={true} />
         </DefaultLayout>
     )
 }

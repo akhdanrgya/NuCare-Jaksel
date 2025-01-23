@@ -5,7 +5,7 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import FormBerita from "@/components/dashboard/Berita/FormBerita";
 import { FetchBeritaById, BeritaType } from "@/data/bertita";
 import { useEffect, useState } from "react";
-import {useParams} from "next/navigation";
+import { useParams } from "next/navigation";
 
 const EditBerita = () => {
     const { id } = useParams(); // Ambil parameter id dari URL
@@ -49,7 +49,7 @@ const EditBerita = () => {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Edit Berita" />
-            <FormBerita defaultValues={beritaData} editing={true}/>
+            <FormBerita defaultValues={beritaData} editing={true} />
         </DefaultLayout>
     )
 }

@@ -8,7 +8,7 @@ const DashboardBerita = () => {
     <DefaultLayout>
       <Breadcrumb pageName="Berita" />
       {/*<Berita />*/}
-        <BeritaCard dashboard={true}/>
+      <BeritaCard dashboard={true} />
     </DefaultLayout>
   );
 };

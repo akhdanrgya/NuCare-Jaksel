@@ -6,10 +6,10 @@ import DonasiCard from "@/components/DonasiCard";
 
 const DashboardDonasi = () => {
   return (
-      <DefaultLayout>
-          <Breadcrumb pageName="Donasi"/>
-          <DonasiCard dashboard={true} />
-      </DefaultLayout>
+    <DefaultLayout>
+      <Breadcrumb pageName="Donasi" />
+      <DonasiCard dashboard={true} />
+    </DefaultLayout>
   );
 };
 

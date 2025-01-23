@@ -1,14 +1,14 @@
 "use client";
 
-import React, {useEffect, useState} from "react";
-import {fetchDonations, DonasiType, deleteDonation} from "../data/donations";
-import {useRouter} from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { fetchDonations, DonasiType, deleteDonation, fetchDonationByTitle } from "../data/donations";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {Montserrat} from "next/font/google";
+import { Montserrat } from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import {fetchKategoriById, KategoriType} from "@/data/kategori";
+import { fetchKategoriById, KategoriType } from "@/data/kategori";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -20,11 +20,21 @@ interface DonasiCardsProps {
     dashboard?: boolean;
 }
 
-const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
+const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false }) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
+
+
+    const [query, setQuery] = useState("");
+    const [donationData, setDonationData] = useState<string[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+    const filteredDonations = donations.filter
+
+
 
     useEffect(() => {
         setIsMounted(true);
@@ -75,7 +85,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                 </div>
             ) : (
                 <div className="m-10 flex justify-between">
-                    <SearchForm header={false} search={"Donation"}/>
+                    <SearchForm header={false} search={"Donation"} />
                     <Link href="/dashboard/donasi/add">
                         <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                             Add New
@@ -111,7 +121,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false}) => {
                                     {donasi.location.toUpperCase()}
                                 </p>
 
-                                <ProgressBar target={donasi.target} collected={donasi.collected}/>
+                                <ProgressBar target={donasi.target} collected={donasi.collected} />
 
                                 <div className="flex justify-between font-montserrat">
                                     <p className="text-gray-500">Terkumpul</p>

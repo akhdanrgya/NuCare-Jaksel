@@ -5,8 +5,8 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb"
 const ProfilePage = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Profile"/>
-            <Profile/>
+            <Breadcrumb pageName="Profile" />
+            <Profile />
         </DefaultLayout>
     )
 }

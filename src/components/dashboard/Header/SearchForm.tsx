@@ -1,16 +1,33 @@
-import React, {useState} from "react";
+import { fetchDonationById, fetchDonationByTitle } from "@/data/donations";
+import React, { useEffect, useState } from "react";
 
 interface SearchFormProps {
     header?: boolean
     search?: string
 }
 
-const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => {
+const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "" }) => {
+
+    const [query, setQuery] = useState("");
+    const [donationData, setDonationData] = useState<string[]>([]);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+
+
+
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        fetchDonasiTitle
+
+
+        
+    };
+
+
     return (
         <>
             {header ? (
                 <li className="hidden lg:block">
-                    <form action="https://formbold.com/s/unique_form_id" method="POST">
+                    <form onSubmit={handleSubmit}>
                         <div className="relative w-full max-w-[300px]">
                             <button
                                 className="absolute left-5 top-1/2 -translate-y-1/2 text-dark hover:text-primary dark:text-dark-6 dark:hover:text-primary"
@@ -33,7 +50,7 @@ const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => 
                                     </g>
                                     <defs>
                                         <clipPath id="clip0_1791_1693">
-                                            <rect width="18" height="18" fill="white"/>
+                                            <rect width="18" height="18" fill="white" />
                                         </clipPath>
                                     </defs>
                                 </svg>
@@ -42,6 +59,8 @@ const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => 
                             <input
                                 type="text"
                                 placeholder="Search"
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)} // Update state saat input berubah
                                 className="w-full rounded-full border border-stroke bg-gray-2 py-3 pl-13.5 pr-5 text-dark focus:border-primary focus:outline-none dark:border-dark-4 dark:bg-dark-3 dark:text-white dark:focus:border-primary xl:w-[300px]"
                             />
                         </div>
@@ -50,7 +69,7 @@ const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => 
             ) : (
 
                 <li className="hidden lg:block">
-                    <form action="https://formbold.com/s/unique_form_id" method="POST">
+                    <form onSubmit={handleSubmit}>
                         <div className="relative w-full max-w-[300px]">
                             <button
                                 className="absolute left-5 top-1/2 -translate-y-1/2 text-dark hover:text-green-500 dark:text-dark-6 dark:hover:text-green-500"
@@ -73,7 +92,7 @@ const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => 
                                     </g>
                                     <defs>
                                         <clipPath id="clip0_1791_1693">
-                                            <rect width="18" height="18" fill="white"/>
+                                            <rect width="18" height="18" fill="white" />
                                         </clipPath>
                                     </defs>
                                 </svg>
@@ -82,8 +101,11 @@ const SearchForm: React.FC<SearchFormProps> = ({header = true, search = ""}) => 
                             <input
                                 type="text"
                                 placeholder={`Search ${search}`}
+                                value={query}
+                                onChange={(e) => setQuery(e.target.value)} // Update state saat input berubah
                                 className="w-full rounded-full border border-stroke bg-white py-3 pl-13.5 pr-5 text-dark focus:border-green-500 focus:outline-none dark:focus:border-green-500 xl:w-[400px]"
                             />
+
                         </div>
                     </form>
                 </li>
