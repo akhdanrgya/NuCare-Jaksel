@@ -56,8 +56,8 @@ const Footer: React.FC = () => {
             </div>
 
             <div>
-                <hr className="border-t border-gray-300 my-4"/>
-                <p className="text-center py-5">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right Reserved</p>
+                <hr className="border-t border-gray-300 my-10"/>
+                <p className="text-center text-xs">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right Reserved</p>
             </div>
 
         </footer>
