@@ -23,13 +23,6 @@ const Login: React.FC = () => {
                   className=""
                   src={"/images/logo/logoNUCare.png"}
                   alt="Logo"
-                  width={176}
-                  height={32}
-                />
-                <Image
-                  className="dark:hidden"
-                  src={"/images/logo/logoNUCare.png"}
-                  alt="Logo"
                   width={352}
                   height={64}
                 />
