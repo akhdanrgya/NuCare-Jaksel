@@ -56,17 +56,11 @@ export const zakatSimpanan = (
 }
 
 export const zakatProfesi = (value: number) => {
-
-
     return value * 0.025
-
-
 }
 
 export const zakatSuratBerharga = (value: number) => {
-
     return value * 0.025
-
 }
 
 export const zakatRikaz = (value: number) => {
