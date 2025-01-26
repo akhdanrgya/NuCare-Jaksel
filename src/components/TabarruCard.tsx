@@ -3,7 +3,7 @@
 import {useState, useEffect} from "react";
 import InputGroup from "./FormElements/InputGroup";
 import {useRouter} from "next/navigation";
-import {zakatMaal, zakatPertanian, zakatSimpanan, zakatProfesi, zakatRikaz} from "@/data/zakat";
+import {zakatMaal, zakatPertanian, zakatSimpanan, zakatProfesi, zakatRikaz, zakatSuratBerharga} from "@/data/zakat";
 import {formatRupiah} from "@/utils/formatRupiah";
 
 const HeaderCard: React.FC = () => {
@@ -51,6 +51,8 @@ const HeaderCard: React.FC = () => {
                 setCalculatedZakat(zakatProfesi(wealth))
             } else if (zakatType === "rikaz") {
                 setCalculatedZakat(zakatRikaz(wealth))
+            } else if (zakatType === "surat") {
+                setCalculatedZakat(wealth)
             }
         }
     }, [wealth, donationType, zakatType, farmYield, otherIncome, livestock, debt]);
@@ -122,6 +124,7 @@ const HeaderCard: React.FC = () => {
                                 <option value="emas">Zakat Emas, Perak dan Logam mulia</option>
                                 <option value="profesi">Zakat Profesi</option>
                                 <option value="rikaz">Zakat Rikaz</option>
+                                <option value="surat">Zakat Uang dan Surat Berharga</option>
                             </select>
 
                             <p className="text-gray-600 my-4">
@@ -166,6 +169,22 @@ const HeaderCard: React.FC = () => {
                             <div className="mb-4">
                                 <label htmlFor="wealth" className="block text-gray-700 mb-2">
                                     Nominal Zakat Rikaz
+                                </label>
+                                <InputGroup
+                                    id="wealth"
+                                    type="number"
+                                    placeholder="Masukkan nominal zakat rikaz"
+                                    customClasses=""
+                                    value={String(wealth)}
+                                    onChange={(e) => handleInputChange(e, "wealth")}
+                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                />
+                            </div>
+                        )}
+                        {zakatType === "surat" && (
+                            <div className="mb-4">
+                                <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                                    Nominal Uang atau Surat berharga Lainnya
                                 </label>
                                 <InputGroup
                                     id="wealth"
