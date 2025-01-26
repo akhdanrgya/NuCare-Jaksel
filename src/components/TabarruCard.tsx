@@ -3,7 +3,7 @@
 import {useState, useEffect} from "react";
 import InputGroup from "./FormElements/InputGroup";
 import {useRouter} from "next/navigation";
-import {zakatMaal, zakatPertanian} from "@/data/zakat";
+import {zakatMaal, zakatPertanian, zakatSimpanan, zakatProfesi, zakatRikaz} from "@/data/zakat";
 import {formatRupiah} from "@/utils/formatRupiah";
 
 const HeaderCard: React.FC = () => {
@@ -37,7 +37,6 @@ const HeaderCard: React.FC = () => {
         if (field === "debt") setDebt(value);
         if (field === "emas") setEmas(value);
         if (field === "perak") setPerak(value);
-        if (field === "logam") setLogam(value);
     };
 
     useEffect(() => {
@@ -47,7 +46,11 @@ const HeaderCard: React.FC = () => {
             } else if (zakatType === "pertanian") {
                 setCalculatedZakat(zakatPertanian(farmYield, otherIncome, livestock, debt));
             } else if (zakatType === "emas") {
-
+                setCalculatedZakat(zakatSimpanan(emas, perak, wealth, debt))
+            } else if (zakatType === "profesi") {
+                setCalculatedZakat(zakatProfesi(wealth))
+            } else if (zakatType === "rikaz") {
+                setCalculatedZakat(zakatRikaz(wealth))
             }
         }
     }, [wealth, donationType, zakatType, farmYield, otherIncome, livestock, debt]);
@@ -117,6 +120,8 @@ const HeaderCard: React.FC = () => {
                                 <option value="maal">Zakat Maal</option>
                                 <option value="pertanian">Zakat Pertanian</option>
                                 <option value="emas">Zakat Emas, Perak dan Logam mulia</option>
+                                <option value="profesi">Zakat Profesi</option>
+                                <option value="rikaz">Zakat Rikaz</option>
                             </select>
 
                             <p className="text-gray-600 my-4">
@@ -134,6 +139,38 @@ const HeaderCard: React.FC = () => {
                                     id="wealth"
                                     type="number"
                                     placeholder="Masukkan jumlah kekayaan"
+                                    customClasses=""
+                                    value={String(wealth)}
+                                    onChange={(e) => handleInputChange(e, "wealth")}
+                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                />
+                            </div>
+                        )}
+                        {zakatType === "profesi" && (
+                            <div className="mb-4">
+                                <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                                    Gaji per bulan
+                                </label>
+                                <InputGroup
+                                    id="wealth"
+                                    type="number"
+                                    placeholder="Masukkan gaji perbulan"
+                                    customClasses=""
+                                    value={String(wealth)}
+                                    onChange={(e) => handleInputChange(e, "wealth")}
+                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                />
+                            </div>
+                        )}
+                        {zakatType === "rikaz" && (
+                            <div className="mb-4">
+                                <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                                    Nominal Zakat Rikaz
+                                </label>
+                                <InputGroup
+                                    id="wealth"
+                                    type="number"
+                                    placeholder="Masukkan nominal zakat rikaz"
                                     customClasses=""
                                     value={String(wealth)}
                                     onChange={(e) => handleInputChange(e, "wealth")}
@@ -204,64 +241,64 @@ const HeaderCard: React.FC = () => {
                         )}
 
                         {zakatType === "emas" && (
-                        <>
-                            <div className="mb-4">
-                                <label htmlFor="farmYield" className="block text-gray-700 mb-2">
-                                    Emas
-                                </label>
-                                <InputGroup
-                                    id="farmYield"
-                                    type="number"
-                                    placeholder="Masukkan hasil panen"
-                                    customClasses=""
-                                    value={String(farmYield)}
-                                    onChange={(e) => handleInputChange(e, "farmYield")}
-                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="otherIncome" className="block text-gray-700 mb-2">
-                                    Perak
-                                </label>
-                                <InputGroup
-                                    id="otherIncome"
-                                    type="number"
-                                    placeholder="Masukkan pendapatan lainnya"
-                                    customClasses=""
-                                    value={String(otherIncome)}
-                                    onChange={(e) => handleInputChange(e, "otherIncome")}
-                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="livestock" className="block text-gray-700 mb-2">
-                                    Logam Mulia
-                                </label>
-                                <InputGroup
-                                    id="livestock"
-                                    type="number"
-                                    placeholder="Masukkan jumlah ternak"
-                                    customClasses=""
-                                    value={String(livestock)}
-                                    onChange={(e) => handleInputChange(e, "livestock")}
-                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="debt" className="block text-gray-700 mb-2">
-                                    Hutang
-                                </label>
-                                <InputGroup
-                                    id="debt"
-                                    type="number"
-                                    placeholder="Masukkan jumlah hutang"
-                                    customClasses=""
-                                    value={String(debt)}
-                                    onChange={(e) => handleInputChange(e, "debt")}
-                                    classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
-                                />
-                            </div>
-                        </>
+                            <>
+                                <div className="mb-4">
+                                    <label htmlFor="emas" className="block text-gray-700 mb-2">
+                                        Emas
+                                    </label>
+                                    <InputGroup
+                                        id="emas"
+                                        type="number"
+                                        placeholder="Masukkan Jumlah emas"
+                                        customClasses=""
+                                        value={String(emas)}
+                                        onChange={(e) => handleInputChange(e, "emas")}
+                                        classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="perak" className="block text-gray-700 mb-2">
+                                        Perak
+                                    </label>
+                                    <InputGroup
+                                        id="perak"
+                                        type="number"
+                                        placeholder="Masukkan Jumlah perak"
+                                        customClasses=""
+                                        value={String(perak)}
+                                        onChange={(e) => handleInputChange(e, "perak")}
+                                        classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="wealth" className="block text-gray-700 mb-2">
+                                        Uang
+                                    </label>
+                                    <InputGroup
+                                        id="wealth"
+                                        type="number"
+                                        placeholder="Masukkan jumlah ternak"
+                                        customClasses=""
+                                        value={String(wealth)}
+                                        onChange={(e) => handleInputChange(e, "wealth")}
+                                        classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                    />
+                                </div>
+                                <div className="mb-4">
+                                    <label htmlFor="debt" className="block text-gray-700 mb-2">
+                                        Hutang
+                                    </label>
+                                    <InputGroup
+                                        id="debt"
+                                        type="number"
+                                        placeholder="Masukkan jumlah hutang"
+                                        customClasses=""
+                                        value={String(debt)}
+                                        onChange={(e) => handleInputChange(e, "debt")}
+                                        classInput="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                    />
+                                </div>
+                            </>
                         )}
 
                         <div className="text-center mb-6">
