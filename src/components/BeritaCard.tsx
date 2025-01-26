@@ -46,7 +46,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
             {detail ? null : (
                 !dashboard ? (
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                        <h2 className="text-4xl font-montserrat font-bold text-white">Berita</h2>
+                        <h2 className="text-4xl font-montserrat font-bold ">Berita</h2>
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
@@ -113,7 +113,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
                 !dashboard ? (
                     <div className="container mx-auto text-center mt-8">
                         <button
-                            className="bg-white hover:bg-gray-300 text-green-500 font-bold py-2 px-6 rounded"
+                            className="bg-green-500 hover:bg-gray-300 text-white font-bold py-2 px-6 rounded"
                             onClick={() => handleBeritaClick()}
                         >
                             Berita Lainnya

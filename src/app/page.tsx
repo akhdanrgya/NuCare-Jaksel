@@ -19,7 +19,7 @@ const Home: React.FC = () => {
                 <Stats/>
                 <div className="mt-24">
                     <DonasiCards/>
-                    <div className="bg-green-500">
+                    <div className="bg-gray-500">
                         <BeritaCard/>
                     </div>
                     <Profile/>

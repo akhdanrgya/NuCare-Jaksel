@@ -49,6 +49,7 @@ const config: Config = {
           5: "#9CA3AF",
           6: "#6B7280",
           7: "#374151",
+          500: "#f8f9fa"
         },
         green: {
           DEFAULT: "#22AD5C",
