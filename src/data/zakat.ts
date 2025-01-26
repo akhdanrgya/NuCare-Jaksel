@@ -28,8 +28,16 @@ export const zakatPertanian = (
     return totalZakat;
 };
 
-export const zakatSimpanan = (tipe: string, value: number, tanggalDiperoleh: Date) => {
-    let zakat;
+export const zakatSimpanan = (
+    totalEmas: number = 0,
+    totalPerak: number = 0,
+    totalUang: number = 0,
+    totalHutang: number = 0,
+    value: number = 0,
+    tanggalDiperoleh: Date,
+
+) => {
+    let zakat = 0;
     const today = new Date();
     const satuTahunKemudian = new Date(
         tanggalDiperoleh.getFullYear() + 1,
@@ -38,43 +46,49 @@ export const zakatSimpanan = (tipe: string, value: number, tanggalDiperoleh: Dat
     );
 
     if (today >= satuTahunKemudian) {
-        if (tipe.toLowerCase() === "emas") {
+        if (totalEmas > 0) {
             if (value >= 85) {
-                zakat = value * emas * 0.025
+                zakat + (totalEmas * emas * 0.025)
             }
-            return 0
         }
-        else if (tipe.toLowerCase() === "perak") {
+        else if (totalPerak > 0) {
             if (value >= 595) {
-                zakat = value * perak * 0.025
+                zakat + (totalPerak * perak * 0.025)
             }
-            return 0
         }
-        else if (tipe.toLowerCase() === "uang") {
+        else if (totalUang > 0) {
             if (value >= 85 * emas) {
-                zakat = value * 0.025
+                zakat + totalUang * 0.025
                 return zakat
             }
-            return 0
         }
+        else if (totalHutang > 0) {
+            zakat - totalHutang
+        }
+
+        return zakat;
     }
 
     return 0;
 
 }
 
-export const zakatUpah = (periode: string, value: number) => {
-    if (periode.toLowerCase() === "tahun") {
-        if (value >= 85 * emas) {
-            return value * 0.025
-        }
-        return 0
-    }
+export const zakatProfesi = (value: number) => {
 
-    else if (periode.toLowerCase() === "bulan") {
-        if (value * 12 >= 85 * emas) {
-            return value * 0.025
-        }
+    if (value * 12 >= 85 * emas) {
+        return value * 0.025
+    }
+    return 0;
+
+}
+
+export const zakatSuratBerharga = (value: number) => {
+    if (value >= 85 * emas) {
+        return value * 0.025
     }
     return 0
+}
+
+export const zakatRikaz = (value: number) => {
+    return value * 0.2
 }
