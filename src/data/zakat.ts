@@ -33,25 +33,23 @@ export const zakatSimpanan = (
     totalPerak: number = 0,
     totalUang: number = 0,
     totalHutang: number = 0,
-    value: number = 0,
-    tanggalDiperoleh: Date,
 
 ) => {
     let zakat = 0;
 
 
     if (totalEmas > 0) {
-        if (value >= 85) {
+        if (totalEmas >= 85) {
             zakat += (totalEmas * emas * 0.025)
         }
     }
     else if (totalPerak > 0) {
-        if (value >= 595) {
+        if (totalPerak >= 595) {
             zakat += (totalPerak * perak * 0.025)
         }
     }
     else if (totalUang > 0) {
-        if (value >= 85 * emas) {
+        if (totalUang >= 85 * emas) {
             zakat += totalUang * 0.025
         }
     }
