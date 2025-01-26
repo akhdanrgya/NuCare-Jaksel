@@ -21,9 +21,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "", onS
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 
-
-
-
     };
 
     useEffect(() => {
