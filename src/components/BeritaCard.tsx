@@ -50,7 +50,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = fal
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
-                        <SearchForm header={false} search={"Donation"} />
+                        <SearchForm header={false} search={"Donation"}/>
                         <Link href="/dashboard/berita/add">
                             <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                                 Add New

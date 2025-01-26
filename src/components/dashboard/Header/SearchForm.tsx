@@ -2,8 +2,13 @@ import { fetchDonationById, fetchDonationByTitle } from "@/data/donations";
 import React, { useEffect, useState } from "react";
 import { useDebounce } from 'use-debounce';
 
+interface SearchFormProps {
+    header?: boolean;
+    search?: string;
+    onSearch?: (query: string) => void;
+}
 
-const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query: string) => void }> = ({ header = true, search = "", onSearch }) => {
+const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "", onSearch }) => {
 
 
     const [query, setQuery] = useState<string>("");
@@ -24,7 +29,7 @@ const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query
     useEffect(() => {
         if (typeof onSearch === "function") {
             console.log(query)
-            onSearch(debouncedValue); // Pastikan onSearch adalah fungsi sebelum memanggilnya
+            onSearch(debouncedValue);
         }
     }, [debouncedValue]);
 
