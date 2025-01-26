@@ -1,5 +1,6 @@
 import { fetchDonationById, fetchDonationByTitle } from "@/data/donations";
 import React, { useEffect, useState } from "react";
+import { useDebounce } from 'use-debounce';
 
 
 const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query: string) => void }> = ({ header = true, search = "", onSearch }) => {
@@ -10,6 +11,7 @@ const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
+    const [debouncedValue] = useDebounce(query, 1000)
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,9 +24,9 @@ const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query
     useEffect(() => {
         if (typeof onSearch === "function") {
             console.log(query)
-            onSearch(query); // Pastikan onSearch adalah fungsi sebelum memanggilnya
+            onSearch(debouncedValue); // Pastikan onSearch adalah fungsi sebelum memanggilnya
         }
-    }, [query]);
+    }, [debouncedValue]);
 
 
     return (

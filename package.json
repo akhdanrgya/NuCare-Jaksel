@@ -25,6 +25,7 @@
     "react-dom": "^19.0.0",
     "supabase": "^2.0.0",
     "swiper": "^11.1.15",
+    "use-debounce": "^10.0.4",
     "uuid": "^11.0.5"
   },
   "devDependencies": {

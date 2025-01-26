@@ -24,6 +24,8 @@ export const fetchDonations = async (): Promise<DonasiType[]> => {
     return [];
   }
 
+  console.log(data)
+
   return data || [];
 };
 
@@ -33,16 +35,17 @@ export const fetchDonationsByParams = async (
   const { data, error } = await supabase
     .from("donations")
     .select("*")
-    .eq("title", params);
+    // nyari yang cocok abaikan case sensitive
+    .or(
+      `title.ilike.%${params}%,location.ilike.%${params}%`
+    );
 
   if (error) {
     console.error(`Error fetching donation by kategori: ${error.message}`);
     return [];
   }
 
-  console.log(params, data)
-
-  return data || ["asik", "banget"];
+  return data || [];
 };
 
 export const insertDonations = async (

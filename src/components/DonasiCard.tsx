@@ -54,7 +54,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
         const dataDonations = await fetchDonationsByParams(query);
         setDonations(dataDonations);
         console.log(dataDonations)
-        console.log(`nyobanih: ${query}`)
+        console.log(`ini di donasicard: ${query}`)
     };
 
     useEffect(() => {
@@ -107,9 +107,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
-                        <SearchForm header={false} search={"Donation"} onSearch={(query) => {
-                            fetchDonationsDataParams(query);
-                        }} />
+                        <SearchForm header={false} search={"Donation"} onSearch={fetchDonationsDataParams} />
                         <Link href="/dashboard/donasi/add">
                             <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                                 Add New
