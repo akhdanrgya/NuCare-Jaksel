@@ -8,7 +8,7 @@ export type DonaturType = {
     notelp: number;
     email: string;
     orderId: string;
-    created_at: string;
+    created_at?: string;
 };
 
 export const insertDonatur = async (donaturData: DonaturType) => {

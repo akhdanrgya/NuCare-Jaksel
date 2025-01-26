@@ -27,16 +27,6 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
 
-
-
-    const [donationData, setDonationData] = useState<string[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-
-    const filteredDonations = donations.filter
-
-
-
     useEffect(() => {
         setIsMounted(true);
     }, []);
