@@ -6,7 +6,9 @@ const ProgramDetail = () => {
     return (
         <>
             <Header/>
-            <DonasiDetail/>
+            <div className="pt-24">
+                <DonasiDetail/>
+            </div>
             <Footer/>
         </>
     );

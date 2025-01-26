@@ -5,11 +5,13 @@ import Footer from "@/components/Footer";
 const BeritaDetail = () => {
     return (
         <>
-        <Header/>
-        <BeritaDetails/>
-        <Footer/>
+            <Header/>
+            <div className="pt-24">
+                <BeritaDetails/>
+            </div>
+            <Footer/>
         </>
-)
+    )
 }
 
 export default BeritaDetail

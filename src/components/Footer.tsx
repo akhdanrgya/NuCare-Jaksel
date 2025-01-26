@@ -45,10 +45,9 @@ const Footer: React.FC = () => {
                 <div className="container mx-auto">
                     <h1 className="font-bold my-4">NU CARE-LAZIZNU JAKARTA SELATAN</h1>
                     <p className="text-sm">
-                        Gedung PBNU, Lt. 2<br/>
-                        Jl. Kramat Raya, No. 164, Jakarta Pusat (10430)<br/>
-                        Telp: (021) 3102913<br/>
-                        Hp/WA: 0813 9800 9800
+                        Gedung PCNU Jaksel, Lt. 1<br/>
+                        Jl. P. Antasari, No. 57, Jakarta Selatan (12150)<br/>
+                        Hp/WA: 0812 9539 2003
                     </p>
                 </div>
 
@@ -56,8 +55,8 @@ const Footer: React.FC = () => {
             </div>
 
             <div>
-                <hr className="border-t border-gray-300 my-4"/>
-                <p className="text-center py-5">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right Reserved</p>
+                <hr className="border-t border-gray-300 my-10"/>
+                <p className="text-center text-xs">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right Reserved</p>
             </div>
 
         </footer>
