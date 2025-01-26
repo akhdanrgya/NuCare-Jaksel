@@ -203,7 +203,7 @@ const HeaderCard: React.FC = () => {
                             </>
                         )}
 
-                        zakatType === "emas" && (
+                        {zakatType === "emas" && (
                         <>
                             <div className="mb-4">
                                 <label htmlFor="farmYield" className="block text-gray-700 mb-2">
@@ -262,7 +262,7 @@ const HeaderCard: React.FC = () => {
                                 />
                             </div>
                         </>
-                    )}
+                        )}
 
                         <div className="text-center mb-6">
                             <p className="text-lg font-semibold text-gray-800">
