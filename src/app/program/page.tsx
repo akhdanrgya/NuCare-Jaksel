@@ -1,12 +1,12 @@
 'use client'
 import Header from "@/components/Header";
-import DonasiCards from "@/components/DonasiCard";
+import DonasiPage from "@/components/dashboard/Donasi/DonasiPage";
 
 const program = () => {
     return (
         <>
-            <Header/>
-            <DonasiCards dashboard={false}/>
+            <Header />
+            <DonasiPage dashboard={false} />
         </>
     )
 }

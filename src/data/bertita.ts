@@ -40,6 +40,20 @@ export const FetchBeritaById = async (idx: number): Promise<BeritaType | null> =
     return data as BeritaType || null
 }
 
+export const FetchBeritaByParams = async (params: string): Promise<BeritaType[]> => {
+    const { data, error } = await supabase
+        .from("berita")
+        .select('*')
+        .ilike('judul', `%${params}%`)
+
+    if (error) {
+        console.error(`Error fetching berita by id: ${error.message}`)
+        return []
+    }
+
+    return data || []
+}
+
 export const insertBerita = async (judul: string, article: string, author_name: string | undefined, uploadedImageUrl: string | null) => {
     const { data, error } = await supabase
         .from("berita")
