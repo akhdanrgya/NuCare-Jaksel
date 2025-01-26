@@ -21,9 +21,9 @@ const Footer: React.FC = () => {
                         height={200}
                         className="my-4 w-50 h-auto"
                     />
-                    <p className="text-sm">NUcare.id adalah situs resmi Lembaga Amil Zakat, Infaq dan Shadaqah NU yang
-                        dikelola oleh Pengurus
-                        Pusat (Jakarta). Saran dan kritik: email@nucare.id</p>
+                    <p className="text-sm">nucarejaksel.or.id adalah situs resmi Lembaga Amil Zakat, Infaq dan Shadaqah
+                        NU yang dikelola oleh Pengurus Cabang Nahdlatul Ulama Kota Administrasi Jakarta Selatan. Saran
+                        dan kritik: admin@nucarejaksel.or.id</p>
                 </div>
 
                 <div className="container mx-auto">
@@ -56,7 +56,8 @@ const Footer: React.FC = () => {
 
             <div>
                 <hr className="border-t border-gray-300 my-10"/>
-                <p className="text-center text-xs">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right Reserved</p>
+                <p className="text-center text-xs">Copyright © 2025 · NU CARE-LAZISNU JAKARTA SELATAN · All Right
+                    Reserved</p>
             </div>
 
         </footer>

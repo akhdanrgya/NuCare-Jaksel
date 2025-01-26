@@ -36,7 +36,7 @@ const Hero: React.FC = () => {
       </div>
       {/* Card Form Donasi di Pojok Kanan */}
       <HeaderCard />
-      <Stats/>
+      {/*<Stats/>*/}
     </section>
   );
 };

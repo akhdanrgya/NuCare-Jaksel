@@ -21,7 +21,7 @@ const Stats: React.FC = () => {
   }, []);
 
     return (
-      <div className={`${montserrat.variable} font-montserrat absolute bottom-1 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 bg-white shadow-lg rounded-xl p-6 flex justify-around items-center`}>
+      <div className={`${montserrat.variable} font-montserrat absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-11/12 bg-white shadow-lg rounded-xl p-6 flex justify-around items-center`}>
         {stats.map((stat, index) => (
           <div
             key={index}

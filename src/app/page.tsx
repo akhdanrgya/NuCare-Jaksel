@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import BeritaCard from "@/components/BeritaCard";
 import {Analytics} from "@vercel/analytics/react"
 import Profile from "@/components/Profile";
+import Stats from "@/components/Stats";
 
 
 const Home: React.FC = () => {
@@ -15,9 +16,12 @@ const Home: React.FC = () => {
             <Header/>
             <div className="mt-20">
                 <Hero/>
+                <Stats/>
+                <div className="mt-24">
                 <DonasiCards/>
                 <BeritaCard/>
                 <Profile/>
+                </div>
             </div>
 
             <Footer/>
