@@ -38,38 +38,28 @@ export const zakatSimpanan = (
 
 ) => {
     let zakat = 0;
-    const today = new Date();
-    const satuTahunKemudian = new Date(
-        tanggalDiperoleh.getFullYear() + 1,
-        tanggalDiperoleh.getMonth(),
-        tanggalDiperoleh.getDate()
-    );
 
-    if (today >= satuTahunKemudian) {
-        if (totalEmas > 0) {
-            if (value >= 85) {
-                zakat + (totalEmas * emas * 0.025)
-            }
-        }
-        else if (totalPerak > 0) {
-            if (value >= 595) {
-                zakat + (totalPerak * perak * 0.025)
-            }
-        }
-        else if (totalUang > 0) {
-            if (value >= 85 * emas) {
-                zakat + totalUang * 0.025
-                return zakat
-            }
-        }
-        else if (totalHutang > 0) {
-            zakat - totalHutang
-        }
 
-        return zakat;
+    if (totalEmas > 0) {
+        if (value >= 85) {
+            zakat += (totalEmas * emas * 0.025)
+        }
+    }
+    else if (totalPerak > 0) {
+        if (value >= 595) {
+            zakat += (totalPerak * perak * 0.025)
+        }
+    }
+    else if (totalUang > 0) {
+        if (value >= 85 * emas) {
+            zakat += totalUang * 0.025
+        }
+    }
+    else if (totalHutang > 0) {
+        zakat -= totalHutang
     }
 
-    return 0;
+    return zakat;
 
 }
 
