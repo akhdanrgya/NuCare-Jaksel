@@ -36,28 +36,31 @@ export const zakatSimpanan = (
 
 ) => {
     let zakat = 0;
-
+    let emasnya = 0;
+    let peraknya = 0;
+    let uangnya = 0;
+    let hutangnya = 0;
 
     if (totalEmas > 0) {
         if (totalEmas >= 85) {
-            zakat += (totalEmas * emas * 0.025)
+            emasnya += (totalEmas * emas * 0.025)
         }
     }
     else if (totalPerak > 0) {
         if (totalPerak >= 595) {
-            zakat += (totalPerak * perak * 0.025)
+            peraknya += (totalPerak * perak * 0.025)
         }
     }
     else if (totalUang > 0) {
         if (totalUang >= 85 * emas) {
-            zakat += totalUang * 0.025
+            uangnya += totalUang * 0.025
         }
     }
     else if (totalHutang > 0) {
-        zakat -= totalHutang
+        hutangnya -= totalHutang
     }
 
-    return zakat;
+    return emasnya + peraknya + uangnya + hutangnya;
 
 }
 
@@ -80,3 +83,4 @@ export const zakatSuratBerharga = (value: number) => {
 export const zakatRikaz = (value: number) => {
     return value * 0.2
 }
+
