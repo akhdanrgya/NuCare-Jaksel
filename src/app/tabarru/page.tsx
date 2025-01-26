@@ -3,6 +3,7 @@
 import PaymentDonation from "@/components/PaymentDonation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
+import {Suspense} from "react";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +19,11 @@ const TabarruForm = () => {
 
     if (!wealth) return <div>Loading...</div>;
 
-    return <PaymentDonation wealth={wealth} />;
+    return (
+        <Suspense>
+            <PaymentDonation wealth={wealth} />;
+        </Suspense>
+    )
 };
 
 export default TabarruForm;
