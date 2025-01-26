@@ -32,7 +32,7 @@ export const zakatSimpanan = (tipe: string, value: number, tanggalDiperoleh: Dat
     let zakat;
     const today = new Date();
     const satuTahunKemudian = new Date(
-        tanggalDiperoleh.getFullYear() + 1, // Tambahkan 1 tahun ke tanggal diperoleh
+        tanggalDiperoleh.getFullYear() + 1,
         tanggalDiperoleh.getMonth(),
         tanggalDiperoleh.getDate()
     );
