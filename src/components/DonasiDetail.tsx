@@ -191,11 +191,10 @@ const DonasiDetail = () => {
                             <div>
                                 <div className="flex gap-2">
                                     <h3>{donaturData.name}</h3>
-                                    <h3>{formatTanggal(donaturData.created_at)}</h3>
+                                    <h3>{formatTanggal(donaturData.created_at ?? "")}</h3>
                                 </div>
                                 <h3 className="text-green-500 my-2">{formatRupiah(donaturData.value)}</h3>
                             </div>
-
                         </div>
                     ))
                 ) : (
