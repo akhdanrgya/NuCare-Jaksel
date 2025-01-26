@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
-import { FetchBerita, BeritaType, deleteBerita } from "../data/bertita";
-import { useRouter } from "next/navigation";
+import React, {useState, useEffect} from "react";
+import {FetchBerita, BeritaType, deleteBerita} from "../data/bertita";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
-import { format } from "date-fns";
+import {format} from "date-fns";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import { Montserrat } from "next/font/google";
+import {Montserrat} from "next/font/google";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -21,7 +21,7 @@ interface BeritaCardProps {
 }
 
 
-const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = false }) => {
+const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = false}) => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
     const router = useRouter()
 
