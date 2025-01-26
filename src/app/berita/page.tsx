@@ -6,7 +6,9 @@ const Berita = () => {
     return (
         <>
             <Header />
-            <BeritaPage detail={true} />
+            <div className="mt-24">
+                <BeritaPage detail={true} />
+            </div>
             <Footer />
         </>
     )
