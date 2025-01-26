@@ -6,7 +6,9 @@ const Berita = () => {
     return (
         <>
             <Header/>
-            <BeritaCard detail={true}/>
+            <div className="mt-24">
+                <BeritaCard detail={true}/>
+            </div>
             <Footer/>
         </>
     )

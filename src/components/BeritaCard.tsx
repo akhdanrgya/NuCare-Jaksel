@@ -113,7 +113,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
                 !dashboard ? (
                     <div className="container mx-auto text-center mt-8">
                         <button
-                            className="bg-green-500 hover:bg-gray-300 text-white font-bold py-2 px-6 rounded"
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
                             onClick={() => handleBeritaClick()}
                         >
                             Berita Lainnya

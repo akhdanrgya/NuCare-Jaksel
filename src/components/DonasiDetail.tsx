@@ -10,6 +10,9 @@ import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import {fetchKategoriById} from "@/data/kategori";
 import DonasiCards from "@/components/DonasiCard";
+import {fetchDonaturById, DonaturType} from "@/data/donatur";
+import {format} from "date-fns";
+import {formatRupiahWithoutRp, formatRupiah} from "@/utils/formatRupiah";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -20,6 +23,7 @@ const montserrat = Montserrat({
 const DonasiDetail = () => {
     const {url} = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
+    const [donatur, setDonatur] = useState<DonaturType[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
@@ -37,6 +41,17 @@ const DonasiDetail = () => {
                             const kategoriData = await fetchKategoriById(donationData.kategori);
                             setKategori(kategoriData?.tittle || "Tidak Tersedia");
                         }
+
+                        if (donationData.id) {
+                            const donaturData = await fetchDonaturById(donationData.id);
+                            if (donaturData) {
+                                setDonatur(donaturData);
+                            } else {
+                                setError("Donatur tidak ditemukan");
+                            }
+                        } else {
+                            setError("ID donasi tidak valid");
+                        }
                     } else {
                         setError("Donasi tidak ditemukan");
                     }
@@ -50,10 +65,16 @@ const DonasiDetail = () => {
         getDonation();
     }, [url]);
 
-    const formatRupiah = (value: number): string => {
-        return new Intl.NumberFormat("id-ID", {
-            minimumFractionDigits: 0,
-        }).format(value);
+
+    const formatTanggal = (dateString: string) => {
+        const date = new Date(dateString); // Konversi string ke objek Date
+        const tanggal = date.getDate().toString().padStart(2, "0"); // Tambah leading zero
+        const bulan = (date.getMonth() + 1).toString().padStart(2, "0"); // Bulan dimulai dari 0
+        const tahun = date.getFullYear();
+        const jam = date.getHours().toString().padStart(2, "0");
+        const menit = date.getMinutes().toString().padStart(2, "0");
+
+        return `${tanggal}/${bulan}/${tahun} ${jam}:${menit}`;
     };
 
 
@@ -115,13 +136,13 @@ const DonasiDetail = () => {
                         <div>
                             <p>Terkumpul</p>
                             <p className="text-green-500 text-2xl">
-                                {donation?.collected ? `${formatRupiah(donation.collected)}` : "0"}
+                                {donation?.collected ? `${formatRupiahWithoutRp(donation.collected)}` : "0"}
                             </p>
                         </div>
                         <div>
                             <p>Dana Dibutuhkan</p>
                             <p className="font-semibold text-gray-900 text-2xl">
-                                {donation?.target ? `${formatRupiah(donation.target)}` : "0"}
+                                {donation?.target ? `${formatRupiahWithoutRp(donation.target)}` : "0"}
                             </p>
                         </div>
                     </div>
@@ -148,12 +169,51 @@ const DonasiDetail = () => {
                 <p>{donation?.detail || "Detail tidak tersedia"}</p>
             </div>
 
+            {/*Donatur Section*/}
+            <div className="container mx-auto px-10 mt-24">
+                <div className="mb-10">
+                    <h3 className="font-semibold text-xl">Donatur</h3>
+                </div>
+
+                {donatur.length > 0 ? (
+                    donatur.map((donaturData, idx) => (
+                        <div className="flex gap-10" key={idx}>
+                            <div className="">
+                                <Image
+                                    src="https://cdn-icons-png.flaticon.com/128/847/847969.png"
+                                    alt="user icon"
+                                    width={400}
+                                    height={400}
+                                    className="w-15 h-15"
+                                />
+                            </div>
+
+                            <div>
+                                <div className="flex gap-2">
+                                    <h3>{donaturData.name}</h3>
+                                    <h3>{formatTanggal(donaturData.created_at)}</h3>
+                                </div>
+                                <h3 className="text-green-500 my-2">{formatRupiah(donaturData.value)}</h3>
+                            </div>
+
+                        </div>
+                    ))
+                ) : (
+                    <div>
+                        <h3>Belum ada donatur saat ini</h3>
+                    </div>
+                )}
+
+            </div>
+
             <div className="container mx-auto px-10 mt-24">
                 <div className="flex justify-between">
                     <h3 className="font-semibold text-xl">Program Lainnya</h3>
                     <h3 className="font-semibold text-green-500 text-xl">Selanjutnya</h3>
                 </div>
             </div>
+
+
             <DonasiCards detail={true}/>
 
         </section>
