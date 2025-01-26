@@ -46,7 +46,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = fal
             {detail ? null : (
                 !dashboard ? (
                     <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                        <h2 className="text-4xl font-montserrat font-bold">Berita</h2>
+                        <h2 className="text-4xl font-montserrat font-bold text-white">Berita</h2>
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
@@ -80,6 +80,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = fal
                             </div>
                             <div className="p-4 py-10">
                                 <h3 className="line-clamp-2 text-lg font-bold font-montserrat text-black mb-2 min-h-[56px]">{data.judul}</h3>
+                                <hr className="border-gray-300 my-4"/>
                                 <div className="flex justify-between">
                                     <p className="text-gray-700 mb-2">{format(new Date(data.created_at), "dd MMMM yyyy")}</p>
                                     <p className="text-green-500">Berita Internasional</p>
@@ -112,7 +113,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = fal
                 !dashboard ? (
                     <div className="container mx-auto text-center mt-8">
                         <button
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded"
+                            className="bg-white hover:bg-gray-300 text-green-500 font-bold py-2 px-6 rounded"
                             onClick={() => handleBeritaClick()}
                         >
                             Berita Lainnya

@@ -124,7 +124,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
                             key={idx}
                             className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
                         >
-                            <div className="absolute bg-green-300 m-4 p-1 rounded opacity-90 right-0 top-0">
+                            <div className="absolute bg-green-500 m-4 p-1 rounded opacity-90 right-0 top-0">
                                 <h1 className="font-montserrat text-white">
                                     {kategori[donasi.kategori] || "Loading..."}
                                 </h1>

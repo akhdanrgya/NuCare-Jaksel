@@ -18,9 +18,11 @@ const Home: React.FC = () => {
                 <Hero/>
                 <Stats/>
                 <div className="mt-24">
-                <DonasiCards/>
-                <BeritaCard/>
-                <Profile/>
+                    <DonasiCards/>
+                    <div className="bg-green-500">
+                        <BeritaCard/>
+                    </div>
+                    <Profile/>
                 </div>
             </div>
 

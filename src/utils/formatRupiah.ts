@@ -5,4 +5,10 @@ export const formatRupiah = (amount: number) => {
       currency: 'IDR',
     }).format(amount)
   }
-  
+
+export const formatRupiahWithoutRp = (amount: number) => {
+    return new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+    }).format(amount)
+}

@@ -63,6 +63,7 @@ const config: Config = {
             6: "#DAF8E6",
             7: "#E9FBF0",
           },
+          500: "#45bf7c"
         },
         red: {
           DEFAULT: "#F23030",
