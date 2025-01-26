@@ -27,6 +27,24 @@ export const fetchDonations = async (): Promise<DonasiType[]> => {
   return data || [];
 };
 
+export const fetchDonationsByParams = async (
+  params: string
+): Promise<DonasiType[]> => {
+  const { data, error } = await supabase
+    .from("donations")
+    .select("*")
+    .eq("title", params);
+
+  if (error) {
+    console.error(`Error fetching donation by kategori: ${error.message}`);
+    return [];
+  }
+
+  console.log(params, data)
+
+  return data || ["asik", "banget"];
+};
+
 export const insertDonations = async (
   donation: DonasiType
 ): Promise<boolean> => {
@@ -93,8 +111,8 @@ export const fetchDonationByTitle = async (title: string): Promise<string[] | nu
   const { data, error } = await supabase
     .from("donations")
     .select('title')
-    
-    console.table(data)
+
+  console.table(data)
 
   if (error) {
     console.error(`Error fetching berita by id: ${error.message}`)
@@ -120,27 +138,27 @@ export const deleteDonation = async (id: number, url: string): Promise<boolean> 
 };
 
 export const updateCollected = async (
-    id: number,
-    value: number
+  id: number,
+  value: number
 ): Promise<boolean> => {
   const { data, error } = await supabase
-      .from("donations")
-      .select("collected")
-      .eq("id", id)
-      .single();
+    .from("donations")
+    .select("collected")
+    .eq("id", id)
+    .single();
 
   if (error) {
     console.error(`Error fetching donation by id: ${error.message}`);
     return false;
   }
-  
+
   if (data) {
     const newCollected = data.collected + value;
 
     const { error: updateError } = await supabase
-        .from("donations")
-        .update({ collected: newCollected })
-        .eq("id", id);
+      .from("donations")
+      .update({ collected: newCollected })
+      .eq("id", id);
 
     if (updateError) {
       console.error(`Error updating collected: ${updateError.message}`);

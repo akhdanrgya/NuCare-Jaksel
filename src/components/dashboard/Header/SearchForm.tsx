@@ -1,14 +1,11 @@
 import { fetchDonationById, fetchDonationByTitle } from "@/data/donations";
 import React, { useEffect, useState } from "react";
 
-interface SearchFormProps {
-    header?: boolean
-    search?: string
-}
 
-const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "" }) => {
+const SearchForm: React.FC<{ header?: boolean; search?: string; onSearch: (query: string) => void }> = ({ header = true, search = "", onSearch }) => {
 
-    const [query, setQuery] = useState("");
+
+    const [query, setQuery] = useState<string>("");
     const [donationData, setDonationData] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -16,11 +13,18 @@ const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "" }) =
 
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        fetchDonasiTitle
 
 
-        
+
+
     };
+
+    useEffect(() => {
+        if (typeof onSearch === "function") {
+            console.log(query)
+            onSearch(query); // Pastikan onSearch adalah fungsi sebelum memanggilnya
+        }
+    }, [query]);
 
 
     return (

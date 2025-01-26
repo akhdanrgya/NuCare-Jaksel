@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { fetchDonations, DonasiType, deleteDonation, fetchDonationByTitle } from "../data/donations";
+import { fetchDonations, DonasiType, deleteDonation, fetchDonationByTitle, fetchDonationsByParams } from "../data/donations";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Montserrat } from "next/font/google";
@@ -21,14 +21,14 @@ interface DonasiCardsProps {
     detail?: boolean;
 }
 
-const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = false}) => {
+const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = false }) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
 
 
-    const [query, setQuery] = useState("");
+
     const [donationData, setDonationData] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -45,17 +45,31 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = fa
         const fetchDonationsData = async () => {
             const dataDonations = await fetchDonations();
             setDonations(dataDonations);
+            console.log(`Asiknih: ${donations}`)
         };
         fetchDonationsData();
     }, []);
 
+    const fetchDonationsDataParams = async (query: string) => {
+        const dataDonations = await fetchDonationsByParams(query);
+        setDonations(dataDonations);
+        console.log(dataDonations)
+        console.log(`nyobanih: ${query}`)
+    };
+
     useEffect(() => {
         const fetchKategoriData = async () => {
             const kategoriData: Record<number, string> = {};
-            for (const donasi of donations) {
+            const kategoriPromises = donations.map(async (donasi) => {
                 const dataKategori = await fetchKategoriById(donasi.kategori);
-                kategoriData[donasi.kategori] = dataKategori.tittle;
-            }
+                return { id: donasi.kategori, title: dataKategori.tittle };
+            });
+
+            const results = await Promise.all(kategoriPromises);
+            results.forEach(({ id, title }) => {
+                kategoriData[id] = title;
+            });
+
             setKategori(kategoriData);
         };
 
@@ -93,7 +107,9 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = fa
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
-                        <SearchForm header={false} search={"Donation"}/>
+                        <SearchForm header={false} search={"Donation"} onSearch={(query) => {
+                            fetchDonationsDataParams(query);
+                        }} />
                         <Link href="/dashboard/donasi/add">
                             <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                                 Add New
@@ -116,16 +132,20 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({dashboard = false, detail = fa
                                 </h1>
                             </div>
 
-                            <Image
-                                src={donasi.image}
-                                alt={donasi.title}
-                                className="w-full h-48 cursor-pointer"
-                                width={300}
-                                height={200}
-                                onClick={() => handleCardClick(donasi.url)}
-                            />
+                            <div className="overflow-hidden rounded-t-lg">
+                                <Image
+                                    src={donasi.image}
+                                    alt={donasi.title}
+                                    className=" w-full h-48 cursor-pointer"
+                                    width={300}
+                                    height={200}
+                                    onClick={() => handleCardClick(donasi.url)}
+                                />
+                            </div>
+
                             <div className="p-6">
-                                <h1 className="font-bold text-xl font-montserrat mb-2">{donasi.title}</h1>
+                                {/* min-height = line_height*2 */}
+                                <h1 className=" line-clamp-2 font-bold text-xl font-montserrat mb-2 min-h-[calc(1.75rem*2)]">{donasi.title}</h1>
                                 <p className="text-gray-500 text-sm mb-20 font-montserrat">
                                     {donasi.location.toUpperCase()}
                                 </p>

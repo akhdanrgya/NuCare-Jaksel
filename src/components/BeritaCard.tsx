@@ -4,10 +4,10 @@ import React, { useState, useEffect } from "react";
 import { FetchBerita, BeritaType, deleteBerita } from "../data/bertita";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {format} from "date-fns";
+import { format } from "date-fns";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import {Montserrat} from "next/font/google";
+import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -21,7 +21,7 @@ interface BeritaCardProps {
 }
 
 
-const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = false}) => {
+const BeritaCard: React.FC<BeritaCardProps> = ({ dashboard = false, detail = false }) => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
     const router = useRouter()
 
@@ -50,7 +50,7 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
                     </div>
                 ) : (
                     <div className="m-10 flex justify-between">
-                        <SearchForm header={false} search={"Donation"}/>
+                        <SearchForm header={false} search={"Donation"} />
                         <Link href="/dashboard/berita/add">
                             <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
                                 Add New
@@ -68,16 +68,18 @@ const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = fals
                             className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
                             key={idx}
                         >
-                            <Image
-                                src={data.image}
-                                alt={data.judul}
-                                className="w-full h-48 object-cover cursor-pointer"
-                                height={200}
-                                width={300}
-                                onClick={() => handleCardClick(data.id)}
-                            />
+                            <div className="overflow-hidden rounded-t-lg">
+                                <Image
+                                    src={data.image}
+                                    alt={data.judul}
+                                    className="w-full h-48 object-cover cursor-pointer"
+                                    height={200}
+                                    width={300}
+                                    onClick={() => handleCardClick(data.id)}
+                                />
+                            </div>
                             <div className="p-4 py-10">
-                                <h3 className="text-lg font-bold font-montserrat text-black mb-2">{data.judul}</h3>
+                                <h3 className="line-clamp-2 text-lg font-bold font-montserrat text-black mb-2 min-h-[56px]">{data.judul}</h3>
                                 <div className="flex justify-between">
                                     <p className="text-gray-700 mb-2">{format(new Date(data.created_at), "dd MMMM yyyy")}</p>
                                     <p className="text-green-500">Berita Internasional</p>

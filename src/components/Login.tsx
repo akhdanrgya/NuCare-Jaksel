@@ -28,10 +28,10 @@ const Login: React.FC = () => {
                 />
                 <Image
                   className="dark:hidden"
-                  src={"/images/logo/logo-dark.svg"}
+                  src={"/images/logo/logoNUCare.png"}
                   alt="Logo"
-                  width={176}
-                  height={32}
+                  width={352}
+                  height={64}
                 />
               </Link>
               <p className="mb-3 text-xl font-medium text-dark dark:text-white">
