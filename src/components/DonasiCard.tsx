@@ -151,7 +151,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
                                 <ProgressBar target={donasi.target} collected={donasi.collected} />
 
                                 <div className="flex justify-between font-montserrat">
-                                    <p className="text-gray-500">Terkumpul</p>
+                                    <p className="text-gray-600">Terkumpul</p>
                                     <p className="text-green-500 font-montserrat">{formatRupiah(donasi.collected)}</p>
                                 </div>
                             </div>
