@@ -79,7 +79,7 @@ const DonasiDetail = () => {
                 {/* Image Section */}
                 <div className="flex justify-center">
                     <Image
-                        className="shadow-lg"
+                        className="shadow-lg object-cover"
                         src={donation?.image || "/placeholder.jpg"}
                         alt={donation?.title || "Donasi"}
                         height={1920}

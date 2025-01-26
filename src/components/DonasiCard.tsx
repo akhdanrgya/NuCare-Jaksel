@@ -134,7 +134,7 @@ const DonasiCards: React.FC<DonasiCardsProps> = ({ dashboard = false, detail = f
                                 <Image
                                     src={donasi.image}
                                     alt={donasi.title}
-                                    className=" w-full h-48 cursor-pointer"
+                                    className=" w-full h-48 cursor-pointer object-cover"
                                     width={300}
                                     height={200}
                                     onClick={() => handleCardClick(donasi.url)}
