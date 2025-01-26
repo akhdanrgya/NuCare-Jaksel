@@ -99,9 +99,6 @@ const HeaderCard: React.FC = () => {
                 </div>
 
                 <div className="mb-4">
-                  <label htmlFor="zakatType" className="block text-gray-700 mb-2">
-                    Jenis Zakat
-                  </label>
                   <select
                       id="zakatType"
                       value={zakatType}
@@ -111,6 +108,11 @@ const HeaderCard: React.FC = () => {
                     <option value="maal">Zakat Maal</option>
                     <option value="pertanian">Zakat Pertanian</option>
                   </select>
+
+                  <p className="text-gray-600 my-4">
+                    Coba masukkan jumlah hartamu dan kalkulator kami akan menghitung jumlah zakatnya.
+                  </p>
+
                 </div>
 
                 {zakatType === "maal" && (
