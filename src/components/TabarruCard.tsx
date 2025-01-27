@@ -17,7 +17,7 @@ import { formatRupiah } from "@/utils/formatRupiah";
 
 const HeaderCard: React.FC = () => {
     const [donationType, setDonationType] = useState<string>("zakat");
-    const [zakatType, setZakatType] = useState<string>("maal");
+    const [zakatType, setZakatType] = useState<string>("Maal");
     const [wealth, setWealth] = useState<number>(0);
     const [calculatedZakat, setCalculatedZakat] = useState<number>(0);
     const [farmYield, setFarmYield] = useState<number>(0);
