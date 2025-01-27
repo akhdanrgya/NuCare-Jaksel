@@ -7,24 +7,38 @@ import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
+type ParamsType = {
+    wealth: string | null;
+    zakatType: string | null;
+};
+
 const TabarruForm = () => {
     const searchParams = useSearchParams();
-    const [wealth, setWealth] = useState<string | null>(null);
-    const [jenisZakat, setJenisZakat] = useState<number>()
+    const [params, setParams] = useState<ParamsType>({
+        wealth: null,
+        zakatType: null,
+    });
 
     useEffect(() => {
-        const data = searchParams.get("wealth");
-        console.log(`nilai wealth di URL: ${data}`);
-        setWealth(Array.isArray(data) ? data[0] : data);
+        const wealth = searchParams.get("wealth");
+        const zakatType = searchParams.get("zakatType");
+
+        setParams({
+            wealth,
+            zakatType,
+        });
     }, [searchParams]);
 
-    if (!wealth) return <div>Loading...</div>;
+    if (!params.wealth) return <div>Loading...</div>;
 
     return (
         <Suspense>
-            <PaymentDonation wealth={wealth} />;
+            <PaymentDonation
+                wealth={params.wealth || ""}
+                zakatType={params.zakatType || ""}
+            />
         </Suspense>
-    )
+    );
 };
 
 export default TabarruForm;

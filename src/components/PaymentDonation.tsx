@@ -8,12 +8,20 @@ import InputGroup from "./FormElements/InputGroup";
 import { updateCollected } from "../data/donations";
 import { v4 as uuidv4 } from "uuid";
 
-const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
+type PaymentDonationProps = {
+  wealth: string;
+  zakatType?: string; // Optional
+  otherIncome?: string; // Optional
+  debt?: string; // Optional
+};
+
+const PaymentDonation = ({ wealth, zakatType }: PaymentDonationProps) => {
   const { url } = useParams();
   const [donation, setDonation] = useState<DonasiType | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [amount, setAmount] = useState("");
+  const [tipeZakat, setTipeZakat] = useState("")
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -38,7 +46,7 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
       setLoading(false);
     };
 
-    if(donation){
+    if (donation) {
       setKategori("Donasi")
     } else {
       setKategori("Zakat")
@@ -50,6 +58,7 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
 
   useEffect(() => {
     console.log(`nilai wealth: ${wealth}`)
+    console.log(`tipe zakat: ${zakatType}`)
     if (wealth) {
       setAmount(wealth);
     }

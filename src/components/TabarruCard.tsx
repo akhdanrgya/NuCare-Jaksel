@@ -1,8 +1,8 @@
 "use client";
 
-import {useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import InputGroup from "./FormElements/InputGroup";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import {
     zakatMaal,
     zakatPertanian,
@@ -13,7 +13,7 @@ import {
     fetchZakat,
     ZakatType
 } from "@/data/zakat";
-import {formatRupiah} from "@/utils/formatRupiah";
+import { formatRupiah } from "@/utils/formatRupiah";
 
 const HeaderCard: React.FC = () => {
     const [donationType, setDonationType] = useState<string>("zakat");
@@ -79,7 +79,13 @@ const HeaderCard: React.FC = () => {
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        router.push(`/tabarru?wealth=${donationType === "zakat" ? calculatedZakat : wealth}`);
+
+        const query = new URLSearchParams({
+            wealth: donationType === "zakat" ? calculatedZakat.toString() : wealth.toString(),
+            zakatType
+        }).toString();
+
+        router.push(`/tabarru?${query}`);
     };
 
     return (
@@ -93,7 +99,7 @@ const HeaderCard: React.FC = () => {
                         className={`w-24 py-2 rounded-lg mx-2 ${donationType === "zakat"
                             ? "bg-green-500 text-white"
                             : "bg-gray-200 text-black"
-                        }`}
+                            }`}
                         onClick={() => handleDonationTypeChange("zakat")}
                     >
                         Zakat
@@ -103,7 +109,7 @@ const HeaderCard: React.FC = () => {
                         className={`w-24 py-2 rounded-lg mx-2 ${donationType === "infak"
                             ? "bg-green-500 text-white"
                             : "bg-gray-200 text-black"
-                        }`}
+                            }`}
                         onClick={() => handleDonationTypeChange("infak")}
                     >
                         Infak
@@ -113,7 +119,7 @@ const HeaderCard: React.FC = () => {
                         className={`w-24 py-2 rounded-lg mx-2 ${donationType === "wakaf"
                             ? "bg-green-500 text-white"
                             : "bg-gray-200 text-black"
-                        }`}
+                            }`}
                         onClick={() => handleDonationTypeChange("wakaf")}
                     >
                         Wakaf
@@ -140,7 +146,7 @@ const HeaderCard: React.FC = () => {
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
                             >
 
-                                {zakat.map((data,id)=> (
+                                {zakat.map((data, id) => (
                                     <option key={id} value={data.title}>Zakat {data.title}</option>
                                 ))}
                             </select>
