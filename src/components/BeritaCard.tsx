@@ -20,7 +20,6 @@ interface BeritaCardProps {
     detail?: boolean;
 }
 
-
 const BeritaCard: React.FC<BeritaCardProps> = ({dashboard = false, detail = false}) => {
     const [berita, setBerita] = useState<BeritaType[]>([]);
     const router = useRouter()
