@@ -1,6 +1,7 @@
 import {supabase} from "@/libs/supabaseClient";
+import {DonaturZakatType} from "@/data/donaturZakat";
 
-export type Zakat = {
+export type ZakatType = {
     id: number
     created_at: string
     title: string
@@ -22,6 +23,19 @@ export const fetchAmount = async (zakatId: number) => {
 
     return data.amount
 }
+
+export const fetchZakat = async (): Promise<ZakatType[]> => {
+    const {data, error} = await supabase
+    .from("zakat")
+    .select("*")
+
+    if(error){
+        console.error("Error fetching Zakat", error.message)
+        return []
+    }
+    return data || []
+}
+
 export const insertAmount = async (value: number, zakatId: number): Promise<boolean> => {
     const amount = await fetchAmount(zakatId)
     const hasil = amount+value

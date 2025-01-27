@@ -3,7 +3,16 @@
 import {useState, useEffect} from "react";
 import InputGroup from "./FormElements/InputGroup";
 import {useRouter} from "next/navigation";
-import {zakatMaal, zakatPertanian, zakatSimpanan, zakatProfesi, zakatRikaz, zakatSuratBerharga} from "@/data/zakat";
+import {
+    zakatMaal,
+    zakatPertanian,
+    zakatSimpanan,
+    zakatProfesi,
+    zakatRikaz,
+    zakatSuratBerharga,
+    fetchZakat,
+    ZakatType
+} from "@/data/zakat";
 import {formatRupiah} from "@/utils/formatRupiah";
 
 const HeaderCard: React.FC = () => {
@@ -19,6 +28,16 @@ const HeaderCard: React.FC = () => {
     const [logam, setLogam] = useState<number>(0);
     const [perak, setPerak] = useState<number>(0);
     const router = useRouter();
+    const [zakat, setZakat] = useState<ZakatType[]>([]);
+
+    useEffect(() => {
+        const fetchZakatData = async () => {
+            const data = await fetchZakat();
+            if (data) setZakat(data);
+        }
+
+        fetchZakatData()
+    }, []);
 
     const handleDonationTypeChange = (type: string) => {
         setDonationType(type);
@@ -41,21 +60,22 @@ const HeaderCard: React.FC = () => {
 
     useEffect(() => {
         if (donationType === "zakat") {
-            if (zakatType === "maal") {
-                setCalculatedZakat(zakatMaal(wealth));
-            } else if (zakatType === "pertanian") {
-                setCalculatedZakat(zakatPertanian(farmYield, otherIncome, livestock, debt));
-            } else if (zakatType === "emas") {
-                setCalculatedZakat(zakatSimpanan(emas, perak, wealth, debt))
-            } else if (zakatType === "profesi") {
-                setCalculatedZakat(zakatProfesi(wealth))
-            } else if (zakatType === "rikaz") {
-                setCalculatedZakat(zakatRikaz(wealth))
-            } else if (zakatType === "surat") {
-                setCalculatedZakat(wealth)
+            const zakatCalculators: Record<string, () => number> = {
+                "Maal": () => zakatMaal(wealth),
+                "Pertanian": () => zakatPertanian(farmYield, otherIncome, livestock, debt),
+                "Emas dan Perak": () => zakatSimpanan(emas, perak, wealth, debt),
+                "Profesi": () => zakatProfesi(wealth),
+                "Rikaz": () => zakatRikaz(wealth),
+                "Uang dan Surat Berharga": () => wealth,
+            };
+
+            const calculate = zakatCalculators[zakatType];
+            if (calculate) {
+                setCalculatedZakat(calculate());
             }
         }
-    }, [wealth, donationType, zakatType, farmYield, otherIncome, livestock, debt]);
+    }, [wealth, donationType, zakatType, farmYield, otherIncome, livestock, debt, emas, perak]);
+
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -119,12 +139,10 @@ const HeaderCard: React.FC = () => {
                                 onChange={handleZakatTypeChange}
                                 className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
                             >
-                                <option value="maal">Zakat Maal</option>
-                                <option value="pertanian">Zakat Pertanian</option>
-                                <option value="emas">Zakat Emas, Perak dan Logam mulia</option>
-                                <option value="profesi">Zakat Profesi</option>
-                                <option value="rikaz">Zakat Rikaz</option>
-                                <option value="surat">Zakat Uang dan Surat Berharga</option>
+
+                                {zakat.map((data,id)=> (
+                                    <option key={id} value={data.title}>Zakat {data.title}</option>
+                                ))}
                             </select>
 
                             <p className="text-gray-600 my-4">
@@ -133,7 +151,7 @@ const HeaderCard: React.FC = () => {
 
                         </div>
 
-                        {zakatType === "maal" && (
+                        {zakatType === "Maal" && (
                             <div className="mb-4">
                                 <label htmlFor="wealth" className="block text-gray-700 mb-2">
                                     Kekayaan (1 tahun)
@@ -149,7 +167,7 @@ const HeaderCard: React.FC = () => {
                                 />
                             </div>
                         )}
-                        {zakatType === "profesi" && (
+                        {zakatType === "Profesi" && (
                             <div className="mb-4">
                                 <label htmlFor="wealth" className="block text-gray-700 mb-2">
                                     Gaji per bulan
@@ -165,7 +183,7 @@ const HeaderCard: React.FC = () => {
                                 />
                             </div>
                         )}
-                        {zakatType === "rikaz" && (
+                        {zakatType === "Rikaz" && (
                             <div className="mb-4">
                                 <label htmlFor="wealth" className="block text-gray-700 mb-2">
                                     Nominal Zakat Rikaz
@@ -181,7 +199,7 @@ const HeaderCard: React.FC = () => {
                                 />
                             </div>
                         )}
-                        {zakatType === "surat" && (
+                        {zakatType === "Uang dan Surat Berharga" && (
                             <div className="mb-4">
                                 <label htmlFor="wealth" className="block text-gray-700 mb-2">
                                     Nominal Uang atau Surat berharga Lainnya
@@ -198,7 +216,7 @@ const HeaderCard: React.FC = () => {
                             </div>
                         )}
 
-                        {zakatType === "pertanian" && (
+                        {zakatType === "Pertanian" && (
                             <>
                                 <div className="mb-4">
                                     <label htmlFor="farmYield" className="block text-gray-700 mb-2">
@@ -259,7 +277,7 @@ const HeaderCard: React.FC = () => {
                             </>
                         )}
 
-                        {zakatType === "emas" && (
+                        {zakatType === "Emas dan Perak" && (
                             <>
                                 <div className="mb-4">
                                     <label htmlFor="emas" className="block text-gray-700 mb-2">
