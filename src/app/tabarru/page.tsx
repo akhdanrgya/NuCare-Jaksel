@@ -9,7 +9,7 @@ export const dynamic = "force-dynamic";
 
 type ParamsType = {
     wealth: string | null;
-    zakatType: string | null;
+    zakatType?: string | null;
 };
 
 const TabarruForm = () => {

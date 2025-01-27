@@ -11,9 +11,7 @@ import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
 
 type PaymentDonationProps = {
     wealth: string;
-    zakatType?: number; // Optional
-    otherIncome?: string; // Optional
-    debt?: string; // Optional
+    zakatType?: string;
 };
 
 const PaymentDonation = ({wealth, zakatType}: PaymentDonationProps) => {
@@ -159,7 +157,7 @@ const PaymentDonation = ({wealth, zakatType}: PaymentDonationProps) => {
                 id: 0,
                 name: name,
                 value: parseInt(amount),
-                jenis_zakat: zakatType,
+                jenis_zakat: parseInt(zakatType),
                 telp: phoneNumber,
                 email: email,
                 orderId: orderIdx,
