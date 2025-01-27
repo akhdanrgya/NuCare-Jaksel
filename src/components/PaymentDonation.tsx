@@ -10,11 +10,12 @@ import {v4 as uuidv4} from "uuid";
 import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
 
 type PaymentDonationProps = {
-    wealth: string;
+    wealth?: string;
     zakatType?: string;
+    donationType?: string;
 };
 
-const PaymentDonation = ({wealth, zakatType}: PaymentDonationProps) => {
+const PaymentDonation = ({wealth, zakatType, donationType}: PaymentDonationProps) => {
     const {url} = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
@@ -154,7 +155,6 @@ const PaymentDonation = ({wealth, zakatType}: PaymentDonationProps) => {
             }
         } else {
             const donaturZakatData: DonaturZakatType = {
-                id: 0,
                 name: name,
                 value: parseInt(amount),
                 jenis_zakat: parseInt(zakatType),

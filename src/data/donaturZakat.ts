@@ -1,7 +1,8 @@
 import {supabase} from "@/libs/supabaseClient";
+import {insertAmount} from "@/data/zakat";
 
 export type DonaturZakatType = {
-    id: number;
+    id?: number;
     created_at?: string;
     jenis_zakat: number;
     value: number;
@@ -22,8 +23,10 @@ export const insertDonaturZakat = async (data: DonaturZakatType): Promise<boolea
     if (error) {
         console.error("Error insert zakat", error.message)
         return false
-    }
-    ;
+    };
+
+    insertAmount(data.value, data.jenis_zakat)
+
     console.log("Insert Zakat Berhasil");
     return true;
 }
@@ -33,7 +36,7 @@ export const fetchDonaturZakat = async (): Promise<DonaturZakatType[]> => {
         .from("donatur_zakat")
         .select("*")
 
-    if(error) {
+    if (error) {
         console.error("Error fetching Donation Zakat", error.message)
         return []
     }
@@ -47,7 +50,7 @@ export const fetchDonaturZakatByZakatId = async (zakatId: number): Promise<Donat
         .select("*")
         .eq("jenis_zakat", zakatId)
 
-    if(error) {
+    if (error) {
         console.error("Error fetch zakat donatur by id zakat", error.message)
         return []
     }
