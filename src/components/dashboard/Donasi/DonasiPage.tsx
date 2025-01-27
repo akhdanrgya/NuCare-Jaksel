@@ -33,7 +33,7 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
-    const [selectedKategori, setSelectedKategori] = useState<string>("");
+    const [selectedKategori, setSelectedKategori] = useState<number>(0);
     const [dataKategori, setDataKategori] = useState<KategoriType[]>([]);
 
     useEffect(() => {
@@ -106,17 +106,12 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
     };
 
     const handleKategoriChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const kategoriId = e.target.value;
-
-
+        const kategoriId = parseInt(e.target.value);
 
         setSelectedKategori(kategoriId);
         if (kategoriId) {
             const data = await fetchDonationsByKategori(kategoriId)
             if (data) setDonations(data);
-        } else {
-            const data = await fetchDonations()
-            if (data) setDonationData(data)
         }
     };
 
