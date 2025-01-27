@@ -44,14 +44,12 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         const fetchDonationsData = async () => {
             const dataDonations = await fetchDonations();
             setDonations(dataDonations);
-            console.log(`Asiknih: ${donations}`)
         };
 
         const fetchAllKategori = async () => {
             const data = await fetchKategori()
             if (data) {
                 setDataKategori(data || []);
-                console.log("all kategori", data);
             }
         }
 
@@ -62,8 +60,6 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
     const fetchDonationsDataParams = async (query: string) => {
         const dataDonations = await fetchDonationsByParams(query);
         setDonations(dataDonations);
-        console.log(dataDonations)
-        console.log(`ini di donasicard: ${query}`)
     };
 
     useEffect(() => {
@@ -105,18 +101,22 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         }).format(value);
     };
 
-    const handleKategoriChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleKategoriChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const kategoriId = parseInt(e.target.value);
-
         setSelectedKategori(kategoriId);
+
         if (kategoriId) {
-            const data = await fetchDonationsByKategori(kategoriId)
-            if (data) setDonations(data);
+            const filteredDonations = donations.filter((donasi) => donasi.kategori === kategoriId);
+            setDonations(filteredDonations);
         } else {
-            const data = await fetchDonations()
-            if (data) setDonations(data);
+            const fetchDonationsData = async () => {
+                const dataDonations = await fetchDonations();
+                setDonations(dataDonations);
+            };
+            fetchDonationsData();
         }
     };
+
 
     if (!isMounted) return null;
 
