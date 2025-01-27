@@ -1,4 +1,5 @@
 import {supabase} from "@/libs/supabaseClient";
+import {insertInfakAmount} from "@/data/infak";
 
 export type DonaturInfakType = {
     id?: number;
@@ -21,6 +22,9 @@ export const insertDonaturInfak = async (data: DonaturInfakType): Promise<boolea
         console.error(error);
         return false
     }
+
+    insertInfakAmount(data.value, data.id_infak)
+
     alert("berhasil menyimpan data donatur infak")
     return true
 }

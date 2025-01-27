@@ -8,7 +8,7 @@ export type ZakatType = {
 }
 // CRUD
 
-export const fetchAmount = async (zakatId: number) => {
+export const fetchZakatAmount = async (zakatId: number) => {
     const {data, error} = await supabase
         .from("zakat")
         .select("amount")
@@ -36,7 +36,7 @@ export const fetchZakat = async (): Promise<ZakatType[]> => {
 }
 
 export const insertZakatAmount = async (value: number, zakatId: number): Promise<boolean> => {
-    const amount = await fetchAmount(zakatId)
+    const amount = await fetchZakatAmount(zakatId)
     const hasil = amount+value
     const {error} = await supabase
         .from("zakat")

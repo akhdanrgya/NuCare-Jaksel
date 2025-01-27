@@ -24,7 +24,7 @@ const TabarruForm = () => {
     useEffect(() => {
         const wealth = searchParams.get("wealth");
         const zakatType = searchParams.get("zakatType");
-        const infakTitle = searchParams.get("InfakTitle");
+        const infakTitle = searchParams.get("infakTitle");
 
         setParams({
             wealth,

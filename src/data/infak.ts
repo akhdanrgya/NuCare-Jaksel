@@ -33,3 +33,32 @@ export const insertInfak = async (data: InfakType): Promise<boolean> => {
 
     return true;
 }
+
+export const fetchInfakAmount = async (infakId: number) => {
+    const {data, error} = await supabase
+        .from("infak")
+        .select("amount")
+        .eq("id", infakId)
+        .single()
+
+    if(error){
+        console.log(error)
+        return 0
+    }
+
+    return data.amount
+}
+
+export const insertInfakAmount = async (value: number, infakId: number): Promise<boolean> => {
+    const amount = await fetchInfakAmount(infakId)
+    const hasil = amount + value
+    const {error} = await supabase
+        .from("infak")
+        .update({amount: hasil})
+        .eq("id", infakId)
+
+    console.log(infakId)
+    console.log(amount)
+
+    return !error;
+}
