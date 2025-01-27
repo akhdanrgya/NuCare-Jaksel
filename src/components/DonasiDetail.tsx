@@ -177,7 +177,7 @@ const DonasiDetail = () => {
 
                 {donatur.length > 0 ? (
                     donatur.map((donaturData, idx) => (
-                        <div className="flex gap-10" key={idx}>
+                        <div className="flex gap-10 my-5" key={idx}>
                             <div className="">
                                 <Image
                                     src="https://cdn-icons-png.flaticon.com/128/847/847969.png"
