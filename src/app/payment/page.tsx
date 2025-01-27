@@ -10,6 +10,7 @@ export const dynamic = "force-dynamic";
 type ParamsType = {
     wealth: string | null;
     zakatType?: string | null;
+    infakTitle?: string | null;
 };
 
 const TabarruForm = () => {
@@ -17,15 +18,18 @@ const TabarruForm = () => {
     const [params, setParams] = useState<ParamsType>({
         wealth: null,
         zakatType: null,
+        infakTitle: null
     });
 
     useEffect(() => {
         const wealth = searchParams.get("wealth");
         const zakatType = searchParams.get("zakatType");
+        const infakTitle = searchParams.get("InfakTitle");
 
         setParams({
             wealth,
             zakatType,
+            infakTitle,
         });
     }, [searchParams]);
 
@@ -36,6 +40,7 @@ const TabarruForm = () => {
             <PaymentDonation
                 wealth={params.wealth || ""}
                 zakatType={params.zakatType || ""}
+                infakTitle={params.infakTitle || ""}
             />
         </Suspense>
     );

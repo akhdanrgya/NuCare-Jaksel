@@ -5,18 +5,20 @@ import { fetchUrl, DonasiType } from "../data/donations";
 import { DonaturType, insertDonatur } from "../data/donatur";
 import InputGroup from "./FormElements/InputGroup";
 
-import { updateCollected } from "../data/donations";
-import { v4 as uuidv4 } from "uuid";
-import { DonaturZakatType, insertDonaturZakat } from "@/data/donaturZakat";
+import {updateCollected} from "../data/donations";
+import {v4 as uuidv4} from "uuid";
+import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
+import {DonaturInfakType, insertDonaturInfak} from "@/data/donaturInfak";
 
 type PaymentDonationProps = {
     wealth?: string;
     zakatType?: string;
     donationType?: string;
+    infakTitle?: string;
 };
 
-const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationProps) => {
-    const { url } = useParams();
+const PaymentDonation = ({wealth, zakatType, donationType, infakTitle}: PaymentDonationProps) => {
+    const {url} = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -31,7 +33,6 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
     const [orderId, setOrderId] = useState("");
     const [status, setStatus] = useState<any>(null);
     const [done, setDone] = useState(false);
-    const [kategori, setKategori] = useState<string>("");
 
     useEffect(() => {
         const getDonation = async () => {
@@ -45,20 +46,11 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
             }
             setLoading(false);
         };
-
-        if (donation) {
-            setKategori("Donasi")
-        } else {
-            setKategori("Zakat")
-        }
-
         getDonation();
     }, [url]);
 
 
     useEffect(() => {
-        console.log(`nilai wealth: ${wealth}`)
-        console.log(`tipe zakat: ${zakatType}`)
         if (wealth) {
             setAmount(wealth);
         }
@@ -82,7 +74,6 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
             id: donation?.id,
             price: parseInt(amount),
             name: donation?.title || "Zakat Infaq Wakaf",
-            category: kategori
         };
 
         try {
@@ -123,7 +114,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
                     if (data.transaction_status === "settlement") {
                         clearInterval(interval);
                         insert(orderId);
-                        updateCollected(donation?.id ?? 0, parseInt(amount))
+                        if (donationType) {
+                            updateCollected(donation?.id ?? 0, parseInt(amount))
+                        }
                     }
                 } else {
                     setError("Failed to fetch status");
@@ -134,8 +127,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
         }, 5000);
     };
 
-    const   insert = async (orderIdx: string) => {
-        if (!zakatType) {
+    const insert = async (orderIdx: string) => {
+        console.log(`zakat ${zakatType} donation ${donationType} infak ${infakTitle}`);
+        if (donationType) {
             const donaturData: DonaturType = {
                 id: 0,
                 name: name,
@@ -153,7 +147,7 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
                 setError("Gagal menyimpan donatur");
                 console.error(error);
             }
-        } else {
+        } else if (zakatType) {
             const donaturZakatData: DonaturZakatType = {
                 name: name,
                 value: parseInt(amount),
@@ -169,6 +163,25 @@ const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationPro
                 console.log("Donatur zakat berhasil disimpan:", result)
             } catch (error) {
                 setError("Gagal menyimpan donatur zakat");
+                console.error(error);
+            }
+
+        } else if (infakTitle) {
+            const donaturInfakData: DonaturInfakType = {
+                id_infak: parseInt(infakTitle),
+                value: parseInt(amount),
+                name: name,
+                telp: phoneNumber,
+                message: message,
+                orderId: orderIdx,
+                email: email
+            }
+
+            try {
+                const result = await insertDonaturInfak(donaturInfakData);
+                console.log("Donatur infak berhasil disimpan:", result)
+            } catch (error) {
+                setError("Gagal menyimpan donatur infak");
                 console.error(error);
             }
 

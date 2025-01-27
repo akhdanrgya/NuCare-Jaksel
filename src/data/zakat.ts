@@ -35,7 +35,7 @@ export const fetchZakat = async (): Promise<ZakatType[]> => {
     return data || []
 }
 
-export const insertAmount = async (value: number, zakatId: number): Promise<boolean> => {
+export const insertZakatAmount = async (value: number, zakatId: number): Promise<boolean> => {
     const amount = await fetchAmount(zakatId)
     const hasil = amount+value
     const {error} = await supabase

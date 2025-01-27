@@ -1,5 +1,5 @@
 import {supabase} from "@/libs/supabaseClient";
-import {insertAmount} from "@/data/zakat";
+import {insertZakatAmount} from "@/data/zakat";
 
 export type DonaturZakatType = {
     id?: number;
@@ -25,7 +25,7 @@ export const insertDonaturZakat = async (data: DonaturZakatType): Promise<boolea
         return false
     };
 
-    insertAmount(data.value, data.jenis_zakat)
+    insertZakatAmount(data.value, data.jenis_zakat)
 
     console.log("Insert Zakat Berhasil");
     return true;
