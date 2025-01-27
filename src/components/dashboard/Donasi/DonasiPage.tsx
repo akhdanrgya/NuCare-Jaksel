@@ -155,6 +155,19 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
                                 <div className="m-10 flex justify-between">
                                     <SearchForm header={false} search={"Donation"}
                                                 onSearch={fetchDonationsDataParams}/>
+                                    <div className="mb-4">
+                                        <select
+                                            id="zakatType"
+                                            value={selectedKategori}
+                                            onChange={handleKategoriChange}
+                                            className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                        >
+                                            <option value="">Semua Kategori</option>
+                                            {dataKategori.map((data, id) => (
+                                                <option key={id} value={data.id}>{data.tittle}</option>
+                                            ))}
+                                        </select>
+                                    </div>
                                     <Link href="/dashboard/donasi/add">
                                         <button
                                             className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
@@ -176,7 +189,7 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
                         >
                             <div className="absolute bg-green-500 m-4 p-1 rounded opacity-90 right-0 top-0">
                                 <h1 className="font-montserrat text-white">
-                                    {kategori[donasi.kategori] || "Loading..."}
+                                {kategori[donasi.kategori] || "Loading..."}
                                 </h1>
                             </div>
 
