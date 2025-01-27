@@ -14,6 +14,7 @@ import {
     ZakatType
 } from "@/data/zakat";
 import { formatRupiah } from "@/utils/formatRupiah";
+import {fetchInfak, InfakType} from "@/data/infak";
 
 const HeaderCard: React.FC = () => {
     const [donationType, setDonationType] = useState<string>("zakat");
@@ -25,17 +26,23 @@ const HeaderCard: React.FC = () => {
     const [livestock, setLivestock] = useState<number>(0);
     const [debt, setDebt] = useState<number>(0);
     const [emas, setEmas] = useState<number>(0);
-    const [logam, setLogam] = useState<number>(0);
     const [perak, setPerak] = useState<number>(0);
     const router = useRouter();
     const [zakat, setZakat] = useState<ZakatType[]>([]);
+    const [Infak, setInfak] = useState<InfakType[]>([]);
+    const [InfakId, setInfakId] = useState<number>(1);
 
     useEffect(() => {
         const fetchZakatData = async () => {
             const data = await fetchZakat();
             if (data) setZakat(data);
         }
+        const fetchInfakData = async () => {
+            const data = await fetchInfak()
+            if (data) setInfak(data);
+        }
 
+        fetchInfakData()
         fetchZakatData()
     }, []);
 
@@ -45,6 +52,10 @@ const HeaderCard: React.FC = () => {
 
     const handleZakatTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setZakatType(parseInt(e.target.value));
+    };
+
+    const handleInfakIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setInfakId(parseInt(e.target.value));
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -80,13 +91,24 @@ const HeaderCard: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
+        if(donationType === "zakat"){
         const query = new URLSearchParams({
             wealth: donationType === "zakat" ? calculatedZakat.toString() : wealth.toString(),
             zakatType: zakatType.toString()
         }).toString();
 
-        router.push(`/tabarru?${query}`);
+        router.push(`/payment?${query}`);
+
+        } else if (donationType === "infak"){
+            const query = new URLSearchParams({
+                wealth: wealth.toString(),
+                infakTitle: InfakId.toString()
+            }).toString();
+
+            router.push(`/payment?${query}`);
+        }
     };
+
 
     return (
         <div
@@ -367,6 +389,20 @@ const HeaderCard: React.FC = () => {
                             <p className="text-center text-gray-600 mb-4">
                                 Silakan isi jumlah infakmu. Insya Allah berkah.
                             </p>
+                        </div>
+
+                        <div className="mb-4">
+                            <select
+                                id="zakatType"
+                                value={InfakId}
+                                onChange={handleInfakIdChange}
+                                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                            >
+
+                                {Infak.map((data, idx) => (
+                                    <option key={idx} value={data.id}>{data.title}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="mb-4">
