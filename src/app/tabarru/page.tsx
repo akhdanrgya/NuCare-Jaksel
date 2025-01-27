@@ -3,13 +3,14 @@
 import PaymentDonation from "@/components/PaymentDonation";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import {Suspense} from "react";
+import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
 const TabarruForm = () => {
     const searchParams = useSearchParams();
     const [wealth, setWealth] = useState<string | null>(null);
+    const [jenisZakat, setJenisZakat] = useState<number>()
 
     useEffect(() => {
         const data = searchParams.get("wealth");
