@@ -6,9 +6,9 @@ import Footer from "@/components/Footer";
 const program = () => {
     return (
         <>
-            <Header />
+            <Header/>
             <div className="mt-24">
-            <DonasiPage dashboard={false}  detail={true}/>
+                <DonasiPage dashboard={false} detail={true} program={true}/>
             </div>
             <Footer/>
         </>

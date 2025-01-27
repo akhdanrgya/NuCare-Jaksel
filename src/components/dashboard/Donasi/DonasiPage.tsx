@@ -2,11 +2,11 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  fetchDonations,
-  DonasiType,
-  deleteDonation,
-  fetchDonationByTitle,
-  fetchDonationsByParams
+    fetchDonations,
+    DonasiType,
+    deleteDonation,
+    fetchDonationByTitle,
+    fetchDonationsByParams, fetchDonationsByKategori
 } from "@/data/donations"
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import { Montserrat } from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import { fetchKategoriById, KategoriType } from "@/data/kategori";
+import {fetchKategoriById, KategoriType, fetchKategori} from "@/data/kategori";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -23,35 +23,41 @@ const montserrat = Montserrat({
 });
 
 interface DonasiPageProps {
-  dashboard?: boolean;
-  detail?: boolean;
-  program?: boolean;
+    dashboard?: boolean;
+    detail?: boolean;
+    program?: boolean;
 }
 
-const DonasiPage: React.FC<DonasiPageProps> = ({ dashboard = false, detail = false, program=false }) => {
-  const [donations, setDonations] = useState<DonasiType[]>([]);
-  const [kategori, setKategori] = useState<Record<number, string>>({});
-  const [isMounted, setIsMounted] = useState(false);
-  const router = useRouter();
-
-
-  const [donationData, setDonationData] = useState<string[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-
+const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = false, program = false}) => {
+    const [donations, setDonations] = useState<DonasiType[]>([]);
+    const [kategori, setKategori] = useState<Record<number, string>>({});
+    const [isMounted, setIsMounted] = useState(false);
+    const router = useRouter();
+    const [selectedKategori, setSelectedKategori] = useState<number>(0);
+    const [dataKategori, setDataKategori] = useState<KategoriType[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
-  useEffect(() => {
-    const fetchDonationsData = async () => {
-      const dataDonations = await fetchDonations();
-      setDonations(dataDonations);
-      console.log(`Asiknih: ${donations}`)
-    };
-    fetchDonationsData();
-  }, []);
+    useEffect(() => {
+        const fetchDonationsData = async () => {
+            const dataDonations = await fetchDonations();
+            setDonations(dataDonations);
+            console.log(`Asiknih: ${donations}`)
+        };
+
+        const fetchAllKategori = async () => {
+            const data = await fetchKategori()
+            if (data) {
+                setDataKategori(data || []);
+                console.log("all kategori", data);
+            }
+        }
+
+        fetchAllKategori()
+        fetchDonationsData();
+    }, []);
 
   const fetchDonationsDataParams = async (query: string) => {
     const dataDonations = await fetchDonationsByParams(query);
@@ -93,46 +99,83 @@ const DonasiPage: React.FC<DonasiPageProps> = ({ dashboard = false, detail = fal
     router.push("/program");
   };
 
-  const formatRupiah = (value: number): string => {
-    return new Intl.NumberFormat("id-ID", {
-      minimumFractionDigits: 0,
-    }).format(value);
-  };
+    const formatRupiah = (value: number): string => {
+        return new Intl.NumberFormat("id-ID", {
+            minimumFractionDigits: 0,
+        }).format(value);
+    };
+
+    const handleKategoriChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const kategoriId = parseInt(e.target.value);
+
+        setSelectedKategori(kategoriId);
+        if (kategoriId) {
+            const data = await fetchDonationsByKategori(kategoriId)
+            if (data) setDonations(data);
+        }
+    };
 
   if (!isMounted) return null;
 
-  return (
-    <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
-      {detail ? null : (
-        // kalo ini home dll
-        !dashboard ? (
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-            <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
-          </div>
-        ) : (
-          <div className="m-10 flex justify-between">
-            <SearchForm header={false} search={"Donation"} onSearch={fetchDonationsDataParams} />
-            <Link href="/dashboard/donasi/add">
-              <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-                Add New
-              </button>
-            </Link>
-          </div>
-        )
-      )}
-      <div
-        className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {donations.length > 0 ? (
-          donations.map((donasi, idx) => (
+    return (
+        <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
+            {program ? (
+                <>
+                    {program ? (
+                        <div className="container mx-auto mb-10 flex justify-between">
+                            <SearchForm header={false} search={"Donation"} onSearch={fetchDonationsDataParams}/>
+                            <div className="mb-4">
+                                <select
+                                    id="zakatType"
+                                    value={selectedKategori}
+                                    onChange={handleKategoriChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                >
+                                    <option value="">Semua Kategori</option>
+                                    {dataKategori.map((data, id) => (
+                                        <option key={id} value={data.id}>{data.tittle}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    ) : null}
+                </>
+            ) : (
+                <>
+                    {detail ? null
+                        : (
+                            !dashboard ? (
+                                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                                </div>
+                            ) : (
+                                <div className="m-10 flex justify-between">
+                                    <SearchForm header={false} search={"Donation"}
+                                                onSearch={fetchDonationsDataParams}/>
+                                    <Link href="/dashboard/donasi/add">
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                                            Add New
+                                        </button>
+                                    </Link>
+                                </div>
+                            )
+                        )}
+                </>
+            )}
             <div
-              key={idx}
-              className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
-            >
-              <div className="absolute bg-green-500 m-4 p-1 rounded opacity-90 right-0 top-0">
-                <h1 className="font-montserrat text-white">
-                  {kategori[donasi.kategori] || "Loading..."}
-                </h1>
-              </div>
+                className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {donations.length > 0 ? (
+                    donations.map((donasi, idx) => (
+                        <div
+                            key={idx}
+                            className="bg-white rounded-lg shadow-md border border-gray-200 transition transform hover:-translate-y-2 hover:shadow-lg"
+                        >
+                            <div className="absolute bg-green-500 m-4 p-1 rounded opacity-90 right-0 top-0">
+                                <h1 className="font-montserrat text-white">
+                                    {kategori[donasi.kategori] || "Loading..."}
+                                </h1>
+                            </div>
 
               <div className="overflow-hidden rounded-t-lg">
                 <Image
