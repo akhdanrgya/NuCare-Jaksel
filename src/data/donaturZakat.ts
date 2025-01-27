@@ -2,12 +2,14 @@ import {supabase} from "@/libs/supabaseClient";
 
 export type DonaturZakatType = {
     id: number;
-    created_at: string;
+    created_at?: string;
     jenis_zakat: number;
     value: number;
     name: string;
     telp: string;
     message: string;
+    orderId: string;
+    email: string;
 }
 
 // CRUD
