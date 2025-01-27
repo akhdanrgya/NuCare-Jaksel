@@ -6,7 +6,7 @@ import {
     DonasiType,
     deleteDonation,
     fetchDonationByTitle,
-    fetchDonationsByParams
+    fetchDonationsByParams, fetchDonationsByKategori
 } from "@/data/donations"
 import {useRouter} from "next/navigation";
 import Image from "next/image";
@@ -14,7 +14,7 @@ import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import {fetchKategoriById, KategoriType} from "@/data/kategori";
+import {fetchKategoriById, KategoriType, fetchKategori} from "@/data/kategori";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -25,13 +25,16 @@ const montserrat = Montserrat({
 interface DonasiPageProps {
     dashboard?: boolean;
     detail?: boolean;
+    program?: boolean;
 }
 
-const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = false}) => {
+const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = false, program = false}) => {
     const [donations, setDonations] = useState<DonasiType[]>([]);
     const [kategori, setKategori] = useState<Record<number, string>>({});
     const [isMounted, setIsMounted] = useState(false);
     const router = useRouter();
+    const [selectedKategori, setSelectedKategori] = useState<string>("");
+    const [dataKategori, setDataKategori] = useState<KategoriType[]>([]);
 
 
     const [donationData, setDonationData] = useState<string[]>([]);
@@ -51,6 +54,16 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
             setDonations(dataDonations);
             console.log(`Asiknih: ${donations}`)
         };
+
+        const fetchAllKategori = async () => {
+            const data = await fetchKategori()
+            if (data) {
+                setDataKategori(data || []);
+                console.log("all kategori", data);
+            }
+        }
+
+        fetchAllKategori()
         fetchDonationsData();
     }, []);
 
@@ -100,25 +113,68 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         }).format(value);
     };
 
+    const handleKategoriChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const kategoriId = e.target.value;
+
+
+
+        setSelectedKategori(kategoriId);
+        if (kategoriId) {
+            const data = await fetchDonationsByKategori(kategoriId)
+            if (data) setDonations(data);
+        } else {
+            const data = await fetchDonations()
+            if (data) setDonationData(data)
+        }
+    };
+
     if (!isMounted) return null;
 
     return (
         <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
-            {detail ? null : (
-                !dashboard ? (
-                    <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
-                        <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
-                    </div>
-                ) : (
-                    <div className="m-10 flex justify-between">
-                        <SearchForm header={false} search={"Donation"} onSearch={fetchDonationsDataParams}/>
-                        <Link href="/dashboard/donasi/add">
-                            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-                                Add New
-                            </button>
-                        </Link>
-                    </div>
-                )
+            {program ? (
+                <>
+                    {program ? (
+                        <div className="container mx-auto mb-10 flex justify-between">
+                            <SearchForm header={false} search={"Donation"} onSearch={fetchDonationsDataParams}/>
+                            <div className="mb-4">
+                                <select
+                                    id="zakatType"
+                                    value={selectedKategori}
+                                    onChange={handleKategoriChange}
+                                    className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                                >
+                                    <option value="">Semua Kategori</option>
+                                    {dataKategori.map((data, id) => (
+                                        <option key={id} value={data.id}>{data.tittle}</option>
+                                    ))}
+                                </select>
+                            </div>
+                        </div>
+                    ) : null}
+                </>
+            ) : (
+                <>
+                    {detail ? null
+                        : (
+                            !dashboard ? (
+                                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center mb-8">
+                                    <h2 className="text-4xl font-montserrat font-bold">Ayo Mulai Berdonasi!</h2>
+                                </div>
+                            ) : (
+                                <div className="m-10 flex justify-between">
+                                    <SearchForm header={false} search={"Donation"}
+                                                onSearch={fetchDonationsDataParams}/>
+                                    <Link href="/dashboard/donasi/add">
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
+                                            Add New
+                                        </button>
+                                    </Link>
+                                </div>
+                            )
+                        )}
+                </>
             )}
             <div
                 className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
