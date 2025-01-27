@@ -112,6 +112,9 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         if (kategoriId) {
             const data = await fetchDonationsByKategori(kategoriId)
             if (data) setDonations(data);
+        } else {
+            const data = await fetchDonations()
+            if (data) setDonations(data);
         }
     };
 
