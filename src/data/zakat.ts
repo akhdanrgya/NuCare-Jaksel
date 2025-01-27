@@ -1,3 +1,42 @@
+import {supabase} from "@/libs/supabaseClient";
+
+export type Zakat = {
+    id: number
+    created_at: string
+    title: string
+    amount: number
+}
+// CRUD
+
+export const fetchAmount = async (zakatId: number) => {
+    const {data, error} = await supabase
+        .from("zakat")
+        .select("amount")
+        .eq("id", zakatId)
+        .single()
+
+    if(error){
+        console.log(error)
+        return 0
+    }
+
+    return data.amount
+}
+export const insertAmount = async (value: number, zakatId: number): Promise<boolean> => {
+    const amount = await fetchAmount(zakatId)
+    const hasil = amount+value
+    const {error} = await supabase
+        .from("zakat")
+        .update({amount: hasil})
+        .eq("id", zakatId)
+
+    return !error;
+
+}
+
+
+
+// ZAKAT LOGIC
 const emas = 1611000;
 const perak = 15909;
 
@@ -33,21 +72,17 @@ export const zakatSimpanan = (
     totalPerak: number = 0,
     totalUang: number = 0,
     totalHutang: number = 0,
-
 ) => {
     let zakat = 0;
 
 
     if (totalEmas > 0) {
         zakat += (totalEmas * emas * 0.025)
-    }
-    else if (totalPerak > 0) {
+    } else if (totalPerak > 0) {
         zakat += (totalPerak * perak * 0.025)
-    }
-    else if (totalUang > 0) {
+    } else if (totalUang > 0) {
         zakat += totalUang * 0.025
-    }
-    else if (totalHutang > 0) {
+    } else if (totalHutang > 0) {
         zakat -= totalHutang
     }
 
