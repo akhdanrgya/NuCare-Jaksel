@@ -36,14 +36,6 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
     const [selectedKategori, setSelectedKategori] = useState<string>("");
     const [dataKategori, setDataKategori] = useState<KategoriType[]>([]);
 
-
-    const [donationData, setDonationData] = useState<string[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [loading, setLoading] = useState<boolean>(true);
-
-    const filteredDonations = donations.filter
-
-
     useEffect(() => {
         setIsMounted(true);
     }, []);
