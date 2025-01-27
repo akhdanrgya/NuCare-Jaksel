@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { supabase } from '@/libs/supabaseClient'
 import { useRouter } from 'next/navigation'
 import Login from '@/components/Login'
@@ -14,6 +14,7 @@ const LoginPage = () => {
         if (event === 'SIGNED_IN' && session) {
           router.push('/dashboard')
         } else if (event === 'SIGNED_OUT') {
+
         }
       }
     )
@@ -24,7 +25,7 @@ const LoginPage = () => {
   }, [router])
 
   return (
-    <Login/>
+    <Login />
   )
 }
 

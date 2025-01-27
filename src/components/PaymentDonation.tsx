@@ -1,13 +1,13 @@
 "use client";
-import {useParams} from "next/navigation";
-import React, {useState, useEffect} from "react";
-import {fetchUrl, DonasiType} from "../data/donations";
-import {DonaturType, insertDonatur} from "../data/donatur";
+import { useParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { fetchUrl, DonasiType } from "../data/donations";
+import { DonaturType, insertDonatur } from "../data/donatur";
 import InputGroup from "./FormElements/InputGroup";
 
-import {updateCollected} from "../data/donations";
-import {v4 as uuidv4} from "uuid";
-import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
+import { updateCollected } from "../data/donations";
+import { v4 as uuidv4 } from "uuid";
+import { DonaturZakatType, insertDonaturZakat } from "@/data/donaturZakat";
 
 type PaymentDonationProps = {
     wealth?: string;
@@ -15,8 +15,8 @@ type PaymentDonationProps = {
     donationType?: string;
 };
 
-const PaymentDonation = ({wealth, zakatType, donationType}: PaymentDonationProps) => {
-    const {url} = useParams();
+const PaymentDonation = ({ wealth, zakatType, donationType }: PaymentDonationProps) => {
+    const { url } = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -56,16 +56,16 @@ const PaymentDonation = ({wealth, zakatType, donationType}: PaymentDonationProps
     }, [url]);
 
 
-  useEffect(() => {
-    console.log(`nilai wealth: ${wealth}`)
-    console.log(`tipe zakat: ${zakatType}`)
-    if (wealth) {
-      setAmount(wealth);
-    }
-    if (zakatType) {
-      setTipeZakat(zakatType)
-    }
-  }, [wealth]);
+    useEffect(() => {
+        console.log(`nilai wealth: ${wealth}`)
+        console.log(`tipe zakat: ${zakatType}`)
+        if (wealth) {
+            setAmount(wealth);
+        }
+        if (zakatType) {
+            setTipeZakat(zakatType)
+        }
+    }, [wealth]);
 
     const handleSubmit = async (event: React.FormEvent) => {
         setDone(true);
@@ -134,7 +134,7 @@ const PaymentDonation = ({wealth, zakatType, donationType}: PaymentDonationProps
         }, 5000);
     };
 
-    const insert = async (orderIdx: string) => {
+    const   insert = async (orderIdx: string) => {
         if (!zakatType) {
             const donaturData: DonaturType = {
                 id: 0,
@@ -292,8 +292,8 @@ const PaymentDonation = ({wealth, zakatType, donationType}: PaymentDonationProps
                                 className="form-checkbox h-5 w-5 text-gray-600"
                             />
                             <span className="ml-2 text-gray-700">
-                Saya setuju dengan syarat dan ketentuan yang berlaku
-              </span>
+                                Saya setuju dengan syarat dan ketentuan yang berlaku
+                            </span>
                         </label>
                     </div>
 
