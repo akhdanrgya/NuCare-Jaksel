@@ -62,6 +62,9 @@ const PaymentDonation = ({ wealth, zakatType }: PaymentDonationProps) => {
     if (wealth) {
       setAmount(wealth);
     }
+    if (zakatType) {
+      setTipeZakat(zakatType)
+    }
   }, [wealth]);
 
   const handleSubmit = async (event: React.FormEvent) => {
