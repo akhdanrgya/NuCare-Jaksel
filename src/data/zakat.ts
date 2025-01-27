@@ -1,5 +1,4 @@
 import {supabase} from "@/libs/supabaseClient";
-import {DonaturZakatType} from "@/data/donaturZakat";
 
 export type ZakatType = {
     id: number
@@ -47,8 +46,6 @@ export const insertAmount = async (value: number, zakatId: number): Promise<bool
     return !error;
 
 }
-
-
 
 // ZAKAT LOGIC
 const emas = 1611000;
