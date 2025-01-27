@@ -20,6 +20,13 @@ export async function POST(req: NextRequest): Promise<Response> {
         email: body.email || 'example@example.com',
         phone: body.phone || '0000000000',
       },
+      item_details: {
+        id: body.id || 0,
+        price: body.price || 0,
+        quantity: 1,
+        name: body.name || 'Anonymous',
+        category: body.category || 'hehe',
+      },
     };
 
     const transaction = await new Promise<TransactionResult>((resolve, reject) => {

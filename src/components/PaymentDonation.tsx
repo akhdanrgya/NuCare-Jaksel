@@ -23,6 +23,7 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
   const [orderId, setOrderId] = useState("");
   const [status, setStatus] = useState<any>(null);
   const [done, setDone] = useState(false);
+  const [kategori, setKategori] = useState<string>("");
 
   useEffect(() => {
     const getDonation = async () => {
@@ -37,6 +38,12 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
       setLoading(false);
     };
 
+    if(donation){
+      setKategori("Donasi")
+    } else {
+      setKategori("Zakat")
+    }
+
     getDonation();
   }, [url]);
 
@@ -44,7 +51,7 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
   useEffect(() => {
     console.log(`nilai wealth: ${wealth}`)
     if (wealth) {
-      setAmount(wealth); // Set amount berdasarkan wealth
+      setAmount(wealth);
     }
   }, [wealth]);
 
@@ -59,6 +66,11 @@ const PaymentDonation = ({ wealth = "" }: { wealth?: string }) => {
       first_name: name,
       email: email,
       phone: phoneNumber,
+      // item details
+      id: donation?.id,
+      price: parseInt(amount),
+      name: donation?.title || "Zakat Infaq Wakaf",
+      category: kategori
     };
 
     try {
