@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import {
     fetchDonations,
     DonasiType,
@@ -8,18 +8,18 @@ import {
     fetchDonationByTitle,
     fetchDonationsByParams, fetchDonationsByKategori
 } from "@/data/donations"
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
+import {Montserrat} from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
 import {fetchKategoriById, KategoriType, fetchKategori} from "@/data/kategori";
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
 });
 
 interface DonasiPageProps {
@@ -36,22 +36,20 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
     const [selectedKategori, setSelectedKategori] = useState<number>(0);
     const [dataKategori, setDataKategori] = useState<KategoriType[]>([]);
 
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+    useEffect(() => {
+        setIsMounted(true);
+    }, []);
 
     useEffect(() => {
         const fetchDonationsData = async () => {
             const dataDonations = await fetchDonations();
             setDonations(dataDonations);
-            console.log(`Asiknih: ${donations}`)
         };
 
         const fetchAllKategori = async () => {
             const data = await fetchKategori()
             if (data) {
                 setDataKategori(data || []);
-                console.log("all kategori", data);
             }
         }
 
@@ -59,45 +57,43 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         fetchDonationsData();
     }, []);
 
-  const fetchDonationsDataParams = async (query: string) => {
-    const dataDonations = await fetchDonationsByParams(query);
-    setDonations(dataDonations);
-    console.log(dataDonations)
-    console.log(`ini di donasicard: ${query}`)
-  };
-
-  useEffect(() => {
-    const fetchKategoriData = async () => {
-      const kategoriData: Record<number, string> = {};
-      const kategoriPromises = donations.map(async (donasi) => {
-        const dataKategori = await fetchKategoriById(donasi.kategori);
-        return { id: donasi.kategori, title: dataKategori.tittle };
-      });
-
-      const results = await Promise.all(kategoriPromises);
-      results.forEach(({ id, title }) => {
-        kategoriData[id] = title;
-      });
-
-      setKategori(kategoriData);
+    const fetchDonationsDataParams = async (query: string) => {
+        const dataDonations = await fetchDonationsByParams(query);
+        setDonations(dataDonations);
     };
 
-    if (donations.length > 0) {
-      fetchKategoriData();
-    }
-  }, [donations]);
+    useEffect(() => {
+        const fetchKategoriData = async () => {
+            const kategoriData: Record<number, string> = {};
+            const kategoriPromises = donations.map(async (donasi) => {
+                const dataKategori = await fetchKategoriById(donasi.kategori);
+                return {id: donasi.kategori, title: dataKategori.tittle};
+            });
 
-  const handleCardClick = (url: string) => {
-    const formattedurl = url
-      .replace(/^#/, "")
-      .replace(/\s+/g, "-")
-      .toLowerCase();
-    router.push(`/program/${formattedurl}`);
-  };
+            const results = await Promise.all(kategoriPromises);
+            results.forEach(({id, title}) => {
+                kategoriData[id] = title;
+            });
 
-  const handleProgramClick = () => {
-    router.push("/program");
-  };
+            setKategori(kategoriData);
+        };
+
+        if (donations.length > 0) {
+            fetchKategoriData();
+        }
+    }, [donations]);
+
+    const handleCardClick = (url: string) => {
+        const formattedurl = url
+            .replace(/^#/, "")
+            .replace(/\s+/g, "-")
+            .toLowerCase();
+        router.push(`/program/${formattedurl}`);
+    };
+
+    const handleProgramClick = () => {
+        router.push("/program");
+    };
 
     const formatRupiah = (value: number): string => {
         return new Intl.NumberFormat("id-ID", {
@@ -105,17 +101,24 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
         }).format(value);
     };
 
-    const handleKategoriChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const handleKategoriChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const kategoriId = parseInt(e.target.value);
-
         setSelectedKategori(kategoriId);
+
         if (kategoriId) {
-            const data = await fetchDonationsByKategori(kategoriId)
-            if (data) setDonations(data);
+            const filteredDonations = donations.filter((donasi) => donasi.kategori === kategoriId);
+            setDonations(filteredDonations);
+        } else {
+            const fetchDonationsData = async () => {
+                const dataDonations = await fetchDonations();
+                setDonations(dataDonations);
+            };
+            fetchDonationsData();
         }
     };
 
-  if (!isMounted) return null;
+
+    if (!isMounted) return null;
 
     return (
         <section className={`${montserrat.variable} font-montserrat ${!dashboard ? "py-24" : null}`}>
@@ -177,69 +180,69 @@ const DonasiPage: React.FC<DonasiPageProps> = ({dashboard = false, detail = fals
                                 </h1>
                             </div>
 
-              <div className="overflow-hidden rounded-t-lg">
-                <Image
-                  src={donasi.image}
-                  alt={donasi.title}
-                  className=" w-full h-48 cursor-pointer object-cover"
-                  width={300}
-                  height={200}
-                  onClick={() => handleCardClick(donasi.url)}
-                />
-              </div>
+                            <div className="overflow-hidden rounded-t-lg">
+                                <Image
+                                    src={donasi.image}
+                                    alt={donasi.title}
+                                    className=" w-full h-48 cursor-pointer object-cover"
+                                    width={300}
+                                    height={200}
+                                    onClick={() => handleCardClick(donasi.url)}
+                                />
+                            </div>
 
-              <div className="p-6">
-                {/* min-height = line_height*2 */}
-                <h1 className=" line-clamp-2 font-bold text-xl font-montserrat mb-2 min-h-[calc(1.75rem*2)]">{donasi.title}</h1>
-                <p className="text-gray-600 text-sm mb-20 font-montserrat">
-                  {donasi.location.toUpperCase()}
-                </p>
+                            <div className="p-6">
+                                {/* min-height = line_height*2 */}
+                                <h1 className=" line-clamp-2 font-bold text-xl font-montserrat mb-2 min-h-[calc(1.75rem*2)]">{donasi.title}</h1>
+                                <p className="text-gray-600 text-sm mb-20 font-montserrat">
+                                    {donasi.location.toUpperCase()}
+                                </p>
 
-                <ProgressBar target={donasi.target} collected={donasi.collected} />
+                                <ProgressBar target={donasi.target} collected={donasi.collected}/>
 
-                <div className="flex justify-between font-montserrat">
-                  <p className="text-gray-600">Terkumpul</p>
-                  <p className="text-green-500 font-montserrat">{formatRupiah(donasi.collected)}</p>
-                </div>
-              </div>
-              {dashboard ? (
-                <div className="flex justify-between px-10 py-5">
-                  <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
-                    <button
-                      className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
-                      Edit
-                    </button>
-                  </Link>
-                  <button
-                    className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
-                    onClick={() => deleteDonation(donasi.id, donasi.image)}
-                  >
-                    Delete
-                  </button>
-                </div>
-              ) : null}
+                                <div className="flex justify-between font-montserrat">
+                                    <p className="text-gray-600">Terkumpul</p>
+                                    <p className="text-green-500 font-montserrat">{formatRupiah(donasi.collected)}</p>
+                                </div>
+                            </div>
+                            {dashboard ? (
+                                <div className="flex justify-between px-10 py-5">
+                                    <Link href={`/dashboard/donasi/edit/${donasi.id}`}>
+                                        <button
+                                            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
+                                            Edit
+                                        </button>
+                                    </Link>
+                                    <button
+                                        className="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-300 font-montserrat"
+                                        onClick={() => deleteDonation(donasi.id, donasi.image)}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
+                            ) : null}
+                        </div>
+                    ))
+                ) : (
+                    <div className="justify-center items-center">
+                        <p className="text-center w-full py-6 font-montserrat">Tidak ada donasi saat ini</p>
+                    </div>
+                )}
             </div>
-          ))
-        ) : (
-          <div className="justify-center items-center">
-            <p className="text-center w-full py-6 font-montserrat">Tidak ada donasi saat ini</p>
-          </div>
-        )}
-      </div>
-      {detail ? null : (
-        !dashboard ? (
-          <div className="container mx-auto text-center mt-8">
-            <button
-              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
-              onClick={() => handleProgramClick()}
-            >
-              Program Lainnya
-            </button>
-          </div>
-        ) : null
-      )}
-    </section>
-  );
+            {detail ? null : (
+                !dashboard ? (
+                    <div className="container mx-auto text-center mt-8">
+                        <button
+                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded font-montserrat"
+                            onClick={() => handleProgramClick()}
+                        >
+                            Program Lainnya
+                        </button>
+                    </div>
+                ) : null
+            )}
+        </section>
+    );
 };
 
 export default DonasiPage;
