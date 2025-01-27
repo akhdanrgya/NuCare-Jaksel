@@ -1,15 +1,15 @@
 "use client";
 
-import {useParams} from "next/navigation";
-import {useState, useEffect} from "react";
-import {fetchUrl} from "../data/donations";
-import {DonasiType} from "../data/donations";
-import {useRouter} from "next/navigation";
+import { useParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { fetchUrl } from "../data/donations";
+import { DonasiType } from "../data/donations";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
-import {Montserrat} from "next/font/google";
+import { Montserrat } from "next/font/google";
 import ProgressBar from "@/components/ProgressBar";
-import {fetchKategoriById} from "@/data/kategori";
-import DonasiCards from "@/components/DonasiCard";
+import { fetchKategoriById } from "@/data/kategori";
+import DonasiPage from "./dashboard/Donasi/DonasiPage";
 import {fetchDonaturById, DonaturType} from "@/data/donatur";
 import {format} from "date-fns";
 import {formatRupiahWithoutRp, formatRupiah} from "@/utils/formatRupiah";
@@ -21,7 +21,7 @@ const montserrat = Montserrat({
 });
 
 const DonasiDetail = () => {
-    const {url} = useParams();
+    const { url } = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [donatur, setDonatur] = useState<DonaturType[]>([]);
     const [loading, setLoading] = useState(true);
@@ -129,7 +129,7 @@ const DonasiDetail = () => {
                         </div>
                     </div>
 
-                    <hr className="border-gray-300 my-4"/>
+                    <hr className="border-gray-300 my-4" />
 
 
                     <div className="flex justify-between mb-5">
@@ -211,9 +211,7 @@ const DonasiDetail = () => {
                     <h3 className="font-semibold text-green-500 text-xl">Selanjutnya</h3>
                 </div>
             </div>
-
-
-            <DonasiCards detail={true}/>
+            <DonasiPage detail={true} />
 
         </section>
     );

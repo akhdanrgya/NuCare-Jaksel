@@ -1,15 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import BeritaCard from "@/components/BeritaCard";
+import BeritaPage from "@/components/dashboard/Berita";
 
 const Berita = () => {
     return (
         <>
-            <Header/>
+            <Header />
             <div className="mt-24">
-                <BeritaCard detail={true}/>
+                <BeritaPage detail={true} />
             </div>
-            <Footer/>
+            <Footer />
         </>
     )
 }

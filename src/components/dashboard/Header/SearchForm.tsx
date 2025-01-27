@@ -12,7 +12,6 @@ const SearchForm: React.FC<SearchFormProps> = ({ header = true, search = "", onS
 
 
     const [query, setQuery] = useState<string>("");
-    const [donationData, setDonationData] = useState<string[]>([]);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 

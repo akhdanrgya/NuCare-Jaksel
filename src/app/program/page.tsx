@@ -1,14 +1,14 @@
 'use client'
 import Header from "@/components/Header";
-import DonasiCards from "@/components/DonasiCard";
+import DonasiPage from "@/components/dashboard/Donasi/DonasiPage";
 import Footer from "@/components/Footer";
 
 const program = () => {
     return (
         <>
-            <Header/>
+            <Header />
             <div className="mt-24">
-            <DonasiCards dashboard={false} detail={true}/>
+            <DonasiPage dashboard={false}  detail={true}/>
             </div>
             <Footer/>
         </>
