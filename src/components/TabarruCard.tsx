@@ -14,11 +14,11 @@ import {
     ZakatType
 } from "@/data/zakat";
 import { formatRupiah } from "@/utils/formatRupiah";
-import {fetchInfak, InfakType} from "@/data/infak";
+import { fetchInfak, InfakType } from "@/data/infak";
+import { fetchWakaf, WakafType } from "@/data/wakaf";
 
 const HeaderCard: React.FC = () => {
     const [donationType, setDonationType] = useState<string>("zakat");
-    const [zakatType, setZakatType] = useState<number>(1);
     const [wealth, setWealth] = useState<number>(0);
     const [calculatedZakat, setCalculatedZakat] = useState<number>(0);
     const [farmYield, setFarmYield] = useState<number>(0);
@@ -28,9 +28,19 @@ const HeaderCard: React.FC = () => {
     const [emas, setEmas] = useState<number>(0);
     const [perak, setPerak] = useState<number>(0);
     const router = useRouter();
+
+    // data zakat
     const [zakat, setZakat] = useState<ZakatType[]>([]);
+    const [zakatType, setZakatType] = useState<number>(1);
+
+
+    // data infak
     const [Infak, setInfak] = useState<InfakType[]>([]);
     const [InfakId, setInfakId] = useState<number>(1);
+
+    // data wakaf
+    const [Wakaf, setWakaf] = useState<WakafType[]>([])
+    const [WakafId, setWakafId] = useState<number>(1)
 
     useEffect(() => {
         const fetchZakatData = async () => {
@@ -42,8 +52,14 @@ const HeaderCard: React.FC = () => {
             if (data) setInfak(data);
         }
 
+        const fetchWakafData = async () => {
+            const data = await fetchWakaf()
+            if (data) { setWakaf(data) }
+        }
+
         fetchInfakData()
         fetchZakatData()
+        fetchWakafData()
     }, []);
 
     const handleDonationTypeChange = (type: string) => {
@@ -56,6 +72,10 @@ const HeaderCard: React.FC = () => {
 
     const handleInfakIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         setInfakId(parseInt(e.target.value));
+    };
+
+    const handleWakafIdChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setWakafId(parseInt(e.target.value));
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, field: string) => {
@@ -91,18 +111,26 @@ const HeaderCard: React.FC = () => {
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
 
-        if(donationType === "zakat"){
-        const query = new URLSearchParams({
-            wealth: donationType === "zakat" ? calculatedZakat.toString() : wealth.toString(),
-            zakatType: zakatType.toString()
-        }).toString();
+        if (donationType === "zakat") {
+            const query = new URLSearchParams({
+                wealth: donationType === "zakat" ? calculatedZakat.toString() : wealth.toString(),
+                zakatType: zakatType.toString()
+            }).toString();
 
-        router.push(`/payment?${query}`);
+            router.push(`/payment?${query}`);
 
-        } else if (donationType === "infak"){
+        } else if (donationType === "infak") {
             const query = new URLSearchParams({
                 wealth: wealth.toString(),
                 infakTitle: InfakId.toString()
+            }).toString();
+
+            router.push(`/payment?${query}`);
+        }
+        else if (donationType === "wakaf") {
+            const query = new URLSearchParams({
+                wealth: wealth.toString(),
+                wakafId: WakafId.toString()
             }).toString();
 
             router.push(`/payment?${query}`);
@@ -437,6 +465,20 @@ const HeaderCard: React.FC = () => {
                             <p className="text-center text-gray-600 mb-4">
                                 Mari wakaf tunai bersama kami!
                             </p>
+                        </div>
+
+                        <div className="mb-4">
+                            <select
+                                id="zakatType"
+                                value={WakafId}
+                                onChange={handleWakafIdChange}
+                                className="w-full p-3 border border-gray-300 rounded-lg shadow-sm text-black"
+                            >
+
+                                {Wakaf.map((data, idx) => (
+                                    <option key={idx} value={data.id}>{data.title}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div className="mb-4">

@@ -11,6 +11,7 @@ type ParamsType = {
     wealth: string | null;
     zakatType?: string | null;
     infakTitle?: string | null;
+    wakafId?: string | null;
 };
 
 const TabarruForm = () => {
@@ -18,18 +19,21 @@ const TabarruForm = () => {
     const [params, setParams] = useState<ParamsType>({
         wealth: null,
         zakatType: null,
-        infakTitle: null
+        infakTitle: null,
+        wakafId: null
     });
 
     useEffect(() => {
         const wealth = searchParams.get("wealth");
         const zakatType = searchParams.get("zakatType");
         const infakTitle = searchParams.get("infakTitle");
+        const wakafId = searchParams.get("wakafId")
 
         setParams({
             wealth,
             zakatType,
             infakTitle,
+            wakafId
         });
     }, [searchParams]);
 
@@ -41,6 +45,7 @@ const TabarruForm = () => {
                 wealth={params.wealth || ""}
                 zakatType={params.zakatType || ""}
                 infakTitle={params.infakTitle || ""}
+                wakafId={params.wakafId || ""}
             />
         </Suspense>
     );
