@@ -44,8 +44,16 @@ export default function SigninWithPassword() {
     })
 
     if (error) {
-      setError(error.message)
-      alert("username atau password salah")
+
+      if (error.message === "Invalid login credentials") {
+        console.log(email)
+        setError("Username atau Password salah")
+      }
+      else {
+        setError(error.message)
+      }
+
+      console.log(error.message)
     } else {
       router.push('/dashboard')
     }
@@ -160,11 +168,13 @@ export default function SigninWithPassword() {
       </div>
 
       <div className="mb-4.5">
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <button
           type="submit"
-          className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-lg bg-primary p-4 font-medium text-white transition hover:bg-opacity-90"
+          className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+          disabled={loading}
         >
-          Sign In
+          {loading ? "Loading..." : "Sign In"}
         </button>
       </div>
     </form>

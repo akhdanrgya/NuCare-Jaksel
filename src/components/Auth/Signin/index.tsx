@@ -8,7 +8,6 @@ export default function Signin() {
   return (
     <>
 
-
       <div>
         <SigninWithPassword />
       </div>

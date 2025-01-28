@@ -92,6 +92,9 @@ const menuGroups = [
         children: [
           { label: "Donasi", route: "/dashboard/donasi" },
           { label: "Berita", route: "/dashboard/berita" },
+          { label: "Zakat", route: "/dashboard/zakat" },
+          { label: "Infak", route: "/dashboard/infak" },
+          { label: "Wakaf", route: "/dashboard/wakaf" }
         ],
       },
     ],
