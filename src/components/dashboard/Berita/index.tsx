@@ -93,7 +93,7 @@ const BeritaPage: React.FC<BeritaPageProps> = ({ dashboard = false, detail = fal
                             </div>
                             {dashboard ? (
                                 <div className="flex justify-between px-10 py-5">
-                                    <Link href={`/dashboard/donasi/edit/${data.id}`}>
+                                    <Link href={`/dashboard/berita/edit/${data.id}`}>
                                         <button
                                             className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300 font-montserrat">
                                             Edit
