@@ -1,5 +1,5 @@
-import {supabase} from "@/libs/supabaseClient";
-import {insertInfakAmount} from "@/data/infak";
+import { supabase } from "@/libs/supabaseClient";
+import { insertInfakAmount } from "@/data/infak";
 
 export type DonaturInfakType = {
     id?: number;
@@ -14,7 +14,7 @@ export type DonaturInfakType = {
 }
 
 export const insertDonaturInfak = async (data: DonaturInfakType): Promise<boolean> => {
-    const {error} = await supabase
+    const { error } = await supabase
         .from("donatur_infak")
         .insert(data)
 
@@ -30,12 +30,26 @@ export const insertDonaturInfak = async (data: DonaturInfakType): Promise<boolea
 }
 
 export const fetchDonaturInfak = async (): Promise<DonaturInfakType[]> => {
-    const {data, error} = await supabase
+    const { data, error } = await supabase
         .from("donatur_infak")
         .select("*")
 
     if (error) {
-        console.error("Error fetching Donatur Infak",error.message);
+        console.error("Error fetching Donatur Infak", error.message);
+        return []
+    }
+
+    return data || []
+}
+
+export const fetchDonaturInfakById = async (id: number): Promise<DonaturInfakType[]> => {
+    const { data, error } = await supabase
+        .from("donatur_infak")
+        .select("*")
+        .eq("id", id)
+
+    if (error) {
+        console.error("Error fetching Donatur Infak", error.message);
         return []
     }
 

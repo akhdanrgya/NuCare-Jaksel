@@ -3,13 +3,12 @@ import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import React from "react";
 import InfakUserPage from "@/components/dashboard/Infak/InfakUserPage";
-import InfakPage from "@/components/dashboard/Infak/InfakPage";
 
 const DashboardInfak = () => {
     return (
         <DefaultLayout>
             <Breadcrumb pageName="Infak" />
-            <InfakPage />
+            <InfakUserPage />
         </DefaultLayout>
     );
 };

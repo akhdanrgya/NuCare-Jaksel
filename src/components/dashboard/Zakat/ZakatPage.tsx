@@ -1,7 +1,7 @@
 "use client";
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import {Montserrat} from "next/font/google";
+import { Montserrat } from "next/font/google";
 import Table from "@/components/Table";
 import { fetchDonaturZakat, DonaturZakatType } from "@/data/donaturZakat";
 
@@ -34,13 +34,13 @@ export default function ZakatPage() {
         <section className={`${montserrat.variable} font-montserrat`}>
             {/* TOP */}
             <div className="m-10 flex justify-between">
-                <SearchForm header={false} search={"Zakat"}/>
+                <SearchForm header={false} search={"Zakat"} />
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* List */}
                 <div className=''>
-                    <Table columns={columns} data={data} />
+                    <Table columns={columns} data={data} source='zakat' />
                 </div>
                 {/* Pagination */}
                 <div className=''>

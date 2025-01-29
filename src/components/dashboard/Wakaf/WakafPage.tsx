@@ -43,7 +43,7 @@ export default function WakafPage() {
             <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* List */}
                 <div className=''>
-                    <Table columns={columns} data={data}/>
+                    <Table columns={columns} data={data} source="wakaf"/>
                 </div>
                 {/* Pagination */}
                 <div className=''>
