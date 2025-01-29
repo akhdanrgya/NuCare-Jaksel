@@ -37,16 +37,17 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
 
     useEffect(() => {
         if (defaultValues) {
-            console.log(defaultValues)
-            setFormData(defaultValues)
+            console.log(defaultValues);
+            setFormData(defaultValues);
+            setKategoriId(defaultValues.id_kategori.toString());
         }
-    }, [defaultValues])
+    }, [defaultValues]);
 
     useEffect(() => {
         if (kategoriId) {
             setFormData((prev) => ({
                 ...prev,
-                kategori: parseInt(kategoriId, 10) || 0
+                id_kategori: parseInt(kategoriId, 10) || 0
             }));
         }
     }, [kategoriId]);
