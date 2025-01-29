@@ -1,11 +1,12 @@
 "use client";
-import { Swiper, SwiperSlide } from 'swiper/react';
+import {Swiper, SwiperSlide} from 'swiper/react';
 import 'swiper/css';
-import imageCarousel from '../data/image';
+import {Autoplay} from "swiper/modules";
 import HeaderCard from './TabarruCard';
 import {Montserrat} from "next/font/google";
 import {useState, useEffect} from "react";
 import {fetchAllGalery} from "@/data/galery";
+import 'swiper/swiper-bundle.css';
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -19,7 +20,7 @@ const Hero: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             const data = await fetchAllGalery();
-            if(!data){
+            if (!data) {
                 console.log("No data image")
                 return
             }
@@ -28,34 +29,38 @@ const Hero: React.FC = () => {
         }
 
         fetchData();
-    },[])
+    }, [])
 
-  return (
-    <section className={`${montserrat.variable} font-montserrat relative text-white py-20 text-center h-screen`}>
-      {/* Swiper sebagai Background */}
-      <div className="absolute inset-0 z-0">
-        <Swiper
-          slidesPerView={1}
-          loop={true}
-          autoplay={{ delay: 3000 }}
-          className="w-full h-full"
-        >
-          {dataImage.map((src, index) => (
-            <SwiperSlide key={index}>
-              <img
-                src={src}
-                alt={`Slide ${index}`}
-                className="object-cover w-full h-full"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-      </div>
-      {/* Card Form Donasi di Pojok Kanan */}
-      <HeaderCard />
-      {/*<Stats/>*/}
-    </section>
-  );
+    return (
+        <section className={`${montserrat.variable} font-montserrat relative text-white py-20 text-center h-screen`}>
+            {/* Swiper sebagai Background */}
+            <div className="absolute inset-0 z-0">
+                <Swiper
+                    slidesPerView={1}
+                    loop={true}
+                    autoplay={{
+                        delay: 3000,
+                        disableOnInteraction: false,
+                    }}
+                    modules={[Autoplay]}
+                    className="w-full h-full"
+                >
+                    {dataImage.map((src, index) => (
+                        <SwiperSlide key={index}>
+                            <img
+                                src={src}
+                                alt={`Slide ${index}`}
+                                className="object-cover w-full h-full"
+                            />
+                        </SwiperSlide>
+                    ))}
+                </Swiper>
+            </div>
+            {/* Card Form Donasi di Pojok Kanan */}
+            <HeaderCard/>
+            {/*<Stats/>*/}
+        </section>
+    );
 };
 
 export default Hero;

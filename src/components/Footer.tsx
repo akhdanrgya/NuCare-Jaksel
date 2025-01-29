@@ -32,7 +32,7 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="md:w-1/3">
-                    <h1 className="font-bold my-4">Learn More</h1>
+                    <p className="font-bold my-4">Learn More</p>
                     <ul className="list-none space-y-2">
                         <li>
                             <a href="/" className="hover:underline">Tentang</a>
@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
                 </div>
 
                 <div className="md:w-1/3">
-                    <h1 className="font-bold my-4">NU CARE-LAZISNU JAKARTA SELATAN</h1>
+                    <p className="font-bold my-4">NU CARE-LAZISNU JAKARTA SELATAN</p>
                     <p className="text-sm">
                         Gedung PCNU Jaksel, Lt. 1<br />
                         Jl. P. Antasari, No. 57, Jakarta Selatan (12150)<br />
