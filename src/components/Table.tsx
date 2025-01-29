@@ -6,7 +6,7 @@ import Link from "next/link";
 interface TableProps<T extends object> {
     columns: { accessorKey: keyof T; header: string }[];
     data: T[];
-    source: string;
+    source?: string;
 }
 
 const Table = <T extends object>({ columns, data, source }: TableProps<T>) => {
@@ -70,11 +70,11 @@ const Table = <T extends object>({ columns, data, source }: TableProps<T>) => {
                                 {row.getVisibleCells().map((cell) => (
                                     <td key={cell.id} className="border border-gray-300 px-6 py-3">
                                         {cell.column.id === "edit" ? (
-                                            <Link href={`/dashboard/infak/donatur/${row.id}`}>
+                                            <Link href={`/dashboard/infak/donatur/${row.original.id}`}>
                                                 <button
                                                     className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer"
                                                 >
-                                                    {row.id}
+                                                    Edit
                                                 </button>
                                             </Link>
                                         ) : (

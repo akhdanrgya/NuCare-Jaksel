@@ -46,7 +46,8 @@ export const fetchDonaturInfakById = async (id: number): Promise<DonaturInfakTyp
     const { data, error } = await supabase
         .from("donatur_infak")
         .select("*")
-        .eq("id", id)
+        .eq("id_infak", id)
+
 
     if (error) {
         console.error("Error fetching Donatur Infak", error.message);
