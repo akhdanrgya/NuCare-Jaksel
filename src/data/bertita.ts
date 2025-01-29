@@ -6,10 +6,10 @@ export type BeritaType = {
     id: number
     created_at: string
     judul: string
-    kategori: string
     article: string
     author_name: string
     image: string
+    id_kategori: number
 }
 
 export const FetchBerita = async () => {
@@ -54,7 +54,7 @@ export const FetchBeritaByParams = async (params: string): Promise<BeritaType[]>
     return data || []
 }
 
-export const insertBerita = async (judul: string, article: string, author_name: string | undefined, uploadedImageUrl: string | null) => {
+export const insertBerita = async (judul: string, article: string, author_name: string | undefined, uploadedImageUrl: string | null, id_kategori : number) => {
     const { data, error } = await supabase
         .from("berita")
         .insert([
@@ -62,7 +62,9 @@ export const insertBerita = async (judul: string, article: string, author_name: 
                 judul,
                 article,
                 author_name,
-                image: uploadedImageUrl, // Sesuaikan dengan field `image` di database
+                image: uploadedImageUrl,
+                id_kategori
+                // Sesuaikan dengan field `image` di database
             }
         ])
 
