@@ -15,10 +15,10 @@ export default function InfakPage() {
       <section className={`${montserrat.variable} font-montserrat`}>
         {/* TOP */}
         <div className="m-10 flex justify-between">
-          <SearchForm header={false} search={"Zakat"}/>
+          <SearchForm header={false} search={"Infak"}/>
           <Link href="/dashboard/berita/add">
             <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-              New Zakat Program
+              New Infak Program
             </button>
           </Link>
         </div>

@@ -28,7 +28,7 @@ const Table = () => {
         columns,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
-        pageCount: Math.ceil(tableData.length / 10), // Adjust per page items
+        pageCount: Math.ceil(tableData.length / 10),
     });
 
     return (
