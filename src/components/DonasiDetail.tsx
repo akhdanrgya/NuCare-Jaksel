@@ -11,7 +11,7 @@ import ProgressBar from "@/components/ProgressBar";
 import { fetchKategoriById } from "@/data/kategori";
 import DonasiPage from "./dashboard/Donasi/DonasiPage";
 import {fetchDonaturById, DonaturType} from "@/data/donatur";
-import {formatRupiahWithoutRp, formatRupiah} from "@/utils/formatRupiah";
+import {formatRupiahWithoutRpStats, formatRupiahOne} from "@/utils/formatRupiah";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -135,13 +135,13 @@ const DonasiDetail = () => {
                         <div>
                             <p>Terkumpul</p>
                             <p className="text-green-500 text-2xl">
-                                {donation?.collected ? `${formatRupiahWithoutRp(donation.collected)}` : "0"}
+                                {donation?.collected ? `${formatRupiahWithoutRpStats(donation.collected)}` : "0"}
                             </p>
                         </div>
                         <div>
                             <p>Dana Dibutuhkan</p>
                             <p className="font-semibold text-gray-900 text-2xl">
-                                {donation?.target ? `${formatRupiahWithoutRp(donation.target)}` : "0"}
+                                {donation?.target ? `${formatRupiahWithoutRpStats(donation.target)}` : "0"}
                             </p>
                         </div>
                     </div>
@@ -192,7 +192,7 @@ const DonasiDetail = () => {
                                     <h3>{donaturData.name}</h3>
                                     <h3>{formatTanggal(donaturData.created_at ?? "")}</h3>
                                 </div>
-                                <h3 className="text-green-500 my-2">{formatRupiah(donaturData.value)}</h3>
+                                <h3 className="text-green-500 my-2">{formatRupiahOne(donaturData.value)}</h3>
                             </div>
                         </div>
                     ))

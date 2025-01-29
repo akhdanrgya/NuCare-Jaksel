@@ -100,8 +100,6 @@ export const fetchDonationById = async (id: number): Promise<DonasiType | null> 
     .eq('id', id)
     .single()
 
-
-
   if (error) {
     console.error(`Error fetching berita by id: ${error.message}`)
     return null

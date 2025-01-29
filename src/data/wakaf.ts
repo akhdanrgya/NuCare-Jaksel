@@ -1,6 +1,7 @@
 import { supabase } from "@/libs/supabaseClient"
+import {BaseData} from "@/components/Table";
 
-export type WakafType = {
+export type WakafType = BaseData & {
     id: number
     created_at: string
     title: string

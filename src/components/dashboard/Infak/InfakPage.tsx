@@ -1,40 +1,55 @@
-"use client"
-import React from 'react'
+"use client";
+import React, { useEffect } from 'react';
 import SearchForm from "@/components/dashboard/Header/SearchForm";
-import Link from "next/link";
-import {Montserrat} from "next/font/google";
+import { Montserrat } from "next/font/google";
+import { fetchInfak, InfakType } from '@/data/infak';
+import Table from "@/components/Table";
+
+const columns: { accessorKey: keyof InfakType; header: string }[] = [
+    { accessorKey: "id", header: "ID" },
+    { accessorKey: "title", header: "Title" },
+    { accessorKey: "amount", header: "Amount" },
+];
 
 const montserrat = Montserrat({
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-montserrat",
+    subsets: ["latin"],
+    weight: ["400", "700"],
+    variable: "--font-montserrat",
 });
 
 export default function InfakPage() {
-  return (
-      <section className={`${montserrat.variable} font-montserrat`}>
-        {/* TOP */}
-        <div className="m-10 flex justify-between">
-          <SearchForm header={false} search={"Infak"}/>
-          <Link href="/dashboard/berita/add">
-            <button className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-300">
-              New Infak Program
-            </button>
-          </Link>
-        </div>
+    const [data, setData] = React.useState<InfakType[]>([]);
 
-        <div
-            className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {/* List */}
-          <div className=''>
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await fetchInfak();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching infak data:", error);
+            }
+        };
 
-          </div>
-          {/* Pagination */}
-          <div className=''>
+        fetchData();
+    }, []);
 
-          </div>
+    return (
+        <section className={`${montserrat.variable} font-montserrat`}>
+            {/* TOP */}
+            <div className="m-10 flex justify-between">
+                <SearchForm header={false} search={"Infak"} />
+            </div>
 
-        </div>
-      </section>
-  )
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                {/* List */}
+                <div className=''>
+                    <Table columns={columns} data={data} source="infak" />
+                </div>
+                {/* Pagination */}
+                <div className=''>
+                    {/* Pagination controls can be added here */}
+                </div>
+            </div>
+        </section>
+    );
 }

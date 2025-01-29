@@ -1,6 +1,7 @@
-import {supabase} from "@/libs/supabaseClient";
+import { supabase } from "@/libs/supabaseClient";
+import {BaseData} from "@/components/Table";
 
-export type ZakatType = {
+export type ZakatType = BaseData & {
     id: number
     created_at: string
     title: string
@@ -9,13 +10,13 @@ export type ZakatType = {
 // CRUD
 
 export const fetchZakatAmount = async (zakatId: number) => {
-    const {data, error} = await supabase
+    const { data, error } = await supabase
         .from("zakat")
         .select("amount")
         .eq("id", zakatId)
         .single()
 
-    if(error){
+    if (error) {
         console.log(error)
         return 0
     }
@@ -24,11 +25,11 @@ export const fetchZakatAmount = async (zakatId: number) => {
 }
 
 export const fetchZakat = async (): Promise<ZakatType[]> => {
-    const {data, error} = await supabase
-    .from("zakat")
-    .select("*")
+    const { data, error } = await supabase
+        .from("zakat")
+        .select("*")
 
-    if(error){
+    if (error) {
         console.error("Error fetching Zakat", error.message)
         return []
     }
@@ -37,10 +38,10 @@ export const fetchZakat = async (): Promise<ZakatType[]> => {
 
 export const insertZakatAmount = async (value: number, zakatId: number): Promise<boolean> => {
     const amount = await fetchZakatAmount(zakatId)
-    const hasil = amount+value
-    const {error} = await supabase
+    const hasil = amount + value
+    const { error } = await supabase
         .from("zakat")
-        .update({amount: hasil})
+        .update({ amount: hasil })
         .eq("id", zakatId)
 
     return !error;

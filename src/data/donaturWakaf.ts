@@ -1,8 +1,9 @@
-import { supabase } from "@/libs/supabaseClient";
-import { insertWakafAmount } from "./wakaf";
+import {supabase} from "@/libs/supabaseClient";
+import {insertWakafAmount} from "./wakaf";
+import {BaseData} from "@/components/Table";
 
 
-export type DonaturWakafType = {
+export type DonaturWakafType = BaseData & {
     id?: number;
     created_at?: string;
     id_wakaf: number;
@@ -15,7 +16,7 @@ export type DonaturWakafType = {
 }
 
 export const insertDonaturWakaf = async (data: DonaturWakafType): Promise<boolean> => {
-    const { error } = await supabase
+    const {error} = await supabase
         .from("donatur_wakaf")
         .insert(data)
 
@@ -28,4 +29,17 @@ export const insertDonaturWakaf = async (data: DonaturWakafType): Promise<boolea
 
     alert("berhasil menyimpan data donatur wakaf")
     return true
+}
+
+export const fetchDonaturWakaf = async (): Promise<DonaturWakafType[]> => {
+    const {data, error} = await supabase
+        .from("donatur_wakaf")
+        .select("*")
+
+    if (error) {
+        console.error("Error fetching donatur Wakaf", error.message);
+        return []
+    }
+
+    return data || []
 }

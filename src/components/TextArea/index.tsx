@@ -4,6 +4,7 @@ import ToolBar from "./ToolBar";
 import Heading from "@tiptap/extension-heading";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
+import { Paragraph } from '@tiptap/extension-paragraph';
 
 interface RichTextEditorProps {
     content: string;
@@ -27,6 +28,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                     class: "list-disc ml-3",
                 },
             }),
+            Paragraph.extend(),
         ],
         content: content,
         editorProps: {
@@ -35,8 +37,9 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
             },
         },
         onUpdate: ({ editor }) => {
-            console.log(editor.getHTML());
-            onChange(editor.getHTML());
+            if (editor) {
+                onChange(editor.getHTML());
+            }
         },
     });
 

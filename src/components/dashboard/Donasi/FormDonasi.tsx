@@ -14,13 +14,6 @@ interface FormDonasiProps {
 }
 
 const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
-  const [target, setTarget] = useState<string>("");
-  const [title, setTittle] = useState<string>("");
-  const [url, setUrl] = useState<string>("");
-  const [location, setLocation] = useState<string>("");
-  const [desc, setDesc] = useState<string>("");
-  const [deadLine, setDeadLine] = useState<Date>(new Date());
-  const [article, setArticle] = useState<string>("");
   const [imageUrl, setImageUrl] = useState<string>("");
   const [kategoriId, setKategoriId] = useState<string>("");
   const router = useRouter()

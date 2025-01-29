@@ -2,6 +2,7 @@ import DefaultLayout from "@/components/dashboard/Layouts/DefaultLaout";
 import Breadcrumb from "@/components/Breadcrumbs/Breadcrumb";
 import Link from "next/link";
 import React from "react";
+import InfakUserPage from "@/components/dashboard/Infak/InfakUserPage";
 import InfakPage from "@/components/dashboard/Infak/InfakPage";
 
 const DashboardInfak = () => {

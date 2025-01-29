@@ -1,54 +1,42 @@
 import React, { useEffect, useState } from "react";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import Link from "next/link";
 
-interface DataWithId {
-    id: number | string; // Sesuaikan tipe `id` sesuai kebutuhan
-    [key: string]: any; // Untuk properti lain yang mungkin ada
-}
-
-interface TableProps<T extends DataWithId> {
+interface TableProps<T extends object> {
     columns: { accessorKey: keyof T; header: string }[];
     data: T[];
-    source?: string;
 }
 
-export interface BaseData {
-    id: number;
-}
-
-const Table = <T extends BaseData>({ columns, data, source }: TableProps<T>) => {
+const Table = <T extends object>({ columns, data }: TableProps<T>) => {
     const [tableData, setTableData] = useState<T[]>(data);
-    const [tableColumns, setTableColumns] = useState(columns);
 
-    // Add index to data
     useEffect(() => {
         const dataWithIndex = data.map((item) => {
-            return {
-                ...item,
-                index: 0, // or however you want to set the index
-            };
+            if ('id' in item) {
+                return {
+                    ...item,
+                    index: 0,
+                };
+            } else {
+                return {
+                    ...item,
+                    index: data.indexOf(item) + 1,
+                };
+            }
         });
         setTableData(dataWithIndex as T[]);
     }, [data]);
 
-    // Add "Edit" column if source is "wakaf" or "infak"
-    useEffect(() => {
-        if (source === "wakaf" || source === "infak") {
-            const updatedColumns = [...columns, { accessorKey: "edit" as keyof T, header: "Edit" }];
-            setTableColumns(updatedColumns);
-        } else {
-            setTableColumns(columns);
-        }
-    }, [source, columns]);
-
     const table = useReactTable({
         data: tableData,
-        columns: tableColumns,
+        columns,
         getCoreRowModel: getCoreRowModel(),
         manualPagination: true,
         pageCount: Math.ceil(tableData.length / 10),
     });
+
+    // if (!data || data.length === 0) {
+    //     return <div>Belum ada data transaksi</div>;
+    // }
 
     return (
         <section className="bg-white p-6 w-full rounded-md shadow-md">
@@ -70,15 +58,7 @@ const Table = <T extends BaseData>({ columns, data, source }: TableProps<T>) => 
                         <tr key={row.id} className="odd:bg-white even:bg-gray-50">
                             {row.getVisibleCells().map((cell) => (
                                 <td key={cell.id} className="border border-gray-300 px-6 py-3">
-                                    {cell.column.id === "edit" ? (
-                                        <Link href={`/dashboard/infak/donatur/${row.original.id}`}>
-                                            <button className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
-                                                Edit
-                                            </button>
-                                        </Link>
-                                    ) : (
-                                        flexRender(cell.column.columnDef.cell, cell.getContext())
-                                    )}
+                                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                 </td>
                             ))}
                         </tr>

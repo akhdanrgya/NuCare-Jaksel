@@ -155,6 +155,7 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
             }
         } else if (zakatType) {
             const donaturZakatData: DonaturZakatType = {
+                id: 0,
                 name: name,
                 value: parseInt(amount),
                 jenis_zakat: parseInt(zakatType),
@@ -174,6 +175,7 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
         } else if (infakTitle) {
             const donaturInfakData: DonaturInfakType = {
+                id: 0,
                 id_infak: parseInt(infakTitle),
                 value: parseInt(amount),
                 name: name,
@@ -193,6 +195,7 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
         } else if (wakafId) {
             const donaturWakafData: DonaturWakafType = {
+                id: 0,
                 id_wakaf: parseInt(wakafId),
                 value: parseInt(amount),
                 name: name,
