@@ -195,6 +195,7 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
         } else if (wakafId) {
             const donaturWakafData: DonaturWakafType = {
+                id: 0,
                 id_wakaf: parseInt(wakafId),
                 value: parseInt(amount),
                 name: name,
