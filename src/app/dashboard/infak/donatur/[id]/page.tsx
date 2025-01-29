@@ -24,7 +24,7 @@ const montserrat = Montserrat({
 
 export default function InfakPage() {
     const [data, setData] = React.useState<DonaturInfakType[]>([]);
-    const { id } = useParams(); // Ambil parameter id dari URL
+    const { id } = useParams();
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
 
