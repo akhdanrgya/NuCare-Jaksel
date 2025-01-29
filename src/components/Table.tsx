@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import { fetchDonaturZakat, DonaturZakatType } from "@/data/donaturZakat";
 
-interface TableProps {
-    columns: { accessorKey: string; header: string }[];
-    data: DonaturZakatType[];
+interface TableProps<T extends object> {
+    columns: { accessorKey: keyof T; header: string }[];
+    data: T[];
 }
 
-const Table = ({ columns, data }: TableProps) => {
-    const [tableData, setTableData] = useState<DonaturZakatType[]>(data);
+const Table = <T extends object>({ columns, data }: TableProps<T>) => {
+    const [tableData, setTableData] = useState<T[]>(data);
 
-    // jadi setiap ada accessorKey yang namanya index itu bakal jadi index data
     useEffect(() => {
-        const dataWithIndex = data.map((item, index) => ({
-            ...item,
-            index: index + 1,
-        }));
-        setTableData(dataWithIndex);
+        const dataWithIndex = data.map((item) => {
+            if ('id' in item) {
+                return {
+                    ...item,
+                    index: 0,
+                };
+            } else {
+                return {
+                    ...item,
+                    index: data.indexOf(item) + 1,
+                };
+            }
+        });
+        setTableData(dataWithIndex as T[]);
     }, [data]);
 
     const table = useReactTable({
@@ -27,9 +34,9 @@ const Table = ({ columns, data }: TableProps) => {
         pageCount: Math.ceil(tableData.length / 10),
     });
 
-    if (!data || data.length === 0) {
-        return <div>Loading...</div>;
-    }
+    // if (!data || data.length === 0) {
+    //     return <div>Belum ada data transaksi</div>;
+    // }
 
     return (
         <section className="bg-white p-6 w-full rounded-md shadow-md">

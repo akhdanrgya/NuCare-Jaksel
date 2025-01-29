@@ -28,3 +28,16 @@ export const insertDonaturInfak = async (data: DonaturInfakType): Promise<boolea
     alert("berhasil menyimpan data donatur infak")
     return true
 }
+
+export const fetchDonaturInfak = async (): Promise<DonaturInfakType[]> => {
+    const {data, error} = await supabase
+        .from("donatur_infak")
+        .select("*")
+
+    if (error) {
+        console.error("Error fetching Donatur Infak",error.message);
+        return []
+    }
+
+    return data || []
+}

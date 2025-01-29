@@ -5,8 +5,8 @@ import {Montserrat} from "next/font/google";
 import Table from "@/components/Table";
 import { fetchDonaturZakat, DonaturZakatType } from "@/data/donaturZakat";
 
-const columns = [
-    { accessorKey: "index", header: "#" },
+const columns: { accessorKey: keyof DonaturZakatType; header: string }[] = [
+    { accessorKey: "id", header: "ID" },
     { accessorKey: "name", header: "Full Name" },
     { accessorKey: "email", header: "E-Mail" },
     { accessorKey: "telp", header: "Nomor Ponsel" },
@@ -21,10 +21,6 @@ const montserrat = Montserrat({
 
 export default function ZakatPage() {
     const [data, setData] = useState<DonaturZakatType[]>([]);
-
-    const handleSearch = () => {
-        console.log("jalan")
-    }
 
     useEffect(() => {
         const fetchData = async () => {
