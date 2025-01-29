@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Montserrat } from "next/font/google";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -17,7 +18,7 @@ const Header: React.FC = () => {
         <div className="container mx-auto flex justify-between items-center p-4 px-6 md:px-40 py-6 relative">
           <div>
             <a href="/">
-              <img src="/images/logo/logoNUCare.png" className="h-10 w-auto" alt="Logo" />
+              <Image src="/images/logo/logoNUCare.png" width={1920} height={1080} className="h-10 w-auto" alt="Logo" />
             </a>
           </div>
 
