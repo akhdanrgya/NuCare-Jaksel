@@ -1,8 +1,9 @@
 import {supabase} from "@/libs/supabaseClient";
 import {insertWakafAmount} from "./wakaf";
+import {BaseData} from "@/components/Table";
 
 
-export type DonaturWakafType = {
+export type DonaturWakafType = BaseData & {
     id?: number;
     created_at?: string;
     id_wakaf: number;
