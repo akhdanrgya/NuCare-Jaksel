@@ -11,7 +11,6 @@ import ProgressBar from "@/components/ProgressBar";
 import { fetchKategoriById } from "@/data/kategori";
 import DonasiPage from "./dashboard/Donasi/DonasiPage";
 import {fetchDonaturById, DonaturType} from "@/data/donatur";
-import {format} from "date-fns";
 import {formatRupiahWithoutRp, formatRupiah} from "@/utils/formatRupiah";
 
 const montserrat = Montserrat({
