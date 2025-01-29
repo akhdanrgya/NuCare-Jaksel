@@ -1,7 +1,8 @@
 import { supabase } from "@/libs/supabaseClient";
 import { insertInfakAmount } from "@/data/infak";
+import {BaseData} from "@/components/Table";
 
-export type DonaturInfakType = {
+export type DonaturInfakType = BaseData & {
     id?: number;
     created_at?: string;
     id_infak: number;

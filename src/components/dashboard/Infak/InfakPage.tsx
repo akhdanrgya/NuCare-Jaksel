@@ -1,10 +1,9 @@
-"use client"
-import React, { useEffect } from 'react'
+"use client";
+import React, { useEffect } from 'react';
 import SearchForm from "@/components/dashboard/Header/SearchForm";
 import { Montserrat } from "next/font/google";
-import { fetchDonaturInfak, DonaturInfakType } from "@/data/donaturInfak";
-import Table from "@/components/Table";
 import { fetchInfak, InfakType } from '@/data/infak';
+import Table from "@/components/Table";
 
 const columns: { accessorKey: keyof InfakType; header: string }[] = [
     { accessorKey: "id", header: "ID" },
@@ -23,14 +22,16 @@ export default function InfakPage() {
 
     useEffect(() => {
         const fetchData = async () => {
-            const result = await fetchInfak()
-            setData(result)
-        }
+            try {
+                const result = await fetchInfak();
+                setData(result);
+            } catch (error) {
+                console.error("Error fetching infak data:", error);
+            }
+        };
 
-        fetchData()
-
-    }, [])
-
+        fetchData();
+    }, []);
 
     return (
         <section className={`${montserrat.variable} font-montserrat`}>
@@ -46,10 +47,9 @@ export default function InfakPage() {
                 </div>
                 {/* Pagination */}
                 <div className=''>
-
+                    {/* Pagination controls can be added here */}
                 </div>
-
             </div>
         </section>
-    )
+    );
 }
