@@ -3,6 +3,7 @@ import React from 'react'
 import SearchForm from "@/components/dashboard/Header/SearchForm";
 import Link from "next/link";
 import {Montserrat} from "next/font/google";
+import Table from "@/components/Table";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -28,10 +29,10 @@ export default function ZakatPage() {
                 </Link>
             </div>
 
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                 {/* List */}
                 <div className=''>
-
+                    <Table/>
                 </div>
                 {/* Pagination */}
                 <div className=''>
