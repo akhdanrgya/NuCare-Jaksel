@@ -1,27 +1,30 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-table";
-import { fetchDonaturZakat, DonaturZakatType } from "@/data/donaturZakat";
 
-const columns = [
-    { accessorKey: "index", header: "#" },
-    { accessorKey: "name", header: "Full Name" },
-    { accessorKey: "email", header: "E-Mail" },
-    { accessorKey: "telp", header: "Nomor Ponsel" },
-    { accessorKey: "value", header: "Amount" },
-];
+interface TableProps<T extends object> {
+    columns: { accessorKey: keyof T; header: string }[];
+    data: T[];
+}
 
-const Table = () => {
-    const [data, setData] = useState<DonaturZakatType[]>([]);
+const Table = <T extends object>({ columns, data }: TableProps<T>) => {
+    const [tableData, setTableData] = useState<T[]>(data);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const result = await fetchDonaturZakat();
-            setData(result);
-        };
-        fetchData();
-    }, []);
-
-    const tableData = useMemo(() => data.map((item, index) => ({ ...item, index: index + 1 })), [data]);
+        const dataWithIndex = data.map((item) => {
+            if ('id' in item) {
+                return {
+                    ...item,
+                    index: 0,
+                };
+            } else {
+                return {
+                    ...item,
+                    index: data.indexOf(item) + 1,
+                };
+            }
+        });
+        setTableData(dataWithIndex as T[]);
+    }, [data]);
 
     const table = useReactTable({
         data: tableData,
@@ -30,6 +33,10 @@ const Table = () => {
         manualPagination: true,
         pageCount: Math.ceil(tableData.length / 10),
     });
+
+    // if (!data || data.length === 0) {
+    //     return <div>Belum ada data transaksi</div>;
+    // }
 
     return (
         <section className="bg-white p-6 w-full rounded-md shadow-md">
@@ -72,7 +79,7 @@ const Table = () => {
 
                 {/* Page numbers */}
                 <div className="flex gap-2">
-                    {Array.from({length: table.getPageCount()}, (_, index) => (
+                    {Array.from({ length: table.getPageCount() }, (_, index) => (
                         <button
                             key={index}
                             onClick={() => table.setPageIndex(index)}

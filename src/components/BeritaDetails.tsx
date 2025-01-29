@@ -51,16 +51,17 @@ const BeritaDetails = () => {
                 <p>{error}</p>
             ) : berita ? (
                 <>
-                    <div className="container mx-auto px-20">
+                    <div className="container mx-auto px-5 md:px-20">
                         {/* Gambar Berita */}
                         <div className="flex justify-center items-center">
-                            <Image src={berita.image} alt={berita.judul} width={1080} height={1920}/>
+                            <Image src={berita.image} alt={berita.judul} width={1080} height={1920}
+                                   className="w-full max-w-3xl"/>
                         </div>
 
                         {/* Informasi Berita */}
-                        <div className="mt-20">
-                            <h1 className="font-bold text-4xl">{berita.judul}</h1>
-                            <div className="flex gap-8 my-2">
+                        <div className="mt-10 md:mt-20">
+                            <h1 className="font-bold text-3xl md:text-4xl">{berita.judul}</h1>
+                            <div className="flex gap-4 md:gap-8 my-2">
                                 <p className="flex gap-1">
                                     By <span className="font-semibold text-gray-700">{berita.author_name}</span>
                                 </p>
@@ -71,24 +72,24 @@ const BeritaDetails = () => {
 
                         <hr className="border-gray-300 my-4 mb-10"/>
 
-
                         {/* Artikel */}
-                        <div dangerouslySetInnerHTML={{__html: berita.article}}/>
+                        <div dangerouslySetInnerHTML={{__html: berita.article}} className="text-base md:text-lg"/>
                     </div>
 
                     {/* Berita Lainnya */}
-                    <div className="container mx-auto px-10 mt-24">
+                    <div className="container mx-auto px-5 md:px-10 mt-24">
                         <div className="flex justify-between">
                             <h3 className="font-semibold text-xl">Berita Lainnya</h3>
                             <h3 className="font-semibold text-green-500 text-xl">Selanjutnya</h3>
                         </div>
                     </div>
-                    <BeritaPage detail={true} />
+                    <BeritaPage detail={true}/>
                 </>
             ) : (
                 <p>Loading...</p>
             )}
         </section>
+
 
     );
 };
