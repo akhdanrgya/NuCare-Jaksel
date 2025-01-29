@@ -15,11 +15,11 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: 'Server key is missing' }, { status: 400 });
     }
 
-    const response = await fetch(`https://api.midtrans.com/v2/${orderId}/status`, {
+    const response = await fetch(`https://api.sandbox.midtrans.com/v2/${orderId}/status`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${btoa(serverKey)}`,
+        'Authorization': `Basic ${btoa(`${serverKey}:`)}`,
       },
     });
 
@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
     } else {
       return NextResponse.json({ error: 'Failed to fetch status' }, { status: response.status });
     }
-  } catch (error : any) {
+  } catch (error: any) {
     return NextResponse.json({ error: 'Error fetching status', details: error.message }, { status: 500 });
   }
 }
