@@ -1,14 +1,22 @@
 
 export const formatRupiah = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-    }).format(amount)
-  }
+  console.log(Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 5,  // Pastikan tidak ada desimal
+    maximumFractionDigits: 5,  // Pastikan tidak ada desimal
+  }).format(amount))
+  return new Intl.NumberFormat('id-ID', {
+    style: 'currency',
+    currency: 'IDR',
+    minimumFractionDigits: 5,  // Pastikan tidak ada desimal
+    maximumFractionDigits: 5,  // Pastikan tidak ada desimal
+  }).format(amount)
+}
 
 export const formatRupiahWithoutRp = (amount: number) => {
-    return new Intl.NumberFormat('id-ID', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-    }).format(amount)
+  return new Intl.NumberFormat('id-ID', {
+    minimumFractionDigits: 5,
+    maximumFractionDigits: 5,
+  }).format(amount)
 }
