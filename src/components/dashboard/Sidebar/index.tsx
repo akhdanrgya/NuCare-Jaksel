@@ -71,6 +71,26 @@ const menuGroups = [
       },
       {
         icon: (
+            <svg
+                className="fill-current"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                  d="M12 4.5C11.17 4.5 10.5 3.83 10.5 3H8.5C7.67 3 7 3.67 7 4.5V6H5C3.9 6 3 6.9 3 8V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19V8C21 6.9 20.1 6 19 6H17V4.5C17 3.67 16.33 3 15.5 3H13.5C13.5 3.83 12.83 4.5 12 4.5ZM12 18C9.79 18 8 16.21 8 14C8 11.79 9.79 10 12 10C14.21 10 16 11.79 16 14C16 16.21 14.21 18 12 18ZM12 12C10.9 12 10 12.9 10 14C10 15.1 10.9 16 12 16C13.1 16 14 15.1 14 14C14 12.9 13.1 12 12 12Z"
+                  fill=""
+              />
+            </svg>
+        ),
+        label: "Galery",
+        route: "/dashboard/galery",
+      }
+,
+      {
+        icon: (
           <svg
             className="fill-current"
             width="24"

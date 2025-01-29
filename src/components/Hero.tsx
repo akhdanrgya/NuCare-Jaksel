@@ -3,8 +3,9 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import imageCarousel from '../data/image';
 import HeaderCard from './TabarruCard';
-import Stats from './Stats';
 import {Montserrat} from "next/font/google";
+import {useState, useEffect} from "react";
+import {fetchAllGalery} from "@/data/galery";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -13,6 +14,22 @@ const montserrat = Montserrat({
 });
 
 const Hero: React.FC = () => {
+    const [dataImage, setDataImage] = useState<string[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const data = await fetchAllGalery();
+            if(!data){
+                console.log("No data image")
+                return
+            }
+
+            setDataImage(data)
+        }
+
+        fetchData();
+    },[])
+
   return (
     <section className={`${montserrat.variable} font-montserrat relative text-white py-20 text-center h-screen`}>
       {/* Swiper sebagai Background */}
@@ -23,7 +40,7 @@ const Hero: React.FC = () => {
           autoplay={{ delay: 3000 }}
           className="w-full h-full"
         >
-          {imageCarousel.map((src, index) => (
+          {dataImage.map((src, index) => (
             <SwiperSlide key={index}>
               <img
                 src={src}
