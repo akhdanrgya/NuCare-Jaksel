@@ -14,11 +14,11 @@ const Profile = () => {
             <div className="container mx-auto px-4">
 
                 <div className="flex flex-col lg:flex-row items-center gap-4 justify-center">
-                    <div className="w-2/5">
+                    <div className="w-full lg:w-2/5 mb-6 lg:mb-0">
                         <YoutubeVideoFrame videoId="S4kgqJnMELk" />
                     </div>
 
-                    <div className="lg:w-1/2 w-full">
+                    <div className="w-full lg:w-1/2">
                         <p className="text-justify leading-relaxed">
                             19 tahun sudah LAZISNU PBNU berkiprah di dunia filantropi, dalam misi kemanusiaan. Dengan melibatkan lebih
                             dari ratusan ribu donatur dan relawan, LAZISNU telah memberikan manfaat kepada jutaan jiwa/warga yang
