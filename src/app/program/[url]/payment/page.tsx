@@ -2,7 +2,7 @@ import PaymentDonation from "@/components/PaymentDonation"
 
 const Payment = () => {
     return (
-        <PaymentDonation />
+        <PaymentDonation donationType={"Donation"}/>
     )
 }
 
