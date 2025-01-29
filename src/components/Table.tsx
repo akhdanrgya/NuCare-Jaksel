@@ -3,13 +3,18 @@ import { useReactTable, getCoreRowModel, flexRender } from "@tanstack/react-tabl
 import { link } from "fs";
 import Link from "next/link";
 
-interface TableProps<T extends object> {
+interface DataWithId {
+    id: number | string; // Sesuaikan tipe `id` sesuai kebutuhan
+    [key: string]: any; // Untuk properti lain yang mungkin ada
+}
+
+interface TableProps<T extends DataWithId> {
     columns: { accessorKey: keyof T; header: string }[];
     data: T[];
     source?: string;
 }
 
-const Table = <T extends object>({ columns, data, source }: TableProps<T>) => {
+const Table = <T extends DataWithId>({ columns, data, source }: TableProps<T>) => {
     const [tableData, setTableData] = useState<T[]>(data);
     const [tableColumns, setTableColumns] = useState(columns); // State untuk kolom
 
@@ -20,11 +25,6 @@ const Table = <T extends object>({ columns, data, source }: TableProps<T>) => {
                 return {
                     ...item,
                     index: 0,
-                };
-            } else {
-                return {
-                    ...item,
-                    index: data.indexOf(item) + 1,
                 };
             }
         });
