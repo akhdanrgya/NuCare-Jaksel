@@ -8,7 +8,6 @@ import { format } from "date-fns";
 import Link from "next/link";
 import SearchForm from "@/components/dashboard/Header/SearchForm";
 import { Montserrat } from "next/font/google";
-import { fetchDonationsByParams } from "@/data/donations";
 
 const montserrat = Montserrat({
     subsets: ["latin"],

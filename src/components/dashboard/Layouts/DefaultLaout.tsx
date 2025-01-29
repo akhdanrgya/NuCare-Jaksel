@@ -24,7 +24,7 @@ export default function DefaultLayout({
           {/* <!-- ===== Header End ===== --> */}
 
           {/* <!-- ===== Main Content Star ===== --> */}
-          <main className="bg-white rounded-md flex-1 m-4">
+          <main className="rounded-md flex-1 m-4">
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-1">
               {children}
             </div>
