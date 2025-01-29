@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { fetchStats, StatsType } from "../data/stat";
 import { Montserrat } from "next/font/google";
-import { formatRupiahWithoutRp } from "@/utils/formatRupiah";
+import { formatRupiahWithoutRpStats } from "@/utils/formatRupiah";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -32,7 +32,7 @@ const Stats: React.FC = () => {
             >
               <img src={stat.icon} alt={stat.label} className="w-12 h-12 mb-2" />
               <p className="text-lg font-semibold text-green-500">
-                {formatRupiahWithoutRp(stat.value)}
+                {formatRupiahWithoutRpStats(stat.value)}
               </p>
               <p className="text-gray-700">{stat.label}</p>
             </div>
