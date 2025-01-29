@@ -30,7 +30,7 @@ const Stats: React.FC = () => {
                 key={index}
                 className="text-center flex flex-col items-center w-full sm:w-1/2 md:w-1/4 mb-4 md:mb-0"
             >
-              <img src={stat.icon} alt={stat.label} className="w-12 h-12 mb-2" />
+              <img src={stat.icon} alt={stat.label} className="w-20 h-20 mb-2" />
               <p className="text-lg font-semibold text-green-500">
                 {formatRupiahWithoutRpStats(stat.value)}
               </p>
