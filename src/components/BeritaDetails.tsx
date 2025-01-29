@@ -8,6 +8,7 @@ import Image from "next/image";
 import { Montserrat } from "next/font/google";
 import { format } from "date-fns";
 import BeritaPage from "./dashboard/Berita";
+import "../css/berita.css"
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -53,7 +54,7 @@ const BeritaDetails = () => {
                     <div className="container mx-auto px-20">
                         {/* Gambar Berita */}
                         <div className="flex justify-center items-center">
-                            <Image src={berita.image} alt={berita.judul} width={1080} height={1920} />
+                            <Image src={berita.image} alt={berita.judul} width={1080} height={1920}/>
                         </div>
 
                         {/* Informasi Berita */}
@@ -68,13 +69,11 @@ const BeritaDetails = () => {
                             </div>
                         </div>
 
-                        <hr className="border-gray-300 my-4 mb-10" />
+                        <hr className="border-gray-300 my-4 mb-10"/>
 
 
                         {/* Artikel */}
-                        <div>
-                            <p>{berita.article}</p>
-                        </div>
+                        <div dangerouslySetInnerHTML={{__html: berita.article}}/>
                     </div>
 
                     {/* Berita Lainnya */}

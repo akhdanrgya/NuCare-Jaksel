@@ -1,0 +1,17 @@
+h1 {
+    font-size: 2.5rem; /* Ukuran lebih besar untuk h1 */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem; /* Ukuran lebih kecil dari h1 */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+h3 {
+    font-size: 1.5rem; /* Ukuran lebih kecil dari h2 */
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
