@@ -10,7 +10,6 @@ interface TableProps {
 const Table = ({ columns, data }: TableProps) => {
     const [tableData, setTableData] = useState<DonaturZakatType[]>(data);
 
-    // Tambahkan kolom index ke dalam data
     // jadi setiap ada accessorKey yang namanya index itu bakal jadi index data
     useEffect(() => {
         const dataWithIndex = data.map((item, index) => ({
