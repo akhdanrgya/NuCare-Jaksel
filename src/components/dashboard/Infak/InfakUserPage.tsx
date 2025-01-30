@@ -32,7 +32,7 @@ export default function InfakPage() {
                 setLoading(true);
                 try {
                     const data = await fetchDonaturInfakById(Number(id));
-                    console.log(`datanya: ${data}`)
+                    // console.log(`datanya: ${data}`)
                     setData(data);
                 } catch (err) {
                     setError("Failed to load data");

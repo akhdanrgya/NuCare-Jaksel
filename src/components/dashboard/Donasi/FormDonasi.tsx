@@ -40,7 +40,6 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
 
   useEffect(() => {
     if (defaultValues) {
-      console.log(defaultValues);
       setFormData(defaultValues);
       setImageUrl(defaultValues.image || "");
     }
@@ -59,9 +58,9 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
     const fetchSession = async () => {
       const { data, error } = await supabase.auth.getSession()
       if (error) {
-        console.error("Error fetching session:", error)
+        console.error("Error fetching session:")
       } else {
-        console.log("Fetched session:", data.session)
+        console.log("Berhasil")
         setSession(data.session)
       }
     }
@@ -107,7 +106,7 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
       .upload(fileName, file);
 
     if (uploadError) {
-      console.error("Error uploading file:", uploadError);
+      // console.error("Error uploading file:", uploadError);
       alert("Gagal mengunggah gambar");
       return null;
     }
@@ -146,10 +145,10 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
     ]);
 
     if (error) {
-      console.error("Error inserting donation:", error.message);
+      // console.error("Error inserting donation:", error.message);
       alert("Gagal menyimpan data donasi");
     } else {
-      console.log("Donation inserted:", data);
+      // console.log("Donation inserted:", data);
       alert("Data donasi berhasil disimpan");
     }
 
@@ -174,10 +173,10 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
       .eq("id", formData.id);
 
     if (error) {
-      console.error("Error updating donation:", error.message);
+      // console.error("Error updating donation:", error.message);
       alert("Gagal memperbarui data donasi");
     } else {
-      console.log("Donation updated:", data);
+      // console.log("Donation updated:", data);
       alert("Data donasi berhasil diperbarui");
     }
 
@@ -202,7 +201,7 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
         const { data, error } = await updateDonations(uploadedImageUrl);
 
         if (error) {
-          console.error("Error updating berita:", error);
+          // console.error("Error updating berita:", error);
           alert("Gagal memperbarui data berita");
         } else {
           alert("Data berita berhasil diperbarui");
@@ -212,7 +211,7 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
         const { data, error } = await insertDonations(uploadedImageUrl);
 
         if (error) {
-          console.error("Error inserting berita:", error);
+          // console.error("Error inserting berita:", error);
           alert("Gagal menambahkan data berita");
         } else {
           alert("Data berita berhasil ditambahkan");
@@ -226,7 +225,7 @@ const FormDonasi = ({ editing, defaultValues }: FormDonasiProps) => {
       }
 
     } catch (err) {
-      console.error("Error handling submit:", err);
+      // console.error("Error handling submit:", err);
       alert("Terjadi kesalahan saat menyimpan data donasi");
     }
   };

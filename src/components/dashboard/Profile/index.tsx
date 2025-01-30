@@ -17,7 +17,7 @@ const Profile = () => {
     const fetchSession = async () => {
       const { data, error } = await supabase.auth.getSession();
       if (error) {
-        console.error("Error fetching session:", error);
+        // console.error("Error fetching session:", error);
       } else {
         setSession(data.session);
         if (data.session) {
@@ -47,12 +47,12 @@ const Profile = () => {
       const userId = session.user.id;
       const { error } = await updateUser(userId, username, fullname, phone);
       if (error) {
-        console.error("Error updating profile:", error);
+        // console.error("Error updating profile:", error);
       } else {
         alert("Profile updated successfully!");
       }
     } else {
-      console.error("User ID is missing");
+      // console.error("User ID is missing");
     }
   };
 
@@ -111,7 +111,7 @@ const Profile = () => {
                         defaultValue="Devid Jhon"
                         value={fullname}
                         onChange={(e) => setFullname(e.target.value)}
-                        
+
                       />
                     </div>
                   </div>

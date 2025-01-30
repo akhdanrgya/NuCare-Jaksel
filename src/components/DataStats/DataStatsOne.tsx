@@ -1,8 +1,8 @@
 'use client'
 
-import React, {useState, useEffect} from "react";
-import {dataStats} from "@/data/dataStats";
-import {supabase} from "@/libs/supabaseClient";
+import React, { useState, useEffect } from "react";
+import { dataStats } from "@/data/dataStats";
+import { supabase } from "@/libs/supabaseClient";
 
 const DataStatsOne: React.FC<dataStats> = () => {
     const [profit, setProfit] = useState<number>(0);
@@ -11,7 +11,7 @@ const DataStatsOne: React.FC<dataStats> = () => {
     useEffect(() => {
         const getTotalCollected = async () => {
             try {
-                const {data, error} = await supabase
+                const { data, error } = await supabase
                     .from('donations')
                     .select('collected');
 
@@ -165,7 +165,7 @@ const DataStatsOne: React.FC<dataStats> = () => {
                     >
                         <div
                             className="flex h-14.5 w-14.5 items-center justify-center rounded-full"
-                            style={{backgroundColor: item.color}}
+                            style={{ backgroundColor: item.color }}
                         >
                             {item.icon}
                         </div>
@@ -179,11 +179,10 @@ const DataStatsOne: React.FC<dataStats> = () => {
                             </div>
 
                             <span
-                                className={`flex items-center gap-1.5 text-body-sm font-medium ${
-                                    item.growthRate > 0 ? "text-green" : "text-red"
-                                }`}
+                                className={`flex items-center gap-1.5 text-body-sm font-medium ${item.growthRate > 0 ? "text-green" : "text-red"
+                                    }`}
                             >
-                {item.growthRate}%
+                                {item.growthRate}%
                                 {item.growthRate > 0 ? (
                                     <svg
                                         className="fill-current"
@@ -213,7 +212,7 @@ const DataStatsOne: React.FC<dataStats> = () => {
                                         />
                                     </svg>
                                 )}
-              </span>
+                            </span>
                         </div>
                     </div>
                 ))}

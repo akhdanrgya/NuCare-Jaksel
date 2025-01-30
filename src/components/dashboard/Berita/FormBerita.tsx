@@ -1,11 +1,11 @@
 "use client"
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import InputGroup from "@/components/FormElements/InputGroup";
-import {supabase} from "@/libs/supabaseClient";
-import {Session} from "@supabase/supabase-js";
-import {FetchBeritaById, BeritaType, insertBerita} from "@/data/bertita";
-import {fetchRecentUser, UserType} from "@/data/user";
-import {useRouter} from "next/navigation";
+import { supabase } from "@/libs/supabaseClient";
+import { Session } from "@supabase/supabase-js";
+import { FetchBeritaById, BeritaType, insertBerita } from "@/data/bertita";
+import { fetchRecentUser, UserType } from "@/data/user";
+import { useRouter } from "next/navigation";
 import TextArea from "@/components/TextArea"
 import "../../../css/berita.css"
 import SelectKategori from "@/components/FormElements/SelectGroup/SelectKategori";
@@ -16,7 +16,7 @@ interface FormBeritaProps {
     defaultValues?: BeritaType;
 }
 
-const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
+const FormBerita = ({ editing, defaultValues }: FormBeritaProps) => {
     const [imageUrl, setImageUrl] = useState<string>("")
     const [session, setSession] = useState<Session | null>(null)
     const [user, setUser] = useState<UserType | null>(null)
@@ -37,7 +37,6 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
 
     useEffect(() => {
         if (defaultValues) {
-            console.log(defaultValues);
             setFormData(defaultValues);
             setKategoriId(defaultValues.id_kategori.toString());
         }
@@ -53,17 +52,15 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
     }, [kategoriId]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target
-        setFormData((prev) => ({...prev, [name]: value}))
+        const { name, value } = e.target
+        setFormData((prev) => ({ ...prev, [name]: value }))
     }
 
     useEffect(() => {
         const fetchSession = async () => {
-            const {data, error} = await supabase.auth.getSession()
+            const { data, error } = await supabase.auth.getSession()
             if (error) {
-                console.error("Error fetching session:", error)
             } else {
-                console.log("Fetched session:", data.session)
                 setSession(data.session)
             }
         }
@@ -92,24 +89,22 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
         const fileName = `${folderName}/${Date.now()}-${file.name}`;
 
         // Upload file ke folder 'private' di bucket 'ngetes'
-        const {error: uploadError} = await supabase.storage
+        const { error: uploadError } = await supabase.storage
             .from("beritaimage")
             .upload(fileName, file);
 
         if (uploadError) {
-            console.error("Error uploading file:", uploadError);
             alert("Gagal mengunggah gambar");
             return null;
         }
 
         // Mendapatkan URL public untuk file yang baru diupload
-        const {data: publicUrlData} = supabase.storage
+        const { data: publicUrlData } = supabase.storage
             .from("beritaimage")
             .getPublicUrl(fileName);
 
         // Periksa apakah data ada
         if (!publicUrlData) {
-            console.error("Error fetching file URL: No data returned");
             return null;
         }
 
@@ -148,7 +143,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             let operationSuccessful = false;
 
             if (editing && defaultValues?.id) {
-                const {error} = await supabase
+                const { error } = await supabase
                     .from("berita")
                     .update({
                         judul: formData.judul,
@@ -160,14 +155,13 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                     .eq("id", defaultValues.id);
 
                 if (error) {
-                    console.error("Error updating berita:", error);
                     alert("Gagal memperbarui data berita");
                 } else {
                     alert("Data berita berhasil diperbarui");
                     operationSuccessful = true;
                 }
             } else {
-                const {error} = await insertBerita(
+                const { error } = await insertBerita(
                     formData.judul,
                     formData.article,
                     user?.username,
@@ -176,7 +170,6 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                 );
 
                 if (error) {
-                    console.error("Error inserting berita:", error);
                     alert("Gagal menambahkan data berita");
                 } else {
                     alert("Data berita berhasil ditambahkan");
@@ -190,7 +183,6 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             }
 
         } catch (err) {
-            console.error("Error handling submit berita:", err);
             alert("Terjadi kesalahan saat menyimpan data berita");
         }
     };
@@ -212,7 +204,7 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                                 placeholder="Masukan Judul"
                                 customClasses="w-full xl:w-1/2"
                                 value={formData.judul}
-                                onChange={(e) => setFormData((prev) => ({...prev, judul: e.target.value}))}
+                                onChange={(e) => setFormData((prev) => ({ ...prev, judul: e.target.value }))}
                             />
                         </div>
                         <div className="mb-6">
@@ -220,9 +212,9 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                                 Detail Atau Article
                             </label>
                             <TextArea content={formData.article}
-                                      onChange={(content) => setFormData((prev) => ({...prev, article: content}))}/>
+                                onChange={(content) => setFormData((prev) => ({ ...prev, article: content }))} />
                         </div>
-                        <SelectBeritaKategori onChange={(id) => setKategoriId(id)} defaultValue={formData.id_kategori}/>
+                        <SelectBeritaKategori onChange={(id) => setKategoriId(id)} defaultValue={formData.id_kategori} />
                         <div className="mb-6">
                             <label className="mb-3 block text-body-sm font-medium text-dark dark:text-white">
                                 Upload Gambar

@@ -28,7 +28,7 @@ export default function InfakPage() {
                 const result = await fetchInfak();
                 setData(result);
             } catch (error) {
-                console.error("Error fetching infak data:", error);
+                // console.error("Error fetching infak data:", error);
             }
         };
 
