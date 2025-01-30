@@ -10,6 +10,7 @@ import TextArea from "@/components/TextArea"
 import "../../../css/berita.css"
 import SelectKategori from "@/components/FormElements/SelectGroup/SelectKategori";
 import SelectBeritaKategori from "@/components/FormElements/SelectGroup/SelectBeritaKategori";
+import Alert from "@/components/Alert";
 
 interface FormBeritaProps {
     editing?: boolean;
@@ -22,6 +23,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
     const [user, setUser] = useState<UserType | null>(null)
     const router = useRouter()
     const [kategoriId, setKategoriId] = useState<string>("");
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [isAlertVisible, setAlertVisible] = useState(false);
 
     const [formData, setFormData] = useState<BeritaType>(
         defaultValues || {
@@ -37,7 +40,6 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
 
     useEffect(() => {
         if (defaultValues) {
-            console.log(defaultValues);
             setFormData(defaultValues);
             setKategoriId(defaultValues.id_kategori.toString());
         }
@@ -61,9 +63,9 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
         const fetchSession = async () => {
             const {data, error} = await supabase.auth.getSession()
             if (error) {
-                console.error("Error fetching session:", error)
+                setAlertMessage(`Error fetching session: ${error}`)
+                setAlertVisible(true)
             } else {
-                console.log("Fetched session:", data.session)
                 setSession(data.session)
             }
         }
@@ -77,7 +79,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                 if (userData) {
                     setUser(userData[0] || null)
                 } else {
-                    console.log("User tidak ditemukan")
+                    setAlertMessage(`User tidak di temukan`)
+                    setAlertVisible(true)
                 }
             }
         }
@@ -97,8 +100,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             .upload(fileName, file);
 
         if (uploadError) {
-            console.error("Error uploading file:", uploadError);
-            alert("Gagal mengunggah gambar");
+            setAlertMessage(`Error uploading image: ${uploadError}`);
+            setAlertVisible(true)
             return null;
         }
 
@@ -109,7 +112,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
 
         // Periksa apakah data ada
         if (!publicUrlData) {
-            console.error("Error fetching file URL: No data returned");
+            setAlertMessage(`Error fetching file URL: No data returned`);
+            setAlertVisible(true)
             return null;
         }
 
@@ -122,12 +126,14 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
         e.preventDefault();
 
         if (!formData.judul.trim()) {
-            alert("Judul tidak boleh kosong!");
+            setAlertMessage("Judul tidak boleh kosong!")
+            setAlertVisible(true)
             return;
         }
 
         if (!formData.article.trim()) {
-            alert("Artikel tidak boleh kosong!");
+            setAlertMessage("Artikel tidak boleh kosong!")
+            setAlertVisible(true)
             return;
         }
 
@@ -160,8 +166,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                     .eq("id", defaultValues.id);
 
                 if (error) {
-                    console.error("Error updating berita:", error);
-                    alert("Gagal memperbarui data berita");
+                    setAlertMessage(`Error updating berita: ${error}`)
+                    setAlertVisible(true)
                 } else {
                     alert("Data berita berhasil diperbarui");
                     operationSuccessful = true;
@@ -176,8 +182,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                 );
 
                 if (error) {
-                    console.error("Error inserting berita:", error);
-                    alert("Gagal menambahkan data berita");
+                    setAlertMessage(`Error inserting berita: ${error}`)
+                    setAlertVisible(true)
                 } else {
                     alert("Data berita berhasil ditambahkan");
                     operationSuccessful = true;
@@ -190,8 +196,8 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
             }
 
         } catch (err) {
-            console.error("Error handling submit berita:", err);
-            alert("Terjadi kesalahan saat menyimpan data berita");
+            setAlertMessage(`Error handling submit berita: ${err}`)
+            setAlertVisible(true)
         }
     };
 
@@ -254,6 +260,13 @@ const FormBerita = ({editing, defaultValues}: FormBeritaProps) => {
                     </div>
                 </form>
             </div>
+            <Alert
+                message={alertMessage || ""}
+                isVisible={isAlertVisible} onClose={() => {
+                setAlertVisible(false);
+                setAlertMessage(null); // Clear the message when closing
+            }}
+            />
         </div>
     )
 }
