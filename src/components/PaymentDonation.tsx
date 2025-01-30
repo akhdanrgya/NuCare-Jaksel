@@ -1,15 +1,16 @@
 "use client";
-import { useParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import { fetchUrl, DonasiType } from "../data/donations";
-import { DonaturType, insertDonatur } from "../data/donatur";
+import {useParams, useRouter} from "next/navigation";
+import React, {useState, useEffect} from "react";
+import {fetchUrl, DonasiType} from "../data/donations";
+import {DonaturType, insertDonatur} from "../data/donatur";
 import InputGroup from "./FormElements/InputGroup";
 
-import { updateCollected } from "../data/donations";
-import { v4 as uuidv4 } from "uuid";
-import { DonaturZakatType, insertDonaturZakat } from "@/data/donaturZakat";
-import { DonaturInfakType, insertDonaturInfak } from "@/data/donaturInfak";
-import { DonaturWakafType, insertDonaturWakaf } from "@/data/donaturWakaf";
+import {updateCollected} from "../data/donations";
+import {v4 as uuidv4} from "uuid";
+import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
+import {DonaturInfakType, insertDonaturInfak} from "@/data/donaturInfak";
+import {DonaturWakafType, insertDonaturWakaf} from "@/data/donaturWakaf";
+import Alert from "@/components/Alert";
 
 type PaymentDonationProps = {
     wealth?: string;
@@ -19,8 +20,8 @@ type PaymentDonationProps = {
     wakafId?: string
 };
 
-const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId }: PaymentDonationProps) => {
-    const { url } = useParams();
+const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}: PaymentDonationProps) => {
+    const {url} = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -35,10 +36,11 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
     const [orderId, setOrderId] = useState("");
     const [status, setStatus] = useState<any>(null);
     const [done, setDone] = useState(false);
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [isAlertVisible, setAlertVisible] = useState(false);
 
-    // const hideName = async () => {
+    const router = useRouter();
 
-    // }
 
     useEffect(() => {
         const getDonation = async () => {
@@ -99,14 +101,15 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
                     "_blank",
                     "width=600,height=400,resizable,scrollbars=yes"
                 );
-                console.log("Generated orderId: ", orderId)
                 setOrderId(orderId);
                 startPollingStatus(orderId);
             } else {
-                console.error("Transaction failed", result.error);
+                setAlertMessage(`Transaction failed ${result.error}`)
+                setAlertVisible(true)
             }
         } catch (error) {
-            console.error("Error making the request", error);
+            setAlertMessage(`Error making the request ${error}`);
+            setAlertVisible(true)
         }
     };
 
@@ -122,13 +125,17 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
                         insert(orderId);
                         if (donationType) {
                             updateCollected(donation?.id ?? 0, parseInt(amount))
+                            router.push(`/program/${donation?.url}`)
                         }
+                        router.push('/')
                     }
                 } else {
-                    setError("Failed to fetch status");
+                    setAlertMessage(`Failed to fetch status transaction`)
+                    setAlertVisible(true)
                 }
             } catch (err) {
-                setError("Error fetching status");
+                setAlertMessage(`Error fetching status`)
+                setAlertVisible(true)
             }
         }, 5000);
     };
@@ -148,10 +155,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
             try {
                 const result = await insertDonatur(donaturData);
-                console.log("Donatur berhasil disimpan:", result);
             } catch (error) {
-                setError("Gagal menyimpan donatur");
-                console.error(error);
+                setAlertMessage(`Gagal menyimpan donatur ${error}`)
+                setAlertVisible(true)
             }
         } else if (zakatType) {
             const donaturZakatData: DonaturZakatType = {
@@ -167,10 +173,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
             try {
                 const result = await insertDonaturZakat(donaturZakatData);
-                console.log("Donatur zakat berhasil disimpan:", result)
             } catch (error) {
-                setError("Gagal menyimpan donatur zakat");
-                console.error(error);
+                setAlertMessage(`Gagal menyimpan donatur zakat ${error}`)
+                setAlertVisible(true)
             }
 
         } else if (infakTitle) {
@@ -187,10 +192,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
             try {
                 const result = await insertDonaturInfak(donaturInfakData);
-                console.log("Donatur infak berhasil disimpan:", result)
             } catch (error) {
-                setError("Gagal menyimpan donatur infak");
-                console.error(error);
+                setAlertMessage(`Gagal menyimpan donatur infak ${error}`)
+                setAlertVisible(true)
             }
 
         } else if (wakafId) {
@@ -207,10 +211,9 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
 
             try {
                 const result = await insertDonaturWakaf(donaturWakafData);
-                console.log("Donatur wakaf berhasil disimpan:", result)
             } catch (error) {
-                setError("Gagal menyimpan donatur infak");
-                console.error(error);
+                setAlertMessage(`Gagal menyimpan donatur infak ${error}`)
+                setAlertVisible(true)
             }
 
         }
@@ -345,6 +348,13 @@ const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId 
                         Donate
                     </button>
                 </form>
+                <Alert
+                    message={alertMessage || ""}
+                    isVisible={isAlertVisible} onClose={() => {
+                    setAlertVisible(false);
+                    setAlertMessage(null);
+                }}
+                />
             </div>
         );
     } else {
