@@ -22,18 +22,19 @@ export const fetchInfak = async (): Promise<InfakType[]> => {
 
 }
 
+
 export const insertInfak = async (data: InfakType): Promise<boolean> => {
-    const {error} = await supabase
+    const { error } = await supabase
         .from("infak")
-        .insert(data)
+        .insert(data);
 
     if (error) {
-        console.error("error inserting Infak: ", error)
-        return false
+        console.error("Error inserting Infak: ", error);
+        return false;
     }
 
     return true;
-}
+};
 
 export const fetchInfakAmount = async (infakId: number) => {
     const {data, error} = await supabase
