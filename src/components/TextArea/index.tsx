@@ -4,7 +4,7 @@ import ToolBar from "./ToolBar";
 import Heading from "@tiptap/extension-heading";
 import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
-import { Paragraph } from '@tiptap/extension-paragraph';
+import HardBreak from "@tiptap/extension-hard-break";
 
 interface RichTextEditorProps {
     content: string;
@@ -28,7 +28,7 @@ export default function RichTextEditor({ content, onChange }: RichTextEditorProp
                     class: "list-disc ml-3",
                 },
             }),
-            Paragraph.extend(),
+            HardBreak, // Menambahkan extension HardBreak
         ],
         content: content,
         editorProps: {

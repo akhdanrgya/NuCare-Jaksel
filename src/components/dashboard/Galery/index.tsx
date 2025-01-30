@@ -1,8 +1,9 @@
 "use client"
-import { Montserrat } from "next/font/google";
-import React, { useRef } from "react";
+import {Montserrat} from "next/font/google";
+import React, {useRef, useState} from "react";
 import {uploadFileGalery, deleteFileGalery} from "@/data/galery";
 import GaleryCard from "@/components/GaleryCard";
+import Alert from "@/components/Alert";
 
 const montserrat = Montserrat({
     subsets: ["latin"],
@@ -12,6 +13,8 @@ const montserrat = Montserrat({
 
 const GaleryPage = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [alertMessage, setAlertMessage] = useState<string | null>(null);
+    const [isAlertVisible, setAlertVisible] = useState(false);
 
     const handleUploadClick = () => {
         fileInputRef.current?.click();
@@ -27,7 +30,8 @@ const GaleryPage = () => {
                 alert("File uploaded successfully");
             }
         } catch (error) {
-            alert("Upload failed");
+            setAlertMessage(`Error uploading file: ${error}`);
+            setAlertVisible(true)
         }
     };
 
@@ -51,7 +55,13 @@ const GaleryPage = () => {
             <div className="mt-20">
                 <GaleryCard/>
             </div>
-
+            <Alert
+                message={alertMessage || ""}
+                isVisible={isAlertVisible} onClose={() => {
+                setAlertVisible(false);
+                setAlertMessage(null); // Clear the message when closing
+            }}
+            />
         </section>
     );
 };
