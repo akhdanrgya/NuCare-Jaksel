@@ -1,9 +1,9 @@
 import { supabase } from "@/libs/supabaseClient"
-import {BaseData} from "@/components/Table";
+import { BaseData } from "@/components/Table";
 
 export type WakafType = BaseData & {
-    id: number
-    created_at: string
+    id?: number
+    created_at?: string
     title: string
     amount: number
 }
@@ -48,3 +48,16 @@ export const insertWakafAmount = async (value: number, wakafId: number): Promise
     return !error;
 
 }
+
+export const insertWakaf = async (data: WakafType): Promise<boolean> => {
+    const { error } = await supabase
+        .from("wakaf")
+        .insert(data);
+
+    if (error) {
+        console.error("Error inserting Wakaf: ", error);
+        return false;
+    }
+
+    return true;
+};
