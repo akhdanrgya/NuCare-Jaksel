@@ -55,34 +55,34 @@ const Table = <T extends BaseData>({ columns, data, source }: TableProps<T>) => 
             <div className="overflow-x-auto">
                 <table className="w-full border-collapse border border-gray-300 text-left p-4">
                     <thead className="bg-gray-100">
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <th key={header.id} className="border border-gray-300 px-6 py-3">
-                                    {flexRender(header.column.columnDef.header, header.getContext())}
-                                </th>
-                            ))}
-                        </tr>
-                    ))}
+                        {table.getHeaderGroups().map((headerGroup) => (
+                            <tr key={headerGroup.id}>
+                                {headerGroup.headers.map((header) => (
+                                    <th key={header.id} className="border border-gray-300 px-6 py-3">
+                                        {flexRender(header.column.columnDef.header, header.getContext())}
+                                    </th>
+                                ))}
+                            </tr>
+                        ))}
                     </thead>
                     <tbody>
-                    {table.getRowModel().rows.map((row) => (
-                        <tr key={row.id} className="odd:bg-white even:bg-gray-50">
-                            {row.getVisibleCells().map((cell) => (
-                                <td key={cell.id} className="border border-gray-300 px-6 py-3">
-                                    {cell.column.id === "edit" ? (
-                                        <Link href={`/dashboard/infak/donatur/${row.original.id}`}>
-                                            <button className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
-                                                Edit
-                                            </button>
-                                        </Link>
-                                    ) : (
-                                        flexRender(cell.column.columnDef.cell, cell.getContext())
-                                    )}
-                                </td>
-                            ))}
-                        </tr>
-                    ))}
+                        {table.getRowModel().rows.map((row) => (
+                            <tr key={row.id} className="odd:bg-white even:bg-gray-50">
+                                {row.getVisibleCells().map((cell) => (
+                                    <td key={cell.id} className="border border-gray-300 px-6 py-3">
+                                        {cell.column.id === "edit" ? (
+                                            <Link href={`/dashboard/${source}/donatur/${row.original.id}`}>
+                                                <button className="px-4 py-2 bg-blue-500 text-white rounded cursor-pointer">
+                                                    Edit
+                                                </button>
+                                            </Link>
+                                        ) : (
+                                            flexRender(cell.column.columnDef.cell, cell.getContext())
+                                        )}
+                                    </td>
+                                ))}
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
