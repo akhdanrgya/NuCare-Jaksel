@@ -76,12 +76,12 @@ export default function WakafPage() {
             <form onSubmit={handleSubmit}>
                 <div className="container mx-auto px-4 my-10">
                     <InputGroup
-                        label="Input New Infak"
+                        label="Input New Wakaf"
                         type="text"
                         name="title"
                         value={formData.title}
                         onChange={handleInputChange}
-                        placeholder="Masukan Judul Infak"
+                        placeholder="Masukan Judul Wakaf"
                         customClasses="w-full xl:w-1/2"
                         classInput="w-full rounded-[7px] bg-white border-[1.5px] border-stroke bg-transparent px-5.5 py-3 text-dark outline-none transition placeholder:text-dark-6 focus:border-primary active:border-primary disabled:cursor-default dark:border-dark-3 dark:bg-dark-2 dark:text-white dark:focus:border-primary"
                     />
