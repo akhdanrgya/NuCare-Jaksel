@@ -1,12 +1,12 @@
 "use client";
-import { useParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import { FetchBeritaById, BeritaType } from "../data/bertita";
+import {useParams} from "next/navigation";
+import React, {useState, useEffect} from "react";
+import {FetchBeritaById, BeritaType} from "../data/bertita";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Image from "next/image";
-import { Montserrat } from "next/font/google";
-import { format } from "date-fns";
+import {Montserrat} from "next/font/google";
+import {format} from "date-fns";
 import BeritaPage from "./dashboard/Berita";
 import "../css/berita.css"
 
@@ -17,7 +17,7 @@ const montserrat = Montserrat({
 });
 
 const BeritaDetails = () => {
-    const { idx } = useParams();
+    const {idx} = useParams();
 
     const [berita, setBerita] = useState<BeritaType | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -73,7 +73,10 @@ const BeritaDetails = () => {
                         <hr className="border-gray-300 my-4 mb-10"/>
 
                         {/* Artikel */}
-                        <div dangerouslySetInnerHTML={{__html: berita.article}} className="text-base md:text-lg"/>
+                        <div
+                            dangerouslySetInnerHTML={{__html: berita.article}}
+                            className="text-base md:text-lg p-4 leading-relaxed text-gray-800 space-y-4"
+                        />
                     </div>
 
                     {/* Berita Lainnya */}
