@@ -1,15 +1,15 @@
 "use client";
-import {useParams, useRouter} from "next/navigation";
-import React, {useState, useEffect} from "react";
-import {fetchUrl, DonasiType} from "../data/donations";
-import {DonaturType, insertDonatur} from "../data/donatur";
+import { useParams, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { fetchUrl, DonasiType } from "../data/donations";
+import { DonaturType, insertDonatur } from "../data/donatur";
 import InputGroup from "./FormElements/InputGroup";
 
-import {updateCollected} from "../data/donations";
-import {v4 as uuidv4} from "uuid";
-import {DonaturZakatType, insertDonaturZakat} from "@/data/donaturZakat";
-import {DonaturInfakType, insertDonaturInfak} from "@/data/donaturInfak";
-import {DonaturWakafType, insertDonaturWakaf} from "@/data/donaturWakaf";
+import { updateCollected } from "../data/donations";
+import { v4 as uuidv4 } from "uuid";
+import { DonaturZakatType, insertDonaturZakat } from "@/data/donaturZakat";
+import { DonaturInfakType, insertDonaturInfak } from "@/data/donaturInfak";
+import { DonaturWakafType, insertDonaturWakaf } from "@/data/donaturWakaf";
 import Alert from "@/components/Alert";
 
 type PaymentDonationProps = {
@@ -20,8 +20,8 @@ type PaymentDonationProps = {
     wakafId?: string
 };
 
-const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}: PaymentDonationProps) => {
-    const {url} = useParams();
+const PaymentDonation = ({ wealth, zakatType, donationType, infakTitle, wakafId }: PaymentDonationProps) => {
+    const { url } = useParams();
     const [donation, setDonation] = useState<DonasiType | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -56,6 +56,17 @@ const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}:
         };
         getDonation();
     }, [url]);
+
+    const setNameAnon = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = e.target.checked;
+        setHideNameStatus(isChecked);
+
+        if (isChecked) {
+            setName("Hamba Allah");
+        } else {
+            setName("");
+        }
+    };
 
 
     useEffect(() => {
@@ -258,6 +269,7 @@ const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}:
                             type="text"
                             id="name"
                             value={name}
+                            disabled={hideNameStatus}
                             onChange={(e) => setName(e.target.value)}
                             className="shadow appearance-border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                             required
@@ -303,7 +315,7 @@ const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}:
                                 type="checkbox"
                                 id="hideName"
                                 checked={hideNameStatus}
-                                onChange={(e) => setHideNameStatus(e.target.checked)}
+                                onChange={setNameAnon}
                                 className="form-checkbox h-5 w-5 text-gray-600"
                             />
                             <span className="ml-2 text-gray-700">Sembunyikan Nama Saya</span>
@@ -351,9 +363,9 @@ const PaymentDonation = ({wealth, zakatType, donationType, infakTitle, wakafId}:
                 <Alert
                     message={alertMessage || ""}
                     isVisible={isAlertVisible} onClose={() => {
-                    setAlertVisible(false);
-                    setAlertMessage(null);
-                }}
+                        setAlertVisible(false);
+                        setAlertMessage(null);
+                    }}
                 />
             </div>
         );
